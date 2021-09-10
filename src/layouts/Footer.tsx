@@ -11,10 +11,10 @@ import {isMobile} from 'react-device-detect';
 interface Props {
     connected: any;
     setConnected: any;
-    omitted: any;
-    setOmitted: any;
     light: boolean;
     setTheme: any;
+    onConnect: any;
+    address?: any;
 }
 
 const useStyles = makeStyles((theme: any) =>
@@ -146,7 +146,7 @@ const useStyles = makeStyles((theme: any) =>
   }),
 );
 
-const Footer: React.FC<Props> = ({ connected, setConnected, omitted, setOmitted, light, setTheme }: any) => {
+const Footer: React.FC<Props> = ({ connected, light, setTheme, onConnect }: any) => {
     const classes = useStyles();
     const [isOpenTheme, setOpenTheme] = useState(false);
 
@@ -157,7 +157,7 @@ const Footer: React.FC<Props> = ({ connected, setConnected, omitted, setOmitted,
                     <Box className={classes.copyRight}>
                         Copyright © Xend Finance 2021. All rights reserved.
                     </Box>
-                    <Button className={classes.connectButton} variant='primary' title='Connect Wallet' btnIcon={Vector} onClick={() => alert()}/>
+                    <Button className={classes.connectButton} variant='primary' title='Connect Wallet' btnIcon={Vector} onClick={() => onConnect()}/>
                 </Box>
                 <Box className={classes.centerFlex}>
                     <Box className={classes.externalLinks}>
@@ -173,8 +173,8 @@ const Footer: React.FC<Props> = ({ connected, setConnected, omitted, setOmitted,
                                 <Box>
                                     <Box style={{marginTop: 25}}>Telegram</Box>
                                     <Box className={classes.themeSwitch} style={{marginTop: 15}}>
-                                        <Box>{!omitted ? (light ? 'Light' : 'Dark') : null} Theme</Box>
-                                        <Box><ThemeSwitch light={light} setTheme={setTheme} omitted={omitted} /></Box>
+                                        <Box>{(light ? 'Light' : 'Dark')} Theme</Box>
+                                        <Box><ThemeSwitch light={light} setTheme={setTheme} /></Box>
                                     </Box>
                                     <Box className={classes.versionText}>Version 1.9</Box>
                                 </Box>
@@ -194,8 +194,8 @@ const Footer: React.FC<Props> = ({ connected, setConnected, omitted, setOmitted,
                                         <Box>Telegram</Box>
                                         <Box>BUY XEND</Box>
                                         <Box className={classes.themeSwitchForMobile} style={{margin: 0}}>
-                                            <Box>{!omitted ? (light ? 'Light' : 'Dark') : null} Theme</Box>
-                                            <ThemeSwitch light={light} setTheme={setTheme} omitted={omitted} />
+                                            <Box>{(light ? 'Light' : 'Dark')} Theme</Box>
+                                            <ThemeSwitch light={light} setTheme={setTheme} />
                                         </Box>
                                     </Box>
                                     <Box className={classes.versionText} style={{fontSize: 10}}>Version 1.9</Box>

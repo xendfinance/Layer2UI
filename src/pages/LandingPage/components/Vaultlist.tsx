@@ -9,9 +9,6 @@ import {BrowserView, MobileView} from 'react-device-detect';
 
 interface Props {
     connected:any;
-    setConnected: any;
-    omitted: any;
-    setOmitted: any;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -52,7 +49,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const Vaultlist: React.FC<Props> = ({ connected, setConnected, omitted, setOmitted }:any) => {
+const Vaultlist: React.FC<Props> = ({ connected }:any) => {
     const classes = useStyles();
 
     const list = [

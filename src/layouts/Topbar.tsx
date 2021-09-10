@@ -7,15 +7,13 @@ import {isMobile} from 'react-device-detect';
 import Button from '../components/Button';
 import LogoIcon from '../assets/images/logo.png';
 import Vector from '../assets/images/layout/Vector.png';
-import Polygon from '../assets/images/layout/Polygon.png';
 import Mainnet from '../assets/images/layout/Mainnet.png';
 import Ethereum from '../assets/images/layout/Ethereum.png';
 
 interface Props {
     connected:any;
-    setConnected: any;
-    omitted: any;
-    setOmitted: any;
+    onConnect: any;
+    chainId: any;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -44,16 +42,19 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const Topbar: React.FC<Props> = ({ connected, setConnected, omitted, setOmitted }:any) => {
+const Topbar: React.FC<Props> = ({ connected, setConnected, onConnect, chainId }:any) => {
     const classes = useStyles();
+    const networks = [1, 56];
+    const selectedNetworkIndex = networks.indexOf(chainId) !== -1 ? networks.indexOf(chainId) : 0;
 
     return (
         <Box className={classes.root}>
             <img src={LogoIcon} alt='XEND Finance' />
             <Box className={classes.menuGroup}>
-                <Dropdown className={classes.dropdownButton} dwidth={68} values={isMobile?['v1', 'v2']:['Layer v1','Layer v2']}/>
-                <Dropdown className={classes.dropdownButton} dwidth={130} btnIcons={[Mainnet, Polygon, Ethereum]} values={['BSC Mainnet','Polygon', 'Ethereum']}/>
-                <Button className={classes.connectButton} variant='primary' title='Connect Wallet' btnIcon={Vector} onClick={() => alert()}/>
+                <Dropdown className={classes.dropdownButton} dwidth={68} values={isMobile?['v1', 'v2']:['Layer v1','Layer v2']} selected={0}/>
+                <Dropdown className={classes.dropdownButton} dwidth={130} btnIcons={[Ethereum, Mainnet]} values={['Ethereum', 'BSC Mainnet']} selected={selectedNetworkIndex}/>
+                <Button className={classes.connectButton} variant='primary' title={connected?'Connected':'Connect Wallet'} btnIcon={Vector} onClick={() => onConnect()}/>
+                
             </Box>
         </Box>
     );

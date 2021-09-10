@@ -1,29 +1,22 @@
 import React, {useState} from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Layout from './layouts';
-
-import LandingPage  from './pages/LandingPage';
-import AboutPage from './pages/AboutPage';
+import { StylesProvider, MuiThemeProvider, ThemeProvider } from '@material-ui/core/styles';
+import { themeLight, themeDark } from './theme';
+import XendFianance from './XendFianance';
 
 function App() {
+
   const [light, setTheme] = useState(false);
   const [connected, setConnected] = useState(false);
   const [omitted, setOmitted] = useState(false);
 
   return (
-    <Router>
-      <Switch>
-        <Layout light={light} connected={connected} setConnected={setConnected} omitted={omitted} setOmitted={setOmitted} setTheme={setTheme}>
-          <Route exact path='/'>
-            <LandingPage connected={connected} setConnected={setConnected} omitted={omitted} setOmitted={setOmitted}/>
-          </Route>
-          <Route exact path='/about'>
-            <AboutPage connected={connected} setConnected={setConnected} omitted={omitted} setOmitted={setOmitted}/>
-          </Route>
-        </Layout>
-      </Switch>
-    </Router>
+    <StylesProvider injectFirst>
+      <MuiThemeProvider theme={light ? themeLight : themeDark}>
+          <ThemeProvider theme={light ? themeLight : themeDark}>
+              <XendFianance light={light} setTheme={setTheme} connected={connected} setConnected={setConnected} omitted={omitted} setOmitted={setOmitted}/>
+          </ThemeProvider>
+      </MuiThemeProvider>
+    </StylesProvider>
   );
 }
-
 export default App;

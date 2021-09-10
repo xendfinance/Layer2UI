@@ -7,20 +7,19 @@ import NightIcon from '../assets/images/layout/night.png';
 
 interface Props {
     light: boolean;
-    omitted: boolean;
     setTheme: any;
 }
 
-const ThemeSwitch: React.FC<Props> = ({ light, setTheme, omitted }: any) => {
+const ThemeSwitch: React.FC<Props> = ({ light, setTheme }: any) => {
     const theme = useTheme();
     return (
-        <StyledContainer omitted={omitted.toString()} light={light.toString()} theme={theme} onClick={() => setTheme(!light)}>
+        <StyledContainer light={light.toString()} theme={theme} onClick={() => setTheme(!light)}>
             <img src={light ? DayIcon : NightIcon} alt='' />
         </StyledContainer>
     );
 }
 
-const StyledContainer = styled(Box) <{ theme: any; light: any; omitted:any;}>`
+const StyledContainer = styled(Box) <{ theme: any; light: any;}>`
     transition: .5s;
     border-radius: 66px; 
     width: 29px;

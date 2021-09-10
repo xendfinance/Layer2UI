@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 import downArrowIcon from '../assets/images/layout/down-arrow.png';
@@ -8,6 +8,7 @@ interface Props {
     dwidth?: number;
     values: any;
     btnIcons?: any;
+    selected: any;
 }
 
 const useStyles = makeStyles((theme: any) =>
@@ -62,16 +63,20 @@ const useStyles = makeStyles((theme: any) =>
 );
 
 const Dropdown: React.FC<Props> = (props: any) : JSX.Element => {
-    const { className, values, btnIcons } = props;
+    const { className, values, btnIcons, selected } = props;
     const classes = useStyles();
     const [show, setShow] = useState(false);
-    const [index, setIndex] = useState(0);
+    const [index, setIndex] = useState(selected);
     const handleShow = () => {
         setShow(!show);
     }
     const handleSelectValue = (i:any) => {
         setIndex(i);
     }
+
+    useEffect(()=>{
+        setIndex(selected);
+    }, [selected])
 
     return (
         <>

@@ -3,9 +3,6 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 
 interface Props {
     connected:any;
-    setConnected: any;
-    omitted: any;
-    setOmitted: any;
 }
 
 const useStyles = makeStyles((theme: any) =>
@@ -16,7 +13,7 @@ const useStyles = makeStyles((theme: any) =>
   }),
 );
 
-const AboutPage: React.FC<Props> = ({ connected, setConnected, omitted, setOmitted }:any) => {
+const AboutPage: React.FC<Props> = ({ connected }:any) => {
     const classes = useStyles();
 
     return (

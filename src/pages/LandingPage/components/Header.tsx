@@ -4,9 +4,6 @@ import { Box, Grid } from '@material-ui/core';
 
 interface Props {
     connected:any;
-    setConnected: any;
-    omitted: any;
-    setOmitted: any;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -63,7 +60,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const Header: React.FC<Props> = ({ connected, setConnected, omitted, setOmitted }:any) => {
+const Header: React.FC<Props> = ({ connected }:any) => {
     const classes = useStyles();
 
     return (
