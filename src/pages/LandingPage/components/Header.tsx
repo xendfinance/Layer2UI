@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Box, Grid } from '@material-ui/core';
+import getXVaultAPI from 'methods/redux/actions/get-apy-xvault';
 
 interface Props {
     connected:any;
@@ -62,7 +63,51 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Header: React.FC<Props> = ({ connected }:any) => {
     const classes = useStyles();
+   
+    const [busdapy_xvault, setBusdAPYXVault] = useState('');
+    const [USDCapy_xvault, setUSDCAPYXVault] = useState('');
+    const [USDTapy_xvault, setUSDTAPYXVault] = useState('');
+    const [TVLapy_xvault, setTVLAPYXVault] = useState('');
+    const [apy, setApy] = useState({});
 
+
+    const getxVaultApy = async () => {
+        const apyObj = await getXVaultAPI();
+        setApy({apyObj});
+        const busdString = apyObj?.busd;
+        if (busdString){
+            const finalAPY = Number(busdString).toFixed(2); 
+            setBusdAPYXVault(finalAPY);
+        }
+        const usdtString = apyObj?.usdt;
+        if (usdtString){
+            const finalAPY = Number(usdtString).toFixed(2); 
+            setUSDTAPYXVault(finalAPY);
+        }
+
+        const usdcString = apyObj?.usdc;
+        if (usdcString){
+            const finalAPY = Number(usdcString).toFixed(2); 
+            setUSDCAPYXVault(finalAPY);
+        }
+
+        const tvlString = apyObj?.TVL;
+        if (tvlString){
+            const finalAPY = Number(tvlString).toFixed(2); 
+            setTVLAPYXVault(finalAPY);
+        }
+
+        
+      
+
+    }
+
+
+    useEffect(()=>{
+        getxVaultApy();
+     }, [])
+
+     
     return (
         <Grid className={classes.root} container>
             <Grid className={classes.content} item xs={12} sm={7}>
@@ -77,7 +122,7 @@ const Header: React.FC<Props> = ({ connected }:any) => {
             </Grid>
             <Grid className={classes.asset} item xs={12} sm={5}>
                 <Box className={classes.assetTitle}>Total Vault Asset</Box>
-                <Box className={classes.assetValue}>300,000,000</Box>
+                <Box className={classes.assetValue}>{TVLapy_xvault}</Box>
             </Grid>
         </Grid>
     );

@@ -51,7 +51,7 @@ const Vault: React.FC<Props> = ({ assetIcon, assetName, fees, balance, netAPY, v
                 assetName={assetName} fees={fees} balance={balance} netAPY={netAPY} 
                 vaultasset={vaultasset} availableDeposite={availableDeposite} />
             <td className={classes.asset}>
-                <Box><img src={assetIcon} alt='' /></Box>
+                <Box><img width="55px" height="55px" src={assetIcon} alt='' /></Box>
                 <Box style={{marginLeft: 18}}>{assetName}</Box>
             </td>
             <td> {fees} </td>

@@ -4,6 +4,7 @@ import { Modal, Box } from '@material-ui/core';
 import closeIcon from 'assets/images/layout/close.png';
 import { getChainData } from "helpers/utilities";
 import { convertAmountFromRawNumber } from "helpers/bignumber";
+import { useSelector } from 'react-redux';
 
 interface Props {
     open: any;
@@ -80,7 +81,11 @@ const useStyles = makeStyles((theme: any) =>
 
 const WalletInfoModal: React.FC<Props> = ({ open, setOpen, onDisconnect,chainId, address, balance }: any) => {
     const classes = useStyles();
-
+    
+  const wca = useSelector((store: any) => store.DashboardReducer.wca);
+  console.log("WALLET CONNECT TYPE ADDRESS WALLET INFO COMPONENET",wca.address);
+  console.log("WALLET CONNECT TYPE ADDRESS WALLET INFO CHAIN ID",wca.chainId);
+ 
     const currentNetwork = useMemo(()=>{
         if (chainId) {
             return getChainData(chainId);

@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Modal, Box, Grid } from '@material-ui/core';
 import closeIcon from 'assets/images/layout/close.png';
 import logoIcon from 'assets/images/logo2.png';
 import {BrowserView, MobileView} from 'react-device-detect';
+import { useDispatch, useSelector } from 'react-redux';
+import getAllBalances from 'methods/contracts/xvault/methods/getAllBalances';
 
 interface Props {
     open: any;
@@ -158,11 +160,36 @@ const useStyles = makeStyles((theme: any) =>
   }),
 );
 
+
 const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, fees, balance, netAPY, vaultasset, availableDeposite }: any) => {
     const classes = useStyles();
     const [activeTab, selectTab] = useState('deposit');
     const [depositAmount, setDeposit] = useState('0');
     const [withdrawalAmount, setWithdrawal] = useState('0');
+     
+
+    const wca = useSelector((store: any) => store.DashboardReducer.wca);
+    
+    const usdtBalances = useSelector((store: any) => store.DashboardReducer.usdtBalance);
+    const busdBalances = useSelector((store: any) => store.DashboardReducer.busdBalance);
+    const usdcBalances = useSelector((store: any) => store.DashboardReducer.usdcBalance); 
+    let balanceStable='0';  
+   
+    if(wca.address){    
+      if(assetName =='USDT'){
+        balanceStable = usdtBalances.usdtBalance;
+      
+      }   
+      if(assetName =='BUSD'){
+        balanceStable = busdBalances.busdBalance;
+       
+      }        
+      if(assetName =='USDC'){
+        balanceStable = usdcBalances.usdcBalance;
+    
+      }        
+    }
+    
     
     return (
         <Modal open={open} onClose={() => setOpen(false)}>
@@ -183,8 +210,8 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                         <Box className={classes.value}>V1</Box>
                     </Box>
                     <Box className={classes.contentItem}>
-                        <Box className={classes.field}>Balance</Box>
-                        <Box className={classes.value}>000.00</Box>
+                        <Box className={classes.field}> Balance</Box>
+                        <Box className={classes.value}>0.00</Box>
                     </Box>
                     <Box className={classes.contentItem}>
                         <Box className={classes.field}>Net APY</Box>
@@ -196,7 +223,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                     </Box>
                     <Box className={classes.contentItem}>
                         <Box className={classes.field}>Available to deposit</Box>
-                        <Box className={classes.value}>000.00</Box>
+                        <Box className={classes.value}>{balanceStable}</Box>
                     </Box>
                 </Box>
                 <BrowserView>
@@ -207,7 +234,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                                 <input type="text" value={depositAmount} onChange={(e)=>setDeposit(e.target.value)}/>
                                 <Box>MAX</Box>
                             </Box>
-                            <Box className={classes.button}>Approve</Box>
+                            <Box className={classes.button}>Deposit</Box>
                         </Grid>
                         <Grid item xs={6}>
                             <Box className={classes.label}>Withdrawal XEND</Box>

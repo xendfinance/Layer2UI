@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 
 import Vault from './Vault';
 import VaultMobile from './VaultMobile';
-import vault1 from 'assets/images/vaults/vault1.png';
+import vault1 from 'assets/images/tether.svg';
+import vault2 from 'assets/images/busd.svg';
+import vault3 from 'assets/images/usdc.com.svg';
 import {BrowserView, MobileView} from 'react-device-detect';
+import getXVaultAPI from 'methods/redux/actions/get-apy-xvault';
 
 interface Props {
     connected:any;
@@ -52,33 +55,76 @@ const useStyles = makeStyles((theme: Theme) =>
 const Vaultlist: React.FC<Props> = ({ connected }:any) => {
     const classes = useStyles();
 
+    const [busdapy_xvault, setBusdAPYXVault] = useState('');
+    const [USDCapy_xvault, setUSDCAPYXVault] = useState('');
+    const [USDTapy_xvault, setUSDTAPYXVault] = useState('');
+    const [TVLapy_xvault, setTVLAPYXVault] = useState('');
+    const [apy, setApy] = useState({});
+
+
+    const getxVaultApy = async () => {
+        const apyObj = await getXVaultAPI();
+        setApy({apyObj});
+        const busdString = apyObj?.busd;
+        if (busdString){
+            const finalAPY = Number(busdString).toFixed(2); 
+            setBusdAPYXVault(finalAPY);
+        }
+        const usdtString = apyObj?.usdt;
+        if (usdtString){
+            const finalAPY = Number(usdtString).toFixed(2); 
+            setUSDTAPYXVault(finalAPY);
+        }
+
+        const usdcString = apyObj?.usdc;
+        if (usdcString){
+            const finalAPY = Number(usdcString).toFixed(2); 
+            setUSDCAPYXVault(finalAPY);
+        }
+
+        const tvlString = apyObj?.TVL;
+        if (tvlString){
+            const finalAPY = Number(tvlString).toFixed(2); 
+            setTVLAPYXVault(finalAPY);
+        }
+
+        
+      
+
+    }
+
+
+    useEffect(()=>{
+        getxVaultApy();
+     }, [])
+
     const list = [
         {
             assetIcon: vault1,
-            assetName: 'COMP',
-            fees: 'V2',
+            assetName: 'USDT',
+            fees: 'XVault',
             balance: '000.0',
-            netAPY: '45',
-            vaultasset: '000.0',
-            availableDeposite: '000.0'
+            netAPY: USDTapy_xvault,
+            vaultasset: TVLapy_xvault,
+            availableDeposit: '000.0'
         },
         {
-            assetIcon: vault1,
-            assetName: 'COMP',
-            fees: 'V2',
+            assetIcon: vault2,
+            assetName: 'BUSD',
+            fees: 'XVault',
             balance: '000.0',
-            netAPY: '45',
+            netAPY: busdapy_xvault,
             vaultasset: '000.0',
-            availableDeposite: '000.0'
+            availableDeposit: '000.0'
         },
         {
-            assetIcon: vault1,
-            assetName: 'COMP',
-            fees: 'V2',
+            assetIcon: vault3,
+            assetName: 'USDC',
+            fees: 'XVault',
             balance: '000.0',
-            netAPY: '45',
+            netAPY: USDCapy_xvault,
             vaultasset: '000.0',
-            availableDeposite: '000.0'
+            availableDeposit: '000.0'
         }
     ]
     return (
@@ -88,10 +134,10 @@ const Vaultlist: React.FC<Props> = ({ connected }:any) => {
                     <table>
                         <thead className={classes.listHeader}>
                             <tr>
-                                <th style={{width:"10%"}}>Asseta</th>
+                                <th style={{width:"10%"}}>Asset</th>
                                 <th style={{width:"13%"}}>Fees</th>
                                 <th style={{width:"13%"}}>Balance</th>
-                                <th style={{width:"11%"}}>NetAPY</th>
+                                <th style={{width:"11%"}}>APY</th>
                                 <th style={{width:"15%"}}>Vault Assets</th>
                                 <th style={{width:"17%"}}>Available to deposit</th>
                                 <th></th>
@@ -108,7 +154,7 @@ const Vaultlist: React.FC<Props> = ({ connected }:any) => {
                                     balance={item.balance}
                                     netAPY={item.netAPY}
                                     vaultasset={item.vaultasset}
-                                    availableDeposite={item.availableDeposite}
+                                    availableDeposite={item.availableDeposit}
                                 />
                             ))
                         }
@@ -133,7 +179,7 @@ const Vaultlist: React.FC<Props> = ({ connected }:any) => {
                             balance={item.balance}
                             netAPY={item.netAPY}
                             vaultasset={item.vaultasset}
-                            availableDeposite={item.availableDeposite}
+                            availableDeposite={item.availableDeposit}
                         />
                     ))
                 }

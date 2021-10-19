@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 import downArrowIcon from '../assets/images/layout/down-arrow.png';
+import { useDispatch, useSelector } from 'react-redux';
+import _const from 'methods/_const';
+import reduxStore from 'methods/redux';
 
 interface Props {
     className?: any;
@@ -65,17 +68,101 @@ const useStyles = makeStyles((theme: any) =>
 const Dropdown: React.FC<Props> = (props: any) : JSX.Element => {
     const { className, values, btnIcons, selected } = props;
     const classes = useStyles();
+   
+   const dispatch = useDispatch()
+
     const [show, setShow] = useState(false);
+    const [lender, setLender] = useState('');
+    const [each, setEach] = useState('');
+    const [walletConnection, setWalletConnection] = useState('');
+    const [network, setNetwork] = useState(0);
     const [index, setIndex] = useState(selected);
+
     const handleShow = () => {
         setShow(!show);
     }
-    const handleSelectValue = (i:any) => {
+    const handleSelectValue = (i:any,each:any) => {
         setIndex(i);
+
+        if(each =='X Vault'){
+            dispatch({
+                type: _const.LENDER,
+                payload: { lenderProtocol: each }
+            })
+         
+        }else if(each == 'X Auto'){
+            dispatch({
+                type: _const.LENDER,
+                payload: { lenderProtocol: each }
+            })
+        }else{
+            dispatch({
+                type: _const.LENDER,
+                payload: { lenderProtocol: 'X Vault' }
+            });
+        }
+
+        if(each =='BSC'){
+            dispatch({
+                type: _const.NETWORK_CONNECT,
+                payload: { ChainId: '56' }
+            });
+        }else if(each == 'Polygon'){
+            dispatch({
+                type: _const.NETWORK_CONNECT,
+                payload: { ChainId: '137' }
+            });
+        }else{
+            dispatch({
+                type: _const.NETWORK_CONNECT,
+                payload: { ChainId: '56' }
+            });
+        }
+       
+        if(each == 'Metamask'){
+            dispatch({
+                type: _const.WCP,
+                payload: { WCP: 'injected' }
+            });
+        }else if(each == 'WalletConnect'){
+            dispatch({
+                type: _const.WCP,
+                payload: { WCP: 'walletconnect' }
+            });
+            
+        }else{
+            dispatch({
+                type: _const.WCP,
+                payload: { WCP: 'walletconnect' }
+            });
+        }
+        
+         const data={
+            connectorId:walletConnection,
+            chainId:network,
+            lender:lender
+        };
+
+        console.log("DATA IN LOCAL STORAGE ",data)
+
+        //localStorage.setItem("CONNECTION_DETAILS",JSON.stringify(data));
     }
 
     useEffect(()=>{
+        // const data={
+        //     connectorId:walletConnection,
+        //     chainId:network,
+        //     lender:lender
+        // };
+
+        // localStorage.setItem("CONNECTION_DETAILS",JSON.stringify(data));
+      
+    }, [each])
+
+    useEffect(()=>{
         setIndex(selected);
+       
+        
     }, [selected])
 
     return (
@@ -87,9 +174,9 @@ const Dropdown: React.FC<Props> = (props: any) : JSX.Element => {
                 {show &&
                     <Box className={classes.dropMenu} left='0px' bgcolor='dropdown.main' zIndex='2' borderRadius='16px'>
                         {values.map((each:any, i:number) =>(
-                                <Box className={classes.dropMenuItem} key={i.toString()}>
-                                    {btnIcons && <img src={btnIcons[i]} onClick={() => handleSelectValue(i)} alt='' /> }
-                                    <Box onClick={() => handleSelectValue(i)}>{each}</Box>
+                                <Box className={classes.dropMenuItem} key={i.toString()} defaultValue={each.toString()}>
+                                    {btnIcons && <img src={btnIcons[i]} onClick={() => handleSelectValue(i,each)} alt='' /> }
+                                    <Box onClick={() => handleSelectValue(i,each)}>{each}</Box>
                                 </Box>
                             )
                         )}
