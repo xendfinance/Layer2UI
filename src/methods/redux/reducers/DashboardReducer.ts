@@ -17,7 +17,15 @@ const initialState = {
     wca:'',
     usdtBalance:'',
     busdBalance:'',
-    usdcBalance:''
+    usdcBalance:'',
+    busdDepositBalance:0,
+    usdtBalanceMatic:'',
+    usdcBalanceMatic:'',
+    aaveBalanceMatic:'',
+    wbtcBalanceMatic:'',
+    dashboardGrid:{},
+    dashboardGridMatic:{}
+
 };
 
 const DashboardReducer = (state = initialState, action: Action) => {
@@ -35,7 +43,8 @@ const DashboardReducer = (state = initialState, action: Action) => {
 
         case _const.CONWALLETADD:
             return { ...state, wca: action.payload }
-            
+        
+        //bsc    
         case _const.USDTBALANCE:
             return { ...state, usdtBalance: action.payload }
             
@@ -44,7 +53,31 @@ const DashboardReducer = (state = initialState, action: Action) => {
             
         case _const.USDCBALANCE:
             return { ...state, usdcBalance: action.payload }
-                
+
+                  
+        case _const.BUSDDEPOSITBALANCE:
+            return { ...state, busdDepositBalance: action.payload }
+
+
+        //Matic    
+        case _const.USDTBALANCEMatic:
+            return { ...state, usdtBalanceMatic: action.payload }
+            
+        case _const.USDCBALANCEMatic:
+            return { ...state, usdcBalanceMatic: action.payload }
+            
+        case _const.AAVEBALANCEMatic:
+            return { ...state, aaveBalanceMatic: action.payload }
+    
+        case _const.WBTCBALANCEMatic:
+        return { ...state, wbtcBalanceMatic: action.payload }
+
+        case _const.DashboardGrid:
+        return { ...state, dashboard: action.payload }
+        
+        case _const.DashboardGridMatic:
+         return { ...state, dashboardMatic: action.payload }
+        
 
         default:
             return state;

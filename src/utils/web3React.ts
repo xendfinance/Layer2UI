@@ -1,5 +1,4 @@
 import { InjectedConnector } from '@web3-react/injected-connector';
-import WalletConnectProviderMatic from "@maticnetwork/walletconnect-provider"
 import { ConnectorNames } from './types';
 import Web3 from 'web3';
 import getNodeUrl from './node-url';
@@ -67,14 +66,23 @@ export const connectorsByName = (connectorName: ConnectorNames, chainId: number)
                 return walletconnect;
             }else{
                 //If Matic Network 137
-                const wcProviderMATIC = new WalletConnectProviderMatic({
-                    host: "https://rpc-mumbai.matic.today",
-                    calbacks: {
-                      onConnect: console.log('connected matic'),
-                      onDisconnect: console.log('disconnected matic'),
-                  
-                    }
+                const wcProviderMATIC = new WalletConnectProvider({
+                    //rpc: {137: "https://rpc-mumbai.matic.today"},
+                   rpc: {137: "https://matic-mainnet.chainstacklabs.com"},
+                   //rpc: {137: "https://polygon-rpc.com/c9a2fe300dd9496f9ee19bc4cb2c4689"},
+                    
+                    chainId,
+                    qrcodeModalOptions: {
+                        mobileLinks: [
+                          "metamask",
+                          "trust",
+                        ],
+                      },
                   })
+
+                //   wcProviderMATIC.on("disconnect", (code: number, reason: string) => {
+                //     DisconnectFromWallet();
+                //     });
                   return wcProviderMATIC;
             }
     

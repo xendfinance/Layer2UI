@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Box, Grid } from '@material-ui/core';
 import getXVaultAPI from 'methods/redux/actions/get-apy-xvault';
+import { useDispatch, useSelector } from 'react-redux';
+import _const from 'methods/_const';
 
 interface Props {
     connected:any;
+    chainId:any;    
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -61,51 +64,84 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const Header: React.FC<Props> = ({ connected }:any) => {
+const Header: React.FC<Props> = ({ connected,chainId }:any) => {
     const classes = useStyles();
    
-    const [busdapy_xvault, setBusdAPYXVault] = useState('');
-    const [USDCapy_xvault, setUSDCAPYXVault] = useState('');
-    const [USDTapy_xvault, setUSDTAPYXVault] = useState('');
     const [TVLapy_xvault, setTVLAPYXVault] = useState('');
-    const [apy, setApy] = useState({});
+    
+    const dispatch = useDispatch()
 
+     
+    const buildPreData = async (chainId:any) => {
+        //Build Pre Data
+         setTVLAPYXVault('Calculating');
+         const apyObj = await getXVaultAPI(56);
+         dispatch({
+             type: _const.DashboardGrid,
+             payload: { apyObj }
+         });
+         
+         const apyObjMatic = await getXVaultAPI(137);
+         dispatch({
+             type: _const.DashboardGridMatic,
+             payload: { apyObjMatic }
+         });
 
-    const getxVaultApy = async () => {
-        const apyObj = await getXVaultAPI();
-        setApy({apyObj});
-        const busdString = apyObj?.busd;
-        if (busdString){
-            const finalAPY = Number(busdString).toFixed(2); 
-            setBusdAPYXVault(finalAPY);
+         if(apyObj && apyObjMatic){
+       
+            if(chainId == 56){
+                const tvlString = apyObj?.TVL;
+                if (tvlString){
+                    const finalAPY = Number(tvlString).toFixed(2); 
+                    setTVLAPYXVault(finalAPY);
+                }
+            }else{
+                const tvlString = apyObjMatic?.TVL;
+                if (tvlString){
+                    const finalAPY = Number(tvlString).toFixed(2); 
+                    setTVLAPYXVault(finalAPY);
+                }
+            }
         }
-        const usdtString = apyObj?.usdt;
-        if (usdtString){
-            const finalAPY = Number(usdtString).toFixed(2); 
-            setUSDTAPYXVault(finalAPY);
-        }
-
-        const usdcString = apyObj?.usdc;
-        if (usdcString){
-            const finalAPY = Number(usdcString).toFixed(2); 
-            setUSDCAPYXVault(finalAPY);
-        }
-
-        const tvlString = apyObj?.TVL;
-        if (tvlString){
-            const finalAPY = Number(tvlString).toFixed(2); 
-            setTVLAPYXVault(finalAPY);
-        }
-
-        
-      
-
-    }
-
-
+     }
+ 
+    
     useEffect(()=>{
-        getxVaultApy();
-     }, [])
+        const initPreData = async () => {
+            if(chainId.ChainId){
+                const finalChainId = Number(chainId.ChainId);
+                await buildPreData(finalChainId);
+                 
+            }else{
+                const finalChainId = Number(chainId);         
+                await buildPreData(finalChainId);
+               
+            }            
+            };
+                
+            initPreData();   
+       
+     }, [chainId])
+
+     
+    // useEffect(()=>{
+    //     const buildDashboardData = async () => {
+    //         if(chainId.ChainId){
+    //             const finalChainId = Number(chainId.ChainId);
+    //             await getxVaultApy(finalChainId);
+                 
+    //         }else{
+    //             const finalChainId = Number(chainId);         
+    //            await getxVaultApy(finalChainId);
+               
+    //         } 
+    //       };
+        
+    //       buildDashboardData();
+
+      
+       
+    // },)
 
      
     return (

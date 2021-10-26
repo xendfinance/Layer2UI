@@ -3,6 +3,18 @@ import { getCurrentProtocol } from "./protocol-settings";
 function toBigNumber(amount: number) {
     return BigInt(amount * Math.pow(10, 18));
 }
+
+function toBigNumberMatic(amount: number) {
+    return BigInt(amount * Math.pow(10, 6));
+}
+
+function toBigNumberWBTC(amount: number) {
+    return BigInt(amount * Math.pow(10, 8));
+}
+
+
+
+
 function toBigVenusNumber(amount: number) {
     let activeProtocol = getCurrentProtocol();
     if (activeProtocol === 'venus') {
@@ -25,4 +37,4 @@ function fromBigVenusNumber(amount: number) {
     }
 }
 
-export { toBigNumber, fromBigNumber, toBigVenusNumber, fromBigVenusNumber };
+export { toBigNumber, fromBigNumber, toBigVenusNumber, fromBigVenusNumber,toBigNumberMatic,toBigNumberWBTC };

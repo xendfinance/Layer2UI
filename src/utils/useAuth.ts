@@ -9,7 +9,7 @@ import { connectorLocalStorageKey } from './config';
 import reduxStore from '../methods/redux';
 import { Dispatch } from "redux"
 import { useSelector } from 'react-redux';
-import getAllBalances from 'methods/contracts/xvault/methods/getAllBalances';
+import getAllBalances from 'methods/contracts/getAllBalances';
 
 
 //Original
@@ -30,10 +30,10 @@ export const Login = (connectorID: ConnectorNames, chainId: number, lender: stri
             const connector: any = connectorsByName(connectorID, chainId);
 
 
-            dispatch({
-                type: _const.CONNDETAILS,
-                payload: { address: account, connectorId: connectorID, chainId }
-            })
+            // dispatch({
+            //     type: _const.CONNDETAILS,
+            //     payload: { address: account, connectorId: connectorID, chainId }
+            // })
 
             if (connector) {
 
@@ -103,10 +103,10 @@ export const recreateWeb3 = () => {
                 
 
                 let { chainId, connectorID, lender,account } = connectionDetails;
-                dispatch({
-                    type: _const.ADDRESS,
-                    payload: { address: account, walletInUse: connectorID, chainId }
-                })
+                // dispatch({
+                //     type: _const.ADDRESS,
+                //     payload: { address: account, walletInUse: connectorID, chainId }
+                // })
 
 
                 const connector: any = connectorsByName(connectionDetails.connectorID, connectionDetails.chainId);
@@ -159,10 +159,7 @@ export const recreateWeb3 = () => {
 
 
                     if (account) {
-                        dispatch({
-                            type: _const.ADDRESS,
-                            payload: { address: account }
-                        })
+                        dispatch(getAllBalances(String(account),chainId));
                     }
 
                 } else {

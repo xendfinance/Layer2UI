@@ -83,8 +83,6 @@ const WalletInfoModal: React.FC<Props> = ({ open, setOpen, onDisconnect,chainId,
     const classes = useStyles();
     
   const wca = useSelector((store: any) => store.DashboardReducer.wca);
-  console.log("WALLET CONNECT TYPE ADDRESS WALLET INFO COMPONENET",wca.address);
-  console.log("WALLET CONNECT TYPE ADDRESS WALLET INFO CHAIN ID",wca.chainId);
  
     const currentNetwork = useMemo(()=>{
         if (chainId) {

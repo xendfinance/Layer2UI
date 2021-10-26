@@ -13,8 +13,6 @@ import Mainnet from '../assets/images/busd.svg';
 import Polygon from '../assets/images/polygon.svg';
 import Metamask from 'assets/images/metamask-fox.svg';
 import WalletConnect from 'assets/images/trust-wallet.svg'
-import getXVaultAPIUSDT from 'methods/redux/actions/get-apy-xvault';
-import getXVaultAPI from 'methods/redux/actions/get-apy-xvault';
 
 interface Props {
     connected:any;
@@ -54,7 +52,7 @@ const Topbar: React.FC<Props> = ({ connected, setConnected, onConnect, chainId }
     const classes = useStyles();
     const networks = [137, 56];
     console.log("networks",networks);
-    const selectedNetworkIndex = networks.indexOf(chainId) !== -1 ? networks.indexOf(chainId) : 0;
+   // const selectedNetworkIndex = networks.indexOf(chainId) !== -1 ? networks.indexOf(chainId) : 0;
     
 
     return (

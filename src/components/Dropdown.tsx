@@ -81,87 +81,69 @@ const Dropdown: React.FC<Props> = (props: any) : JSX.Element => {
     const handleShow = () => {
         setShow(!show);
     }
+    
+    let data;
     const handleSelectValue = (i:any,each:any) => {
         setIndex(i);
 
         if(each =='X Vault'){
-            dispatch({
-                type: _const.LENDER,
-                payload: { lenderProtocol: each }
-            })
-         
-        }else if(each == 'X Auto'){
-            dispatch({
-                type: _const.LENDER,
-                payload: { lenderProtocol: each }
-            })
-        }else{
+            setLender('X Vault');
             dispatch({
                 type: _const.LENDER,
                 payload: { lenderProtocol: 'X Vault' }
-            });
+            })
+         
         }
+        if(each =='X Auto'){
+            setLender('X Auto');
+            dispatch({
+                type: _const.LENDER,
+                payload: { lenderProtocol: 'X Auto' }
+            })
+         
+        }        
+      
 
         if(each =='BSC'){
+            setNetwork(56)
             dispatch({
                 type: _const.NETWORK_CONNECT,
                 payload: { ChainId: '56' }
             });
-        }else if(each == 'Polygon'){
+        }
+        
+        if(each =='Polygon'){
+            setNetwork(137)
             dispatch({
                 type: _const.NETWORK_CONNECT,
                 payload: { ChainId: '137' }
             });
-        }else{
-            dispatch({
-                type: _const.NETWORK_CONNECT,
-                payload: { ChainId: '56' }
-            });
         }
+      
        
         if(each == 'Metamask'){
+            setWalletConnection('injected')
             dispatch({
                 type: _const.WCP,
                 payload: { WCP: 'injected' }
             });
-        }else if(each == 'WalletConnect'){
-            dispatch({
-                type: _const.WCP,
-                payload: { WCP: 'walletconnect' }
-            });
-            
-        }else{
+        }
+
+        if(each == 'WalletConnect'){
+            setWalletConnection('walletconnect')
             dispatch({
                 type: _const.WCP,
                 payload: { WCP: 'walletconnect' }
             });
         }
-        
-         const data={
-            connectorId:walletConnection,
-            chainId:network,
-            lender:lender
-        };
-
-        console.log("DATA IN LOCAL STORAGE ",data)
-
-        //localStorage.setItem("CONNECTION_DETAILS",JSON.stringify(data));
+      
+         
     }
 
-    useEffect(()=>{
-        // const data={
-        //     connectorId:walletConnection,
-        //     chainId:network,
-        //     lender:lender
-        // };
-
-        // localStorage.setItem("CONNECTION_DETAILS",JSON.stringify(data));
-      
-    }, [each])
 
     useEffect(()=>{
         setIndex(selected);
-       
+        
         
     }, [selected])
 

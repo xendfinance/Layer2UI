@@ -15,13 +15,14 @@ import {
 
 import Web3 from "web3";
 import Web3Modal from "web3modal";
-import { Login } from 'utils/useAuth';
+import { Login, recreateWeb3 } from 'utils/useAuth';
 import { ConnectorNames } from 'utils/types';
 import { notify } from 'components/core/Notifier';
 import { decodedTextSpanIntersectsWith } from 'typescript';
 import { disconnect } from 'methods/redux/actions/contract-setup';
 import getNativeBalance from 'methods/redux/actions/getBalances';
-import getAllBalances from 'methods/contracts/xvault/methods/getAllBalances';
+import getAllBalances from 'methods/contracts/getAllBalances';
+import getXVaultAPI from 'methods/redux/actions/get-apy-xvault';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,23 +44,21 @@ const XendFianance = ({ light, setTheme, connected, setConnected, omitted, setOm
   const [address, setAddress]: any = useState('');
   
   const addressStore = useSelector((store: any) => store.DashboardReducer.address);
-  console.log("WALLET CONNECT ADDRESS",addressStore.address);
    
   const walletConnectType = useSelector((store: any) => store.DashboardReducer.wcp);
-  console.log("WALLET CONNECT TYPE",walletConnectType.WCP);
+ 
   const walletChosenConnection = walletConnectType.WCP;
   
   const wca = useSelector((store: any) => store.DashboardReducer.wca);
-  console.log("WALLET CONNECT TYPE ADDRESS",wca.address);
+  
 
 
-  //setAddress(wca.address);
-  console.log("WALLET CONNECT TYPE",walletChosenConnection);
+  
   const ChainId = useSelector((store: any) => store.DashboardReducer.networkConnect);
-  console.log("WALLET CONNECT TYPE",ChainId.chainId);
+ 
   let chainIdNumber = Number(ChainId.ChainId); 
   const Lender = useSelector((store: any) => store.DashboardReducer.lender);
-  console.log("Lender",Lender.lenderProtocol);
+ 
   const LenderProtocol = Lender.lenderProtocol;
 
   const dispatch = useDispatch();
@@ -73,9 +72,7 @@ const XendFianance = ({ light, setTheme, connected, setConnected, omitted, setOm
 
 
   const onConnect = async () => {
-    const connectionDetails = JSON.parse(localStorage.getItem('CONNECTION_DETAILS') || '{}');
-
-    console.log("cndet",connectionDetails);
+   // const connectionDetails = JSON.parse(localStorage.getItem('CONNECTION_DETAILS') || '{}');
 
     
 
@@ -91,57 +88,66 @@ const XendFianance = ({ light, setTheme, connected, setConnected, omitted, setOm
   }else{
     if (!connected) {
       
-     
-      if(walletChosenConnection =='walletconnect'){
-        if(chainIdNumber == 56){
-
-          const addressRet = dispatch(await Login(ConnectorNames.WalletConnect,56,LenderProtocol))
-          console.log("ADDRESS ALREADY CONNECTED",addressRet)
-          
-          if(addressRet){
-            setConnected(true);
-            setAddress(addressRet)
-            //dispatch(await getAllBalances(String(addressRet)));
-          }
-          
-         
-         
-        }else if(chainIdNumber == 137){
-          const addressRet = await dispatch(Login(ConnectorNames.WalletConnect,137,LenderProtocol))
-          if(addressRet){
-            setConnected(true);
-            setAddress(addressRet)
-            //dispatch(await getAllBalances(String(addressRet)));
-          }
-         
-        }else{
-          notify('info', 'No Valid Network')
-        }
-      }else if(walletChosenConnection =='injected'){
-        if(chainIdNumber == 56){
-          const addressRet =  dispatch(await Login(ConnectorNames.Injected,56,LenderProtocol))
-          if(addressRet){
-            setConnected(true);
-            setAddress(addressRet)
-        
-          }
-         
-        }else if(chainIdNumber == 137){
-          const addressRet = dispatch(await Login(ConnectorNames.Injected,137,LenderProtocol))
-          if(addressRet){
-            setConnected(true);
-            setAddress(addressRet)
+      if(walletChosenConnection){
+        if(walletChosenConnection =='walletconnect'){
+          if(chainIdNumber == 56){
+  
+            const addressRet = await dispatch(Login(ConnectorNames.WalletConnect,56,LenderProtocol))
+            
+            
+              setConnected(true);
+              setAddress(addressRet)
+              getXVaultAPI(chainIdNumber);
+              //dispatch(await getAllBalances(String(addressRet)));
+            
+            
            
+           
+          }else if(chainIdNumber == 137){
+            const addressRet = await dispatch(Login(ConnectorNames.WalletConnect,137,LenderProtocol))
+            if(addressRet){
+              setConnected(true);
+              setAddress(addressRet)
+              getXVaultAPI(chainIdNumber);
+              //dispatch(await getAllBalances(String(addressRet)));
+            }
+           
+          }else{
+            notify('info', 'No Valid Network')
           }
+        }else if(walletChosenConnection =='injected'){
+          if(chainIdNumber == 56){
+            const addressRet =  dispatch(await Login(ConnectorNames.Injected,56,LenderProtocol))
+            if(addressRet){
+              setConnected(true);
+              setAddress(addressRet)
+             
           
-         
-         
+            }
+            getXVaultAPI(chainIdNumber);
+           
+          }else if(chainIdNumber == 137){
+            const addressRet = dispatch(await Login(ConnectorNames.Injected,137,LenderProtocol))
+            if(addressRet){
+              setConnected(true);
+              setAddress(addressRet)
+              getXVaultAPI(chainIdNumber);
+             
+            }
+            
+           
+           
+          }else{
+            notify('info', 'No Valid Network')
+          }
         }else{
-          notify('info', 'No Valid Network')
+          notify('info', 'No Valid Wallet Connection')
         }
       }else{
-        notify('info', 'No Valid Wallet Connection')
+        notify('info', 'Please Select Protocol,Network And Wallet Connection')
+        console.log("HIT HERE ON NOTHING SELECTED")
       }
+    
      
     } else {
       setOpenWalletInfoModal(true);
@@ -164,22 +170,19 @@ const XendFianance = ({ light, setTheme, connected, setConnected, omitted, setOm
   };
 
   useEffect(()=>{
-    // if (web3Modal.cachedProvider) {
-    //   onConnect();
-    // }
-    setAddress(address);
+    recreateWeb3();
     
-  }, [address]);
+  }, []);
 
   const getBalance = async (address: any) => {
     if (web3 && address) {
-      const balance = await web3.eth.getBalance(address);
-      setBalance(balance);
+      //const balance = await web3.eth.getBalance(address);
+      //setBalance(balance);
     }
   }
 
   useEffect(()=>{
-    getBalance(address)
+    //getBalance(address)
   }, [address, chainId, web3])
   
   return (

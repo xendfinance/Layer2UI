@@ -1,11 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState ,MouseEvent } from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Modal, Box, Grid } from '@material-ui/core';
 import closeIcon from 'assets/images/layout/close.png';
 import logoIcon from 'assets/images/logo2.png';
 import {BrowserView, MobileView} from 'react-device-detect';
 import { useDispatch, useSelector } from 'react-redux';
-import getAllBalances from 'methods/contracts/xvault/methods/getAllBalances';
+import getAllBalances from 'methods/contracts/getAllBalances';
+import DepositSavingsUSDT from 'methods/contracts/xvault/methods/depositUSDT';
+import DepositSavingsBUSD from 'methods/contracts/xvault/methods/depositBUSD';
+import DepositSavingsUSDC from 'methods/contracts/xvault/methods/depositUSDC';
+import WithdrawSavingsBUSD from 'methods/contracts/xvault/methods/withdrawBUSD';
+import WithdrawSavingsUSDT from 'methods/contracts/xvault/methods/withdrawUSDT';
+import WithdrawSavingsUSDC from 'methods/contracts/xvault/methods/withdrawUSDC';
 
 interface Props {
     open: any;
@@ -191,6 +197,56 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
     }
     
     
+    const buttonHandlerDeposit = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        if(assetName =='USDT'){
+            DepositSavingsUSDT(depositAmount,wca.address,wca.chainId);
+            getAllBalances(wca.address,wca.chainId)
+            balanceStable = usdtBalances.usdtBalance;
+            setOpen(false)
+          
+          }   
+          if(assetName =='BUSD'){
+            DepositSavingsBUSD(depositAmount,wca.address,wca.chainId);
+            getAllBalances(wca.address,wca.chainId)
+            balanceStable = busdBalances.busdBalance;
+            setOpen(false)
+          }        
+          if(assetName =='USDC'){
+            DepositSavingsUSDC(depositAmount,wca.address,wca.chainId);
+            getAllBalances(wca.address,wca.chainId)
+            balanceStable = usdcBalances.usdcBalance;
+            setOpen(false)
+          }        
+      
+        
+      }
+
+       
+    const buttonHandlerWithdraw = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        if(assetName =='USDT'){
+            WithdrawSavingsUSDT(withdrawalAmount,wca.address,wca.chainId);
+            getAllBalances(wca.address,wca.chainId)
+            balanceStable = usdtBalances.usdtBalance;
+            setOpen(false)
+          
+          }   
+          if(assetName =='BUSD'){
+            WithdrawSavingsBUSD(withdrawalAmount,wca.address,wca.chainId);
+            getAllBalances(wca.address,wca.chainId)
+            balanceStable = busdBalances.busdBalance;
+            setOpen(false)
+          }        
+          if(assetName =='USDC'){
+            WithdrawSavingsUSDC(withdrawalAmount,wca.address,wca.chainId);
+            getAllBalances(wca.address,wca.chainId)
+            balanceStable = usdcBalances.usdcBalance;
+            setOpen(false)           
+          }        
+      
+        
+      }
     return (
         <Modal open={open} onClose={() => setOpen(false)}>
             <Box className={classes.root}>
@@ -234,15 +290,15 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                                 <input type="text" value={depositAmount} onChange={(e)=>setDeposit(e.target.value)}/>
                                 <Box>MAX</Box>
                             </Box>
-                            <Box className={classes.button}>Deposit</Box>
+                            <Box className={classes.button} onClick={buttonHandlerDeposit}>Deposit</Box>
                         </Grid>
                         <Grid item xs={6}>
-                            <Box className={classes.label}>Withdrawal XEND</Box>
+                            <Box className={classes.label}>Withdraw</Box>
                             <Box className={classes.rountInput}>
                                 <input type="text" value={withdrawalAmount} onChange={(e)=>setWithdrawal(e.target.value)}/>
                                 <Box>MAX</Box>
                             </Box>
-                            <Box className={classes.button}>Withdrawal XEND</Box>
+                            <Box className={classes.button} onClick={buttonHandlerWithdraw}>Withdraw</Box>
                         </Grid>
                     </Grid>
                 </BrowserView>
