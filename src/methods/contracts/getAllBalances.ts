@@ -1,20 +1,8 @@
 
 
 import createContract from './contract-creator';
-import { toBigNumber } from '../utils/multiply-amount';
-import exposedWeb3 from './exposedWeb3';
 import abiManager from '../../abiManager';
-import Notify from "bnc-notify";
-import { notify } from '../../components/core/Notifier';
 import _const from 'methods/_const';
-import DepositSavingsUSDTMatic from './xauto/methods/depositUSDTMaticXAuto';
-import DepositSavingsUSDCMatic from './xauto/methods/depositUSDCMaticXAuto';
-import DepositSavingsAAVEMatic from './xauto/methods/depositAAVEMaticXAuto';
-import DepositSavingsWBTCMatic from './xauto/methods/depositWBTCMaticXAuto';
-import WithdrawSavingsUSDTMatic from './xauto/methods/withdrawUSDTMaticXAuto';
-import WithdrawSavingsUSDCMatic from './xauto/methods/withdrawUSDCMaticXAuto';
-import WithdrawSavingsAAVEMatic from './xauto/methods/withdrawAAVEMaticXAuto';
-import WithdrawSavingsWBTCMatic from './xauto/methods/withdrawWBTCMaticXAuto';
 
 
 
@@ -61,7 +49,7 @@ const getAllBalances = (addressOwner: string,chainId:any) => {
 
             const resUSDT = Number(await getUSDTBalancesMatic(addressOwner)).toFixed(2);
             const resAAVE = Number(await getAAVEBalancesMatic(addressOwner)).toFixed(2);
-            const resUSDC = Number(await getUSDTBalancesMatic(addressOwner)).toFixed(2);
+            const resUSDC = Number(await getUSDCBalancesMatic(addressOwner)).toFixed(2);
             const resWBTC = Number(await getWBTCBalancesMatic(addressOwner)).toFixed(2);
 
             dispatch({
@@ -111,13 +99,13 @@ async function getUSDTBalancesMatic(addressOwner:string) {
 
         if (usdtContract) {
         const usdtBalanceCoin = await usdtContract.methods.balanceOf(ownerAddress).call();      
-        //const usdtBalanceCoin = await usdtContract.methods.proxyOwner().call();      
+            
   
-        console.log("Result OF Balance Is",usdtBalanceCoin)
+      
         let web3 = window.APPWEB3
         const FinalUSDBalance = web3.utils.fromWei(usdtBalanceCoin.toString(), 'mwei');   
-        console.log("GETING USDT BALANCE Final",FinalUSDBalance);    
-        return "";;
+       
+        return FinalUSDBalance;
         }else{
             return 0
         }
@@ -143,13 +131,11 @@ async function getUSDCBalancesMatic(addressOwner:string) {
 
         if (usdtContract) {
         const usdtBalanceCoin = await usdtContract.methods.balanceOf(ownerAddress).call();      
-        //const usdtBalanceCoin = await usdtContract.methods.proxyOwner().call();      
-  
-        console.log("Result OF Balance Is",usdtBalanceCoin)
+       
         let web3 = window.APPWEB3
-        const FinalUSDBalance = web3.utils.fromWei(usdtBalanceCoin.toString(), 'mwei');  
-        console.log("GETING USDT BALANCE Final",FinalUSDBalance);    
-        return "";;
+        const FinalUSCBalance = web3.utils.fromWei(usdtBalanceCoin.toString(), 'mwei');  
+      
+        return FinalUSCBalance;;
         }else{
             return 0
         }
@@ -175,12 +161,11 @@ async function getAAVEBalancesMatic(addressOwner:string) {
 
         if (aaveContract) {
         const aaveBalanceCoin = await aaveContract.methods.balanceOf(ownerAddress).call();      
-        //const usdtBalanceCoin = await usdtContract.methods.proxyOwner().call();      
+             
   
-        console.log("Result OF Balance Is",aaveBalanceCoin)
         let web3 = window.APPWEB3
         const FinalAAVEBalance = web3.utils.fromWei(aaveBalanceCoin.toString(), 'ether');  
-        console.log("GETING AAVE BALANCE Final",FinalAAVEBalance);    
+        
         return FinalAAVEBalance;
         }else{
             return 0
@@ -206,12 +191,10 @@ async function getWBTCBalancesMatic(addressOwner:string) {
 
         if (wbtcContract) {
         const wbtcBalanceCoin = await wbtcContract.methods.balanceOf(ownerAddress).call();      
-            
-  
-        console.log("Result OF Balance Is",wbtcBalanceCoin)
+         
         
         const FinalWBTCBalance = wbtcBalanceCoin / Math.pow(10,8);
-        console.log("GETING WBTC BALANCE Final",FinalWBTCBalance);    
+          
         return FinalWBTCBalance;;
         }else{
             return 0
@@ -243,7 +226,7 @@ async function getUSDTBalances(addressOwner:string) {
   
         let web3 = window.APPWEB3
         const FinalUSDBalance = web3.utils.fromWei(usdtBalanceCoin.toString(), 'ether');  
-        console.log("GETING USDT BALANCE Final",FinalUSDBalance);    
+        
         return FinalUSDBalance;
         }else{
             return 0
@@ -272,7 +255,7 @@ async function getBUSDBalances(addressOwner:string) {
   
         let web3 = window.APPWEB3
         const FinalBUSDBalance = web3.utils.fromWei(busdBalanceCoin.toString(), 'ether');  
-        console.log("GETING BUSD BALANCE Final",FinalBUSDBalance);    
+        
         return FinalBUSDBalance;
         }else{
             return 0
@@ -301,7 +284,7 @@ async function getUSDCBalances(addressOwner:string) {
   
         let web3 = window.APPWEB3
         const FinalUSDCBalance = web3.utils.fromWei(usdcBalanceCoin.toString(), 'ether');  
-        console.log("GETING USDC BALANCE Final",FinalUSDCBalance);    
+           
         return FinalUSDCBalance;
         }else{
             return 0

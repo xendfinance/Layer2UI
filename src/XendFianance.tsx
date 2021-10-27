@@ -66,10 +66,6 @@ const XendFianance = ({ light, setTheme, connected, setConnected, omitted, setOm
 
   const [openWalletInfoModal, setOpenWalletInfoModal]: any = useState(false);
 
-  const getNetwork = () => {
-    return getChainData(chainId).network;
-  }
-
 
   const onConnect = async () => {
    // const connectionDetails = JSON.parse(localStorage.getItem('CONNECTION_DETAILS') || '{}');
@@ -120,11 +116,10 @@ const XendFianance = ({ light, setTheme, connected, setConnected, omitted, setOm
             const addressRet =  dispatch(await Login(ConnectorNames.Injected,56,LenderProtocol))
             if(addressRet){
               setConnected(true);
-              setAddress(addressRet)
-             
-          
+              setAddress(addressRet)             
+              getXVaultAPI(chainIdNumber);
             }
-            getXVaultAPI(chainIdNumber);
+            
            
           }else if(chainIdNumber == 137){
             const addressRet = dispatch(await Login(ConnectorNames.Injected,137,LenderProtocol))
@@ -174,13 +169,7 @@ const XendFianance = ({ light, setTheme, connected, setConnected, omitted, setOm
     
   }, []);
 
-  const getBalance = async (address: any) => {
-    if (web3 && address) {
-      //const balance = await web3.eth.getBalance(address);
-      //setBalance(balance);
-    }
-  }
-
+ 
   useEffect(()=>{
     //getBalance(address)
   }, [address, chainId, web3])

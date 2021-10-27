@@ -30,7 +30,7 @@ async function DepositSavingsUSDCMatic(amount: any,addressOwner:string,chainId:a
        .approve(xAutocontract._address, amountDeposit)
        .send({ from: ownerAddress })
        .on('transactionHash', (hash: string) => {
-           console.log(hash, ' the transaction hash')
+          
            notifyBNC.hash(hash);
        });
      
@@ -38,7 +38,7 @@ async function DepositSavingsUSDCMatic(amount: any,addressOwner:string,chainId:a
        const res =  await xAutocontract.methods.deposit(amountDeposit)
             .send({ from: ownerAddress })
             .on('transactionHash', (hash: string) => {
-                console.log(hash, ' the transaction hash')
+               
                 notifyBNC.hash(hash);
             })
       

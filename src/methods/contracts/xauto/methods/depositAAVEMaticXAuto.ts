@@ -30,7 +30,7 @@ async function DepositSavingsAAVEMatic(amount: any,addressOwner:string,chainId:a
        //const amountDeposit = Number(0.01) * Math.pow(10, 18)
 
        await aaveContractMatic.methods
-       .approve(xAutocontract._address, toBigNumber(0.01))
+       .approve(xAutocontract._address, toBigNumber(amount))
        .send({ from: ownerAddress })
        .on('transactionHash', (hash: string) => {
            console.log(hash, ' the transaction hash')
@@ -38,7 +38,7 @@ async function DepositSavingsAAVEMatic(amount: any,addressOwner:string,chainId:a
        });
      
 
-       const res =  await xAutocontract.methods.deposit( toBigNumber(0.01))
+       const res =  await xAutocontract.methods.deposit( toBigNumber(amount))
             .send({ from: ownerAddress })
             .on('transactionHash', (hash: string) => {
                 console.log(hash, ' the transaction hash')

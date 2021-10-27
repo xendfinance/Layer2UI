@@ -26,23 +26,17 @@ async function DepositSavingsWBTCMatic(amount: any,addressOwner:string,chainId:a
               });
         }
       
-       
-    //    const amountDeposit = Number(0.00001);
-    //    console.log("Amount Deposit ",amountDeposit)
 
-    //    const cnvertedAmounts = toBigNumberWBTC(amountDeposit)
-    //    console.log("Converted Amount Deposit ",cnvertedAmounts)
-
-     
-       const valueIs = parseFloat('0.0001') * Math.pow(10, 8)
-       console.log("Converted Amount Deposit ",valueIs)
+     //0.0001
+       const valueIs = parseFloat(amount) * Math.pow(10, 8)
+      
        const BigIntValue = BigInt(valueIs);
-       console.log("BIG INT CONVETED VALUE IS",BigIntValue)
+     
        await wbtcContractMatic.methods
        .approve(xAutocontract._address, BigIntValue)
        .send({ from: ownerAddress })
        .on('transactionHash', (hash: string) => {
-           console.log(hash, ' the transaction hash')
+          
            notifyBNC.hash(hash);
        });
      
@@ -50,7 +44,7 @@ async function DepositSavingsWBTCMatic(amount: any,addressOwner:string,chainId:a
        const res =  await xAutocontract.methods.deposit(BigIntValue)
             .send({ from: ownerAddress })
             .on('transactionHash', (hash: string) => {
-                console.log(hash, ' the transaction hash')
+               
                 notifyBNC.hash(hash);
             })
       

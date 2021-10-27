@@ -191,17 +191,13 @@ export const DisconnectFromWallet = async () => {
 
         removeAddress();
 
-        window.sessionStorage.removeItem(connectorLocalStorageKey);
-        window.sessionStorage.removeItem(_const.WEB3SETPROVIDER);
-        window.sessionStorage.removeItem(_const.WEB3_WALLETCONNECT_HAS_DISCONNECTED);
-        window.localStorage.removeItem(_const.NETWORK_PROVIDER_HAS_CHANGED);
-
+       
         window.localStorage.removeItem("CONNECTION_DETAILS");
 
-        const ConnectWalletReducerAction: any = await reduxStore();
-        ConnectWalletReducerAction.dispatch({
-            type: _const.PRISTINE,
-        });
+        // const ConnectWalletReducerAction: any = await reduxStore();
+        // ConnectWalletReducerAction.dispatch({
+        //     type: _const.PRISTINE,
+        // });
         window.location.reload();
 
     } catch (error) {

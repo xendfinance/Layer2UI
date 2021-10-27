@@ -128,7 +128,6 @@ const [list, setList] = useState(initalList);
     const lendingProtocol = useSelector((store: any) => store.DashboardReducer.lender);
 
      
-    const currentChainId = useSelector((store: any) => store.DashboardReducer.networkConnect);
     const dashboardValues = useSelector((store: any) => store.DashboardReducer.dashboard);
     const dashboardValuesMatic = useSelector((store: any) => store.DashboardReducer.dashboardMatic);
     
@@ -315,8 +314,8 @@ const [list, setList] = useState(initalList);
                        assetName: 'USDT',
                        fees: 'XAuto',
                        balance: '20.00',
-                       netAPY: USDTapy_xauto,
-                       vaultasset: USDTTVL_xauto,
+                       netAPY: Number(dashboardValuesMatic.apyObjMatic?.usdtApyMatic).toFixed(2),
+                       vaultasset:  Number(dashboardValuesMatic.apyObjMatic?.tvlUSDTMatic).toFixed(2),
                        availableDeposit: usdtBalanceMatic
                    },
                    {
@@ -324,8 +323,8 @@ const [list, setList] = useState(initalList);
                        assetName: 'USDC',
                        fees: 'XAuto',
                        balance: '2.00',
-                       netAPY: USDCapy_xauto,
-                       vaultasset: USDCTVL_xauto,
+                       netAPY: Number(dashboardValuesMatic.apyObjMatic?.usdcApyMatic).toFixed(2),
+                       vaultasset:  Number(dashboardValuesMatic.apyObjMatic?.tvlUSDCMatic).toFixed(2),
                        availableDeposit: usdcBalanceMatic
                    },
                    {
@@ -333,8 +332,8 @@ const [list, setList] = useState(initalList);
                        assetName: 'AAVE',
                        fees: 'XAuto',
                        balance: '',
-                       netAPY: AAVEapy_xauto,
-                       vaultasset: AAVETVL_xauto,
+                       netAPY: Number(dashboardValuesMatic.apyObjMatic?.aaveApyMatic).toFixed(2),
+                       vaultasset: Number(dashboardValuesMatic.apyObjMatic?.tvlAAVE).toFixed(6),
                        availableDeposit: aaveBalanceMatic
                    },
                    {
@@ -342,8 +341,8 @@ const [list, setList] = useState(initalList);
                        assetName: 'WBTC',
                        fees: 'XAuto',
                        balance: '',
-                       netAPY: WBTCapy_xauto,
-                       vaultasset: WBTCTVL_xauto,
+                       netAPY: Number(dashboardValuesMatic.apyObjMatic?.wbtcApyMatic).toFixed(2),
+                       vaultasset: Number(dashboardValuesMatic.apyObjMatic?.tvlWBTC).toFixed(6),
                        availableDeposit: wbtcBalanceMatic
                    }
                    

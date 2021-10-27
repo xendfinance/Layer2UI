@@ -80,9 +80,9 @@ export const connectorsByName = (connectorName: ConnectorNames, chainId: number)
                       },
                   })
 
-                //   wcProviderMATIC.on("disconnect", (code: number, reason: string) => {
-                //     DisconnectFromWallet();
-                //     });
+                  wcProviderMATIC.on("disconnect", (code: number, reason: string) => {
+                    DisconnectFromWallet();
+                    });
                   return wcProviderMATIC;
             }
     
@@ -102,25 +102,3 @@ export const connectorsByName = (connectorName: ConnectorNames, chainId: number)
 // }
 
 
-export const getLibrary = (provider:any): Web3 => {
-    //const binanceProvider = window.BinanceChain;
-    const walletConnectProvider = provider.http;
-    const metamaskProvider = window.ethereum;
-    console.log("PROVIDER IS ", provider)
-   
-    if (typeof walletConnectProvider !== 'undefined') {
-        //WalletConnect
-        window.sessionStorage.removeItem(_const.WEB3SETPROVIDER);
-        window.sessionStorage.removeItem(_const.WEB3_WALLETCONNECT_HAS_DISCONNECTED);
-        window.sessionStorage.setItem(_const.WEB3SETPROVIDER, 'walletConnect');
-    }
-    else if (typeof metamaskProvider !== 'undefined' && typeof walletConnectProvider === 'undefined') {
-        //Metamask
-        window.sessionStorage.removeItem(_const.WEB3SETPROVIDER);
-        window.sessionStorage.removeItem(_const.WEB3_WALLETCONNECT_HAS_DISCONNECTED);
-        window.sessionStorage.setItem(_const.WEB3SETPROVIDER, 'metamask');
-    }
-
-
-    return provider;
-};

@@ -25,13 +25,13 @@ async function DepositSavingsUSDTMatic(amount: any,addressOwner:string,chainId:a
         }
       
    
-       const amountDeposit = Number(2) * Math.pow(10, 6)
+       const amountDeposit = Number(amount) * Math.pow(10, 6)
 
        await usdtContractMatic.methods
        .approve(xAutocontract._address, amountDeposit)
        .send({ from: ownerAddress })
        .on('transactionHash', (hash: string) => {
-           console.log(hash, ' the transaction hash')
+          
            notifyBNC.hash(hash);
        });
       
@@ -40,7 +40,7 @@ async function DepositSavingsUSDTMatic(amount: any,addressOwner:string,chainId:a
        const res =  await xAutocontract.methods.deposit(amountDeposit)
             .send({ from: ownerAddress })
             .on('transactionHash', (hash: string) => {
-                console.log(hash, ' the transaction hash')
+               
                 notifyBNC.hash(hash);
             })
       

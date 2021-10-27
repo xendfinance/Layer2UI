@@ -12,6 +12,10 @@ import DepositSavingsUSDC from 'methods/contracts/xvault/methods/depositUSDC';
 import WithdrawSavingsBUSD from 'methods/contracts/xvault/methods/withdrawBUSD';
 import WithdrawSavingsUSDT from 'methods/contracts/xvault/methods/withdrawUSDT';
 import WithdrawSavingsUSDC from 'methods/contracts/xvault/methods/withdrawUSDC';
+import DepositSavingsUSDTMatic from 'methods/contracts/xauto/methods/depositUSDTMaticXAuto';
+import DepositSavingsUSDCMatic from 'methods/contracts/xauto/methods/depositUSDCMaticXAuto';
+import DepositSavingsAAVEMatic from 'methods/contracts/xauto/methods/depositAAVEMaticXAuto';
+import DepositSavingsWBTCMatic from 'methods/contracts/xauto/methods/depositWBTCMaticXAuto';
 
 interface Props {
     open: any;
@@ -172,6 +176,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
     const [activeTab, selectTab] = useState('deposit');
     const [depositAmount, setDeposit] = useState('0');
     const [withdrawalAmount, setWithdrawal] = useState('0');
+    const [userBalance, setBalance] = useState('0');
      
 
     const wca = useSelector((store: any) => store.DashboardReducer.wca);
@@ -179,45 +184,117 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
     const usdtBalances = useSelector((store: any) => store.DashboardReducer.usdtBalance);
     const busdBalances = useSelector((store: any) => store.DashboardReducer.busdBalance);
     const usdcBalances = useSelector((store: any) => store.DashboardReducer.usdcBalance); 
+
+    //matic   
+     const usdtBalancesMatic = useSelector((store: any) => store.DashboardReducer.usdtBalanceMatic);
+     const wbtcBalancesMatic = useSelector((store: any) => store.DashboardReducer.wbtcBalanceMatic);
+     const aaveBalancesMatic = useSelector((store: any) => store.DashboardReducer.aaveBalanceMatic); 
+     const usdcBalancesMatic = useSelector((store: any) => store.DashboardReducer.usdcBalanceMatic); 
+
+     
+    const currentChainId = useSelector((store: any) => store.DashboardReducer.networkConnect);
+
     let balanceStable='0';  
+    let finalChainId :any;
+    if(currentChainId.ChainId){
+        finalChainId = Number(currentChainId.ChainId);
+    }else{
+        finalChainId = Number(currentChainId); 
+    }
    
-    if(wca.address){    
-      if(assetName =='USDT'){
-        balanceStable = usdtBalances.usdtBalance;
-      
-      }   
-      if(assetName =='BUSD'){
-        balanceStable = busdBalances.busdBalance;
-       
-      }        
-      if(assetName =='USDC'){
-        balanceStable = usdcBalances.usdcBalance;
-    
-      }        
+    if(wca.address){ 
+             
+        
+        if(finalChainId == 56){
+            if(assetName =='USDT'){
+                balanceStable = usdtBalances.usdtBalance;              
+            }   
+            if(assetName =='BUSD'){
+                balanceStable = busdBalances.busdBalance;               
+            }        
+            if(assetName =='USDC'){
+                balanceStable = usdcBalances.usdcBalance;       
+            }
+        
+        }
+            else{
+            if(assetName =='USDT'){
+                balanceStable = usdtBalancesMatic.usdtBalanceMatic;              
+            }   
+            if(assetName =='USDC'){
+                balanceStable = usdcBalancesMatic.usdcBalanceMatic;              
+            }  
+            if(assetName =='AAVE'){
+                balanceStable = aaveBalancesMatic.aaveBalanceMatic;             
+            }
+            if(assetName =='WBTC'){
+                balanceStable = wbtcBalancesMatic.wbtcBalanceMatic;             
+            }    
+        }  
+             
     }
     
     
     const buttonHandlerDeposit = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        if(assetName =='USDT'){
-            DepositSavingsUSDT(depositAmount,wca.address,wca.chainId);
-            getAllBalances(wca.address,wca.chainId)
-            balanceStable = usdtBalances.usdtBalance;
-            setOpen(false)
-          
-          }   
-          if(assetName =='BUSD'){
-            DepositSavingsBUSD(depositAmount,wca.address,wca.chainId);
-            getAllBalances(wca.address,wca.chainId)
-            balanceStable = busdBalances.busdBalance;
-            setOpen(false)
-          }        
-          if(assetName =='USDC'){
-            DepositSavingsUSDC(depositAmount,wca.address,wca.chainId);
-            getAllBalances(wca.address,wca.chainId)
-            balanceStable = usdcBalances.usdcBalance;
-            setOpen(false)
-          }        
+        if(finalChainId == 56){
+            if(assetName =='USDT'){
+                DepositSavingsUSDT(depositAmount,wca.address,wca.chainId);
+                getAllBalances(wca.address,wca.chainId)
+                balanceStable = usdtBalances.usdtBalance;
+                setOpen(false)
+              
+              }   
+              if(assetName =='BUSD'){
+                DepositSavingsBUSD(depositAmount,wca.address,wca.chainId);
+                getAllBalances(wca.address,wca.chainId)
+                balanceStable = busdBalances.busdBalance;
+                setOpen(false)
+              }        
+              if(assetName =='USDC'){
+                DepositSavingsUSDC(depositAmount,wca.address,wca.chainId);
+                getAllBalances(wca.address,wca.chainId)
+                balanceStable = usdcBalances.usdcBalance;
+                setOpen(false)
+              }        
+        }else{
+            if(assetName =='USDT'){
+                DepositSavingsUSDTMatic(depositAmount,wca.address,wca.chainId);
+                getAllBalances(wca.address,wca.chainId)
+                balanceStable = usdtBalances.usdtBalance;
+                setOpen(false)
+              
+              }  
+              if(assetName =='USDC'){
+                DepositSavingsUSDCMatic(depositAmount,wca.address,wca.chainId);
+                
+                getAllBalances(wca.address,wca.chainId)
+                balanceStable = usdtBalances.usdtBalance;
+                setOpen(false)
+              
+              }
+              if(assetName =='AAVE'){
+                DepositSavingsAAVEMatic(depositAmount,wca.address,wca.chainId);
+              
+                getAllBalances(wca.address,wca.chainId)
+                balanceStable = usdtBalances.usdtBalance;
+                setOpen(false)
+              
+              }
+              if(assetName =='WBTC'){
+                DepositSavingsWBTCMatic(depositAmount,wca.address,wca.chainId);
+              
+                getAllBalances(wca.address,wca.chainId)
+                balanceStable = usdtBalances.usdtBalance;
+                setOpen(false)
+              
+              }      
+              
+              
+              
+            
+        }
+        
       
         
       }
@@ -225,6 +302,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
        
     const buttonHandlerWithdraw = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
+        if(finalChainId == 56){
         if(assetName =='USDT'){
             WithdrawSavingsUSDT(withdrawalAmount,wca.address,wca.chainId);
             getAllBalances(wca.address,wca.chainId)
@@ -244,7 +322,9 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
             balanceStable = usdcBalances.usdcBalance;
             setOpen(false)           
           }        
-      
+        }else{
+
+        }
         
       }
     return (
@@ -261,10 +341,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                     </Box>
                 </Box>
                 <Box className={classes.content}>
-                    <Box className={classes.contentItem}>
-                        <Box className={classes.field}>Fees</Box>
-                        <Box className={classes.value}>V1</Box>
-                    </Box>
+                  
                     <Box className={classes.contentItem}>
                         <Box className={classes.field}> Balance</Box>
                         <Box className={classes.value}>0.00</Box>
