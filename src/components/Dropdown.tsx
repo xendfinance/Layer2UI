@@ -44,7 +44,8 @@ const useStyles = makeStyles((theme: any) =>
     },
     dropMenu: {
         position: 'absolute',
-        width: 'calc(100% - 40px)',
+        //width: 'calc(100% - 60px)',
+        width: 165,
         textAlign: 'center',
         paddingLeft: 20,
         paddingRight: 20,

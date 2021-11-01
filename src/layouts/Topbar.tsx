@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     dropdownButton: {
         marginLeft: 20,
+        height:40
     },
     connectButton: {
         display: 'block',
