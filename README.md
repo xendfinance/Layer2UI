@@ -1,46 +1,102 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![Logo](https://xend.finance/assets-2/logo.svg)
 
-## Available Scripts
 
-In the project directory, you can run:
+# Xend Auto-Yield
 
-### `yarn start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Xend Finance Layer 2 DeFi protocol
+Xend Finance has composed multiple Layer 1 DeFi protocols across different blockchains to provide better yields, as opposed to using Layer 1 DeFi yield platforms individually.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Authors
 
-### `yarn test`
+- [@kayalbertus](https://github.com/KayAlbertus)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+## Binance Smart Chain And Polygon
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### XAuto Polygon
+APRWithPoolOracle:
+https://polygonscan.com/address/0xc07d830229C34a3BD97dd95C9BB079117197B548#code
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+EarnAPRWithPool: 
+https://polygonscan.com/address/0xd991924b2b01f07c2e2491d7a61e0d1e9633d852#code
 
-### `yarn eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+XUSDT:
+https://polygonscan.com/address/0x05b1d524671CA541c3457c0550a09f71604C2dEC#code
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+XUSDC:
+https://polygonscan.com/address/0x3b1D848B20735B030D8ea85d2f516eb75c8e0e56#code
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+XAAVE:
+https://polygonscan.com/address/0x7103D2aa877624fA2d5AFc6A6728A8dfF71bDC82#readContract
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+XWBTC:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+https://polygonscan.com/address/0x0D81fF82f99eaCbc67E2404DD7FD8896905dF0f9#code
+
+
+
+
+#### XAuto BSC
+
+APRWithPoolOracle:
+
+https://bscscan.com/address/0xe98c57858f2c954FCA2390BD6850B40d3C676C96#code
+
+EarnAPRWithPool:
+https://bscscan.com/address/0x21026da06d8979982D325Fd3321bdcf439cC3bD8#code
+
+XBUSD:
+
+https://bscscan.com/address/0x4b75C26aC7E7b3DB22a67b74741fC965427Ae7eb#code
+XUSDC
+https://bscscan.com/address/0x2C7a0FD397D20eb85b7c7F179015833f3dBfa665#code
+
+
+XUSDT
+https://bscscan.com/address/0x22501e8d4F766351CB63545BbfcBA1dFe3BaC6E5#code
+
+XBNB
+https://bscscan.com/address/0x0682B619734f059c7255D3e08726DAb000dB4b62#code
+
+
+
+
+#### XVault BSC
+  xvUSDT:
+https://bscscan.com/address/0xF8604eE08c70389856242dF88b4CCA90a70733a7#code
+
+
+ xvUSDC:
+https://bscscan.com/address/0x48190f88a6d62cF3EEFDe000B8b8D1B99951b07a#code
+
+xvBUSD:
+https://bscscan.com/address/0xE7e53128Bf23463F7B0B4F0aec1FCB50988c7E9E#code
+
+StrategyUgoHawkVenusUSDTFarm:
+https://bscscan.com/address/0x25647749766A9068Ab483aBd025EdfB6f57EF3C9#code
+
+StrategyUgoHawkVenusUSDCFarm:
+https://bscscan.com/address/0x9F13139F1d8856C8FFEac539289318E195f4485d#code
+
+
+StrategyUgoHawkVenusBUSDFarm:
+https://bscscan.com/address/0x96e5B012ebC7fe7A1574E88Dbd1f9974815C4d12#code
+
+
+
+
+## 🔗 Social Media Links
+[![portfolio](https://img.shields.io/badge/github-0A66C2?style=for-the-badge&logo=github&logoColor=white)](https://github.com/xendfinance)
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/company/xend-finance/mycompany/)
+[![twitter](https://img.shields.io/badge/twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/xendfinance)
+[![discord](https://img.shields.io/badge/discord-0A66C2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/QPH2M3nbku)
+[![telegram](https://img.shields.io/badge/telegram-0A66C2?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/xendFinance)
+
+
+
