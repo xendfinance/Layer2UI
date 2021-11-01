@@ -11,6 +11,7 @@ interface Props {
     balance: string;
     netAPY: string;
     vaultasset: string;
+    auditedState: string;
     availableDeposite: string;
 }
 
@@ -41,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const Vault: React.FC<Props> = ({ assetIcon, assetName, fees, balance, netAPY, vaultasset, availableDeposite  }: any) => {
+const Vault: React.FC<Props> = ({ assetIcon, assetName, fees, balance, netAPY, vaultasset,auditedState, availableDeposite  }: any) => {
     const classes = useStyles();
     const [isOpenDepositeModal, setOpenDepositeModal] = useState(false);
 
@@ -51,13 +52,15 @@ const Vault: React.FC<Props> = ({ assetIcon, assetName, fees, balance, netAPY, v
                 assetName={assetName} fees={fees} balance={balance} netAPY={netAPY} 
                 vaultasset={vaultasset} availableDeposite={availableDeposite} />
             <td className={classes.asset}>
-                <Box><img src={assetIcon} alt='' /></Box>
+                <Box><img width="55px" height="55px" src={assetIcon} alt='' /></Box>
                 <Box style={{marginLeft: 18}}>{assetName}</Box>
             </td>
             <td> {fees} </td>
             <td> {balance} </td>
             <td className={classes.netAPY}> {netAPY}% </td>
             <td> {vaultasset} </td>
+            {auditedState =='audited'?<td className={classes.netAPY}> {auditedState} </td>:<td> {auditedState} </td>}
+            
             <td> {availableDeposite} </td>
             <td> <Button variant='secondary' fontSize='14' title='Open Vault&nbsp;&nbsp; >' onClick={() => {setOpenDepositeModal(!isOpenDepositeModal);}} /> </td>
         </tr>

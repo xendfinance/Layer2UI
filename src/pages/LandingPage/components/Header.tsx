@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Box, Grid } from '@material-ui/core';
+import getXVaultAPI from 'methods/redux/actions/get-apy-xvault';
+import { useDispatch, useSelector } from 'react-redux';
+import _const from 'methods/_const';
 
 interface Props {
     connected:any;
+    chainId:any;    
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -60,9 +64,97 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const Header: React.FC<Props> = ({ connected }:any) => {
+const Header: React.FC<Props> = ({ connected,chainId }:any) => {
     const classes = useStyles();
+   
+    const [TVLapy_xvault, setTVLAPYXVault] = useState('');
+    
+    const lendingProtocol = useSelector((store: any) => store.DashboardReducer.lender);
+    
+    const dispatch = useDispatch()
 
+     
+    const buildPreData = async (chainId:any) => {
+        //Build Pre Data
+         setTVLAPYXVault('Calculating');
+         const apyObj = await getXVaultAPI(56);
+         dispatch({
+             type: _const.DashboardGrid,
+             payload: { apyObj }
+         });
+         
+         const apyObjMatic = await getXVaultAPI(137);
+         dispatch({
+             type: _const.DashboardGridMatic,
+             payload: { apyObjMatic }
+         });
+
+         if(apyObj && apyObjMatic){
+       
+            if(chainId == 56){
+                if(lendingProtocol == "X Vault" ||lendingProtocol == 'X Vault' ||lendingProtocol.lenderProtocol =='X Vault' || lendingProtocol.lenderProtocol=="X Vault" ){
+                const tvlString = apyObj?.TVL;
+                if (tvlString){
+                    const finalAPY = Number(tvlString).toFixed(2); 
+                    setTVLAPYXVault(finalAPY);
+                }
+            }else{
+                console.log("apy onj",apyObj);
+                const tvlString = apyObj?.TVLXAuto;
+                if (tvlString){
+                    const finalAPY = Number(tvlString).toFixed(2); 
+                    setTVLAPYXVault(finalAPY);
+                }
+            }
+            }else{
+                const tvlString = apyObjMatic?.TVL;
+                if (tvlString){
+                    const finalAPY = Number(tvlString).toFixed(2); 
+                    setTVLAPYXVault(finalAPY);
+                }
+            }
+        }
+     }
+ 
+    
+    useEffect(()=>{
+        const initPreData = async () => {
+            if(chainId.ChainId){
+                const finalChainId = Number(chainId.ChainId);
+                await buildPreData(finalChainId);
+                 
+            }else{
+                const finalChainId = Number(chainId);         
+                await buildPreData(finalChainId);
+               
+            }            
+            };
+                
+            initPreData();   
+       
+     }, [chainId])
+
+     
+    // useEffect(()=>{
+    //     const buildDashboardData = async () => {
+    //         if(chainId.ChainId){
+    //             const finalChainId = Number(chainId.ChainId);
+    //             await getxVaultApy(finalChainId);
+                 
+    //         }else{
+    //             const finalChainId = Number(chainId);         
+    //            await getxVaultApy(finalChainId);
+               
+    //         } 
+    //       };
+        
+    //       buildDashboardData();
+
+      
+       
+    // },)
+
+     
     return (
         <Grid className={classes.root} container>
             <Grid className={classes.content} item xs={12} sm={7}>
@@ -77,7 +169,7 @@ const Header: React.FC<Props> = ({ connected }:any) => {
             </Grid>
             <Grid className={classes.asset} item xs={12} sm={5}>
                 <Box className={classes.assetTitle}>Total Vault Asset</Box>
-                <Box className={classes.assetValue}>300,000,000</Box>
+                <Box className={classes.assetValue}>${TVLapy_xvault}</Box>
             </Grid>
         </Grid>
     );

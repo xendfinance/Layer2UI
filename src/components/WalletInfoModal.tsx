@@ -4,6 +4,7 @@ import { Modal, Box } from '@material-ui/core';
 import closeIcon from 'assets/images/layout/close.png';
 import { getChainData } from "helpers/utilities";
 import { convertAmountFromRawNumber } from "helpers/bignumber";
+import { useSelector } from 'react-redux';
 
 interface Props {
     open: any;
@@ -80,7 +81,16 @@ const useStyles = makeStyles((theme: any) =>
 
 const WalletInfoModal: React.FC<Props> = ({ open, setOpen, onDisconnect,chainId, address, balance }: any) => {
     const classes = useStyles();
-
+    const currentChainId = useSelector((store: any) => store.DashboardReducer.networkConnect);
+    let finalChainId;
+    if(currentChainId.ChainId){
+        finalChainId = Number(currentChainId.ChainId);
+       
+    }else{
+        finalChainId = Number(currentChainId);
+    } 
+   
+ 
     const currentNetwork = useMemo(()=>{
         if (chainId) {
             return getChainData(chainId);
@@ -96,12 +106,12 @@ const WalletInfoModal: React.FC<Props> = ({ open, setOpen, onDisconnect,chainId,
                 </Box>
                 <Box className={classes.connectedText}>Connected</Box>
                 <Box className={classes.walletInfoBox}>
-                    <Box className={classes.label}>{currentNetwork && currentNetwork.name}</Box>
-                    <Box className={classes.value}>
+                    <Box className={classes.label}>{finalChainId==56?'Binance Smart Chain':'Polygon Matic'}</Box>
+                    {/* <Box className={classes.value}>
                         {convertAmountFromRawNumber(balance, currentNetwork?parseInt(currentNetwork.native_currency.decimals):18)}
                         {' '}
                         {currentNetwork && currentNetwork.native_currency && currentNetwork.native_currency.symbol}
-                    </Box>
+                    </Box> */}
                     <Box className={classes.label} style={{marginTop: 28}}>Wallet Address</Box>
                     <Box className={classes.value}>{address}</Box>
                 </Box>                

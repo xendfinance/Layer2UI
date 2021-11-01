@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 import Dropdown from '../components/Dropdown';
 import {isMobile} from 'react-device-detect';
 
+import { useDispatch, useSelector } from 'react-redux';
+
 import Button from '../components/Button';
 import LogoIcon from '../assets/images/logo.png';
 import Vector from '../assets/images/layout/Vector.png';
-import Mainnet from '../assets/images/layout/Mainnet.png';
-import Ethereum from '../assets/images/layout/Ethereum.png';
+import Mainnet from '../assets/images/busd.svg';
+import Polygon from '../assets/images/polygon.svg';
+import Metamask from 'assets/images/metamask-fox.svg';
+import WalletConnect from 'assets/images/trust-wallet.svg'
+import Wallets from 'pages/LandingPage/components/Wallets';
+import ConnectionModal from 'pages/LandingPage/components/ConnectionModal';
 
 interface Props {
     connected:any;
@@ -31,6 +37,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     dropdownButton: {
         marginLeft: 20,
+        height:40
     },
     connectButton: {
         display: 'block',
@@ -42,19 +49,31 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
+
+
 const Topbar: React.FC<Props> = ({ connected, setConnected, onConnect, chainId }:any) => {
     const classes = useStyles();
-    const networks = [1, 56];
-    const selectedNetworkIndex = networks.indexOf(chainId) !== -1 ? networks.indexOf(chainId) : 0;
+    const networks = [137, 56];
+    const wca = useSelector((store: any) => store.DashboardReducer.wca);
+    const [connectModal, setConnectModal] = useState(false);
+
 
     return (
         <Box className={classes.root}>
             <img src={LogoIcon} alt='XEND Finance' />
             <Box className={classes.menuGroup}>
-                <Dropdown className={classes.dropdownButton} dwidth={68} values={isMobile?['v1', 'v2']:['Layer v1','Layer v2']} selected={0}/>
-                <Dropdown className={classes.dropdownButton} dwidth={130} btnIcons={[Ethereum, Mainnet]} values={['Ethereum', 'BSC Mainnet']} selected={selectedNetworkIndex}/>
-                <Button className={classes.connectButton} variant='primary' title={connected?'Connected':'Connect Wallet'} btnIcon={Vector} onClick={() => onConnect()}/>
+                <Dropdown className={classes.dropdownButton} dwidth={68} values={isMobile?['xvault', 'xauto']:['X Vault','X Auto']} selected={0}/>
+                <Dropdown className={classes.dropdownButton} dwidth={130} btnIcons={[Mainnet, Polygon]} values={['BSC', 'Polygon']} selected={0}/>
+                <Dropdown className={classes.dropdownButton} dwidth={130} btnIcons={[Metamask, WalletConnect]} values={['Metamask', 'WalletConnect']} selected={0}/>
+                <Button className={classes.connectButton} variant='primary' title={wca.address?'Connected':'Connect Wallet'} btnIcon={Vector} onClick={() => onConnect()}/>
                 
+               {/* <figure></figure>
+              <Wallets setOpen={setConnectModal} />
+
+              <ConnectionModal
+                    open={connectModal}
+                    setOpen={setConnectModal} /> */}
+                    
             </Box>
         </Box>
     );

@@ -1,9 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState ,MouseEvent } from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Modal, Box, Grid } from '@material-ui/core';
 import closeIcon from 'assets/images/layout/close.png';
 import logoIcon from 'assets/images/logo2.png';
 import {BrowserView, MobileView} from 'react-device-detect';
+import { useDispatch, useSelector } from 'react-redux';
+import DepositUSDTMatic from 'methods/contracts/xauto/actions/depositUSDTMatic';
+import DepositUSDCMatic from 'methods/contracts/xauto/actions/depositUSDCMatic';
+import DepositAAVEMatic from 'methods/contracts/xauto/actions/depositAAVEMatic';
+import DepositWBTCMatic from 'methods/contracts/xauto/actions/depositWBTCMatic';
+import WithdrawWBTCMatic from 'methods/contracts/xauto/actions/withdrawWBTCMatic';
+import WithdrawUSDTMatic from 'methods/contracts/xauto/actions/withdrawUSDTMatic';
+import WithdrawUSDCMatic from 'methods/contracts/xauto/actions/withdrawUSDCMatic';
+import WithdrawAAVEMatic from 'methods/contracts/xauto/actions/withdrawAAVEMatic';
+import DepositUSDTBsc from 'methods/contracts/xvault/actions/depositUSDTBSC';
+import DepositBUSDBsc from 'methods/contracts/xvault/actions/depositBUSDBSC';
+import DepositUSDCBsc from 'methods/contracts/xvault/actions/depositUSDCBSC';
+import WithdrawUSDTBsc from 'methods/contracts/xvault/actions/withdrawUSDTBSC';
+import WithdrawBUSDBsc from 'methods/contracts/xvault/actions/withdrawBUSDBSC';
+import WithdrawUSDCBsc from 'methods/contracts/xvault/actions/withdrawUSDCBSC';
+import DepositUSDTBSCXAuto from 'methods/contracts/xauto/actions/depositUSDTBSC';
+import DepositBUSDBSCXAuto from 'methods/contracts/xauto/actions/depositBUSDBSC';
+import DepositBNBBSCXAuto from 'methods/contracts/xauto/actions/depositBNBBSC';
+import WithdrawUSDTBSCXAuto from 'methods/contracts/xauto/actions/withdrawUSDTBSC';
+import WithdrawBUSDBSCXAuto from 'methods/contracts/xauto/actions/withdrawBUSDBSC';
+import WithdrawUSDCBSCXAuto from 'methods/contracts/xauto/actions/withdrawUSDCBSC';
+import WithdrawBNBBSCXAuto from 'methods/contracts/xauto/actions/withdrawBNBBSC';
+import DepositUSDCBSCXAuto from 'methods/contracts/xauto/actions/depositUSDCBSC';
 
 interface Props {
     open: any;
@@ -158,12 +181,686 @@ const useStyles = makeStyles((theme: any) =>
   }),
 );
 
+
 const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, fees, balance, netAPY, vaultasset, availableDeposite }: any) => {
     const classes = useStyles();
     const [activeTab, selectTab] = useState('deposit');
     const [depositAmount, setDeposit] = useState('0');
     const [withdrawalAmount, setWithdrawal] = useState('0');
+    const [userBalance, setBalance] = useState('0');
     
+     
+    const dispatch = useDispatch();
+    const wca = useSelector((store: any) => store.DashboardReducer.wca);
+    
+    const usdtBalances = useSelector((store: any) => store.DashboardReducer.usdtBalance);
+    const busdBalances = useSelector((store: any) => store.DashboardReducer.busdBalance);
+    const usdcBalances = useSelector((store: any) => store.DashboardReducer.usdcBalance);     
+    const bnbBalances = useSelector((store: any) => store.DashboardReducer.bnbBalance); 
+
+    //matic   
+     const usdtBalancesMatic = useSelector((store: any) => store.DashboardReducer.usdtBalanceMatic);
+     const wbtcBalancesMatic = useSelector((store: any) => store.DashboardReducer.wbtcBalanceMatic);
+     const aaveBalancesMatic = useSelector((store: any) => store.DashboardReducer.aaveBalanceMatic); 
+     const usdcBalancesMatic = useSelector((store: any) => store.DashboardReducer.usdcBalanceMatic); 
+
+      
+    const dashboardValues = useSelector((store: any) => store.DashboardReducer.dashboard);
+    const dashboardValuesMatic = useSelector((store: any) => store.DashboardReducer.dashboardMatic);
+
+    //BSC Balances XVault
+    const busdDepositUserBalance = useSelector((store: any) => store.DashboardReducer.busdDepositBalance); 
+    const usdtDepositUserBalance = useSelector((store: any) => store.DashboardReducer.usdtDepositBalance); 
+    const usdcDepositUserBalance = useSelector((store: any) => store.DashboardReducer.usdcDepositBalance); 
+    // //BSC XAuto
+    const busdDepositUserBalanceXAuto = useSelector((store: any) => store.DashboardReducer.userBusdDepositBalanceXAuto); 
+    const usdtDepositUserBalanceXAuto = useSelector((store: any) => store.DashboardReducer.userUsdtDepositBalanceXAuto); 
+    const usdcDepositUserBalanceXAuto = useSelector((store: any) => store.DashboardReducer.userUsdcDepositBalanceXAuto); 
+    const bnbDepositUserBalanceXAuto = useSelector((store: any) => store.DashboardReducer.userBnbDepositBalanceXAuto); 
+
+
+
+    //Matic Balances 
+    const usdtDepositUserBalanceMatic = useSelector((store: any) => store.DashboardReducer.usdtDepositBalanceMatic); 
+    const usdcDepositUserBalanceMatic = useSelector((store: any) => store.DashboardReducer.usdcDepositBalanceMatic); 
+    const aaveDepositUserBalance = useSelector((store: any) => store.DashboardReducer.aaveDepositBalanceMatic); 
+    const wbtcDepositUserBalance = useSelector((store: any) => store.DashboardReducer.wbtcDepositBalanceMatic); 
+    
+     
+    const currentChainId = useSelector((store: any) => store.DashboardReducer.networkConnect);
+
+    const lendingProtocol = useSelector((store: any) => store.DashboardReducer.lender);
+
+    let balanceStable='0'; 
+    let tvl = '0.00';
+    let apy = '0.00';
+    let depositBalance = '0.00';
+
+
+    let finalChainId :any;
+    if(currentChainId.ChainId){
+        finalChainId = Number(currentChainId.ChainId);
+    }else{
+        finalChainId = Number(currentChainId); 
+    }
+   
+    if(wca.address){ 
+             
+        
+        if(finalChainId == 56){
+            if(lendingProtocol == "X Vault" ||lendingProtocol == 'X Vault' ||lendingProtocol.lenderProtocol =='X Vault' || lendingProtocol.lenderProtocol=="X Vault" ){
+            if(assetName =='USDT'){
+                balanceStable = usdtBalances.usdtBalance;
+                depositBalance = usdtDepositUserBalance.usdtDepositBalance;
+                const tvlUSDT = dashboardValues.apyObj?.tvlUSDTBsc;
+                if(tvlUSDT){
+                    tvl = Number(tvlUSDT).toFixed(2);
+                }
+                const apyUSDT = dashboardValues.apyObj?.usdt;
+                if(apyUSDT){
+                    apy = apyUSDT;
+                }
+                            
+            }   
+            if(assetName =='BUSD'){
+                balanceStable = busdBalances.busdBalance;
+                depositBalance = busdDepositUserBalance.busdDepositBalance;
+                const tvlBUSD = dashboardValues.apyObj?.tvlBUSDBsc;
+                if(tvlBUSD){
+                    tvl = Number(tvlBUSD).toFixed(2);
+                }
+                const apyBusd = dashboardValues.apyObj?.busd;
+                if(apyBusd){
+                    apy = apyBusd;
+                }
+                           
+            }        
+            if(assetName =='USDC'){
+                balanceStable = usdcBalances.usdcBalance; 
+                depositBalance = usdcDepositUserBalance.usdcDepositBalance;
+                const tvlUSDC = dashboardValues.apyObj?.tvlUSDCBsc;
+                if(tvlUSDC){
+                    tvl = Number(tvlUSDC).toFixed(2)
+                }
+                const apyUSDC = dashboardValues.apyObj?.usdc;
+                if(apyUSDC){
+                    apy = apyUSDC;
+                } 
+            }
+        }else{
+            if(assetName =='USDT'){
+                balanceStable = usdtBalances.usdtBalance;
+                depositBalance = usdtDepositUserBalanceXAuto.userUsdtDepositBalanceXAuto;
+                const tvlUSDT = dashboardValues.apyObj?.tvlUSDTBscXAuto;
+                if(tvlUSDT){
+                    tvl = Number(tvlUSDT).toFixed(2);
+                }
+                const apyUSDT = dashboardValues.apyObj?.usdtXauto;
+                if(apyUSDT){
+                    apy = apyUSDT;
+                }
+                            
+            }   
+            if(assetName =='BUSD'){
+                balanceStable = busdBalances.busdBalance;
+                depositBalance = busdDepositUserBalanceXAuto.userBusdDepositBalanceXAuto;
+                const tvlBUSD = dashboardValues.apyObj?.tvlBUSDBscXAuto;
+                if(tvlBUSD){
+                    tvl = Number(tvlBUSD).toFixed(2);
+                }
+                const apyBusd = dashboardValues.apyObj?.busdXauto;
+                if(apyBusd){
+                    apy = apyBusd;
+                }
+                           
+            }        
+            if(assetName =='USDC'){
+                balanceStable = usdcBalances.usdcBalance; 
+                depositBalance = usdcDepositUserBalanceXAuto.userUsdcDepositBalanceXAuto;
+                const tvlUSDC = dashboardValues.apyObj?.tvlUSDCBscXAuto;
+                if(tvlUSDC){
+                    tvl = Number(tvlUSDC).toFixed(2)
+                }
+                const apyUSDC = dashboardValues.apyObj?.usdcXauto;
+                if(apyUSDC){
+                    apy = apyUSDC;
+                } 
+            }
+            if(assetName =='BNB'){
+                balanceStable = bnbBalances.bnbBalance; 
+                depositBalance = bnbDepositUserBalanceXAuto.userBnbDepositBalanceXAuto;
+                const tvlUSDC = dashboardValues.apyObj?.tvlVBNBBscXAuto;
+                if(tvlUSDC){
+                    tvl = Number(tvlUSDC).toFixed(2)
+                }
+                const apyUSDC = dashboardValues.apyObj?.bnbXauto;
+                if(apyUSDC){
+                    apy = apyUSDC;
+                } 
+            }
+        }
+        
+        }
+            else{
+
+             
+            if(assetName =='USDT'){
+                balanceStable = usdtBalancesMatic.usdtBalanceMatic;
+                depositBalance = usdtDepositUserBalanceMatic.usdtDepositBalanceMatic;
+                const tvlUSDT = dashboardValuesMatic.apyObjMatic?.tvlUSDTMatic;
+                if(tvlUSDT){
+                 tvl = Number(tvlUSDT).toFixed(2);
+                }
+                const apyUSDT = dashboardValuesMatic.apyObjMatic?.usdtApyMatic;
+                if(apyUSDT){
+                    apy = apyUSDT;
+                } 
+                             
+            }   
+            if(assetName =='USDC'){
+                balanceStable = usdcBalancesMatic.usdcBalanceMatic;
+                depositBalance = usdcDepositUserBalanceMatic.usdcDepositBalanceMatic;
+                const tvlUSDC = dashboardValuesMatic.apyObjMatic?.tvlUSDCMatic;
+                if(tvlUSDC){
+                 tvl = Number(tvlUSDC).toFixed(2);
+                }
+                const apyUSDC = dashboardValuesMatic.apyObjMatic?.usdcApyMatic;
+                if(apyUSDC){
+                    apy = apyUSDC;
+                }               
+            }  
+            if(assetName =='AAVE'){
+                balanceStable = aaveBalancesMatic.aaveBalanceMatic; 
+                depositBalance = aaveDepositUserBalance.aaveDepositBalanceMatic;
+                const tvlAAVE = dashboardValuesMatic.apyObjMatic?.tvlAAVE;
+                if(tvlAAVE){
+                 tvl = Number(tvlAAVE).toFixed(6);
+                }
+                const apyAAVE = dashboardValuesMatic.apyObjMatic?.aaveApyMatic;
+                if(apyAAVE){
+                    apy = apyAAVE;
+                }                           
+            }
+            if(assetName =='WBTC'){
+                balanceStable = wbtcBalancesMatic.wbtcBalanceMatic;  
+                depositBalance = wbtcDepositUserBalance.wbtcDepositBalanceMatic;
+                const tvlWBTC = dashboardValuesMatic.apyObjMatic?.tvlWBTC;
+                if(tvlWBTC){
+                 tvl = Number(tvlWBTC).toFixed(6);
+                }
+                const apyWBTC = dashboardValuesMatic.apyObjMatic?.wbtcApyMatic;
+                if(apyWBTC){
+                    apy = apyWBTC;
+                }                                 
+            }    
+        }  
+             
+    }else{
+          if(dashboardValues && dashboardValuesMatic){
+            if(finalChainId == 56){
+            if(lendingProtocol == "X Vault" ||lendingProtocol == 'X Vault' ||lendingProtocol.lenderProtocol =='X Vault' || lendingProtocol.lenderProtocol=="X Vault" ){
+            if(assetName =='USDT'){
+             
+                const tvlUSDT = dashboardValues.apyObj?.tvlUSDTBsc;
+                if(tvlUSDT){
+                    tvl = Number(tvlUSDT).toFixed(2);
+                }
+                const apyUSDT = dashboardValues.apyObj?.usdt;
+                if(apyUSDT){
+                    apy = apyUSDT;
+                }
+                            
+            }   
+            if(assetName =='BUSD'){
+             
+                const tvlBUSD = dashboardValues.apyObj?.tvlBUSDBsc;
+                if(tvlBUSD){
+                    tvl = Number(tvlBUSD).toFixed(2);
+                }
+                const apyBusd = dashboardValues.apyObj?.busd;
+                if(apyBusd){
+                    apy = apyBusd;
+                }
+                           
+            }        
+            if(assetName =='USDC'){
+          
+                const tvlUSDC = dashboardValues.apyObj?.tvlUSDCBsc;
+                if(tvlUSDC){
+                    tvl = Number(tvlUSDC).toFixed(2);
+                }
+                const apyUSDC = dashboardValues.apyObj?.usdc;
+                if(apyUSDC){
+                    apy = apyUSDC;
+                } 
+            }
+        }else{
+            if(assetName =='USDT'){
+              
+                const tvlUSDT = dashboardValues.apyObj?.tvlUSDTBscXAuto;
+                if(tvlUSDT){
+                    tvl = Number(tvlUSDT).toFixed(2);
+                }
+                const apyUSDT = dashboardValues.apyObj?.usdtXauto;
+                if(apyUSDT){
+                    apy = apyUSDT;
+                }
+                            
+            }   
+            if(assetName =='BUSD'){
+              
+                const tvlBUSD = dashboardValues.apyObj?.tvlBUSDBscXAuto;
+                if(tvlBUSD){
+                    tvl = Number(tvlBUSD).toFixed(2);
+                }
+                const apyBusd = dashboardValues.apyObj?.busdXauto;
+                if(apyBusd){
+                    apy = apyBusd;
+                }
+                           
+            }        
+            if(assetName =='USDC'){
+            
+                const tvlUSDC = dashboardValues.apyObj?.tvlUSDCBscXAuto;
+                if(tvlUSDC){
+                    tvl = '$'+Number(tvlUSDC).toFixed(2)
+                }
+                const apyUSDC = dashboardValues.apyObj?.usdcXauto;
+                if(apyUSDC){
+                    apy = apyUSDC;
+                } 
+            }
+            if(assetName =='BNB'){
+               
+                const tvlUSDC = dashboardValues.apyObj?.tvlBNBBscXAuto;
+                if(tvlUSDC){
+                    tvl = '$'+Number(tvlUSDC).toFixed(2)
+                }
+                const apyUSDC = dashboardValues.apyObj?.bnbXauto;
+                if(apyUSDC){
+                    apy = apyUSDC;
+                } 
+            }
+        }
+        
+            }else{
+         
+            if(assetName =='USDT'){
+              
+                const tvlUSDT = dashboardValuesMatic.apyObjMatic?.tvlUSDTMatic;
+                if(tvlUSDT){
+                 tvl = '$'+Number(tvlUSDT).toFixed(2);
+                }
+                const apyUSDT = dashboardValuesMatic.apyObjMatic?.usdtApyMatic;
+                if(apyUSDT){
+                    apy = apyUSDT;
+                } 
+                             
+            }   
+            if(assetName =='USDC'){
+               
+                const tvlUSDC = dashboardValuesMatic.apyObjMatic?.tvlUSDCMatic;
+                if(tvlUSDC){
+                 tvl = '$'+Number(tvlUSDC).toFixed(2);
+                }
+                const apyUSDC = dashboardValuesMatic.apyObjMatic?.usdcApyMatic;
+                if(apyUSDC){
+                    apy = apyUSDC;
+                }               
+            }  
+            if(assetName =='AAVE'){
+               
+                const tvlAAVE = dashboardValuesMatic.apyObjMatic?.tvlAAVE;
+                if(tvlAAVE){
+                 tvl ='$'+Number(tvlAAVE).toFixed(2);
+                }
+                const apyAAVE = dashboardValuesMatic.apyObjMatic?.aaveApyMatic;
+                if(apyAAVE){
+                    apy = apyAAVE;
+                }                           
+            }
+            if(assetName =='WBTC'){
+                 
+                const tvlWBTC = dashboardValuesMatic.apyObjMatic?.tvlWBTC;
+                if(tvlWBTC){
+                 tvl = '$'+Number(tvlWBTC).toFixed(2);
+                }
+                const apyWBTC = dashboardValuesMatic.apyObjMatic?.wbtcApyMatic;
+                if(apyWBTC){
+                    apy = apyWBTC;
+                }                                 
+            }  
+        }  
+        }
+
+    }
+    
+    
+    const buttonHandlerDeposit = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        if(finalChainId == 56){
+            if(lendingProtocol == "X Vault" ||lendingProtocol == 'X Vault' ||lendingProtocol.lenderProtocol =='X Vault' || lendingProtocol.lenderProtocol=="X Vault" ){
+            if(assetName =='USDT'){
+                dispatch(DepositUSDTBsc(depositAmount,wca.address,wca.chainId));
+              
+                setOpen(false)
+              
+              }   
+              if(assetName =='BUSD'){
+                dispatch(DepositBUSDBsc(depositAmount,wca.address,wca.chainId));
+               
+                setOpen(false)
+              }        
+              if(assetName =='USDC'){
+                dispatch(DepositUSDCBsc(depositAmount,wca.address,wca.chainId));
+              
+               
+                setOpen(false)
+              }  
+            }else{
+                if(assetName =='USDT'){
+                    dispatch(DepositUSDTBSCXAuto(depositAmount,wca.address,wca.chainId));
+                  
+                    setOpen(false)
+                  
+                  }   
+                  if(assetName =='BUSD'){
+                    dispatch(DepositBUSDBSCXAuto(depositAmount,wca.address,wca.chainId));
+                   
+                    setOpen(false)
+                  }        
+                  if(assetName =='USDC'){
+                    dispatch(DepositUSDCBSCXAuto(depositAmount,wca.address,wca.chainId));
+                  
+                   
+                    setOpen(false)
+                  } 
+                  if(assetName =='BNB'){
+                    dispatch(DepositBNBBSCXAuto(depositAmount,wca.address,wca.chainId));
+                  
+                   
+                    setOpen(false)
+                  } 
+            }      
+        }else{
+            if(assetName =='USDT'){
+                dispatch(DepositUSDTMatic(depositAmount,wca.address,wca.chainId));
+               
+               
+                setOpen(false)
+              
+              }  
+              if(assetName =='USDC'){
+                dispatch(DepositUSDCMatic(depositAmount,wca.address,wca.chainId));                
+               
+              
+                setOpen(false)
+              
+              }
+              if(assetName =='AAVE'){
+                dispatch(DepositAAVEMatic(depositAmount,wca.address,wca.chainId))
+              
+                
+               
+                setOpen(false)
+              
+              }
+              if(assetName =='WBTC'){
+                dispatch(DepositWBTCMatic(depositAmount,wca.address,wca.chainId));
+              
+              
+               
+                setOpen(false)
+              
+              }      
+              
+              
+              
+            
+        }
+        
+      
+        
+      }
+
+       
+    const buttonHandlerWithdraw = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        if(finalChainId == 56){
+        if(lendingProtocol == "X Vault" ||lendingProtocol == 'X Vault' ||lendingProtocol.lenderProtocol =='X Vault' || lendingProtocol.lenderProtocol=="X Vault" ){
+        if(assetName =='USDT'){
+            dispatch(WithdrawUSDTBsc(withdrawalAmount,wca.address,wca.chainId));
+           
+            setOpen(false)
+          
+          }   
+          if(assetName =='BUSD'){
+            dispatch(WithdrawBUSDBsc(withdrawalAmount,wca.address,wca.chainId));
+            
+            setOpen(false)
+          }        
+          if(assetName =='USDC'){
+            dispatch(WithdrawUSDCBsc(withdrawalAmount,wca.address,wca.chainId));
+          
+            setOpen(false)           
+          }
+        }else{
+            if(assetName =='USDT'){
+                dispatch(WithdrawUSDTBSCXAuto(withdrawalAmount,wca.address,wca.chainId));
+               
+                setOpen(false)
+              
+              }   
+              if(assetName =='BUSD'){
+                dispatch(WithdrawBUSDBSCXAuto(withdrawalAmount,wca.address,wca.chainId));
+                
+                setOpen(false)
+              }        
+              if(assetName =='USDC'){
+                dispatch(WithdrawUSDCBSCXAuto(withdrawalAmount,wca.address,wca.chainId));
+              
+                setOpen(false)           
+              }
+              if(assetName =='BNB'){
+                dispatch(WithdrawBNBBSCXAuto(withdrawalAmount,wca.address,wca.chainId));
+              
+                setOpen(false)           
+              }
+        }        
+        }else{
+            if(assetName =='USDT'){
+                dispatch(WithdrawUSDTMatic(withdrawalAmount,wca.address,wca.chainId));
+              
+                setOpen(false)
+              
+              }   
+
+              if(assetName =='USDC'){
+                dispatch(WithdrawUSDCMatic(withdrawalAmount,wca.address,wca.chainId));
+              
+               
+                setOpen(false)
+              
+              }
+              
+              if(assetName =='AAVE'){
+                dispatch(WithdrawAAVEMatic(withdrawalAmount,wca.address,wca.chainId));
+              
+                setOpen(false)
+              
+              }
+              if(assetName =='WBTC'){
+                dispatch(WithdrawWBTCMatic(withdrawalAmount,wca.address,wca.chainId))
+               
+               
+                setOpen(false)
+              
+              }     
+
+        }
+        
+      }
+
+      useEffect(()=>{
+        if(wca.address){
+        if(finalChainId == 137){
+            if(assetName =='USDT'){
+                balanceStable = usdtBalancesMatic.usdtBalanceMatic;
+                depositBalance = usdtDepositUserBalanceMatic.usdtDepositBalanceMatic;
+                const tvlUSDT = dashboardValuesMatic.apyObjMatic?.tvlUSDTMatic;
+                if(tvlUSDT){
+                 tvl = '$'+Number(tvlUSDT).toFixed(2);
+                }
+                const apyUSDT = dashboardValuesMatic.apyObjMatic?.usdtApyMatic;
+                if(apyUSDT){
+                    apy = apyUSDT;
+                } 
+                             
+            }   
+            if(assetName =='USDC'){
+                balanceStable = usdcBalancesMatic.usdcBalanceMatic;
+                depositBalance = usdcDepositUserBalanceMatic.usdcDepositBalanceMatic;
+                const tvlUSDC = dashboardValuesMatic.apyObjMatic?.tvlUSDCMatic;
+                if(tvlUSDC){
+                 tvl ='$'+ Number(tvlUSDC).toFixed(2);
+                }
+                const apyUSDC = dashboardValuesMatic.apyObjMatic?.usdcApyMatic;
+                if(apyUSDC){
+                    apy = apyUSDC;
+                }               
+            }  
+            if(assetName =='AAVE'){
+                balanceStable = aaveBalancesMatic.aaveBalanceMatic; 
+                depositBalance = aaveDepositUserBalance.aaveDepositBalanceMatic;
+                const tvlAAVE = dashboardValuesMatic.apyObjMatic?.tvlAAVE;
+                if(tvlAAVE){
+                 tvl = '$'+Number(tvlAAVE).toFixed(2);
+                }
+                const apyAAVE = dashboardValuesMatic.apyObjMatic?.aaveApyMatic;
+                if(apyAAVE){
+                    apy = apyAAVE;
+                }                           
+            }
+            if(assetName =='WBTC'){
+                balanceStable = wbtcBalancesMatic.wbtcBalanceMatic;  
+                depositBalance = wbtcDepositUserBalance.wbtcDepositBalanceMatic;
+                const tvlWBTC = dashboardValuesMatic.apyObjMatic?.tvlWBTC;
+                if(tvlWBTC){
+                 tvl = '$'+Number(tvlWBTC).toFixed(2);
+                }
+                const apyWBTC = dashboardValuesMatic.apyObjMatic?.wbtcApyMatic;
+                if(apyWBTC){
+                    apy = apyWBTC;
+                }                                 
+            }    
+         }else{
+            if(lendingProtocol == "X Vault" ||lendingProtocol == 'X Vault' ||lendingProtocol.lenderProtocol =='X Vault' || lendingProtocol.lenderProtocol=="X Vault" ){
+            if(assetName =='USDT'){
+                balanceStable = usdtBalances.usdtBalance;
+                depositBalance = usdtDepositUserBalance.usdtDepositBalance;
+                const tvlUSDT = dashboardValues.apyObj?.tvlUSDTBsc;
+                if(tvlUSDT){
+                    tvl ='$'+ Number(tvlUSDT).toFixed(2);
+                }
+                const apyUSDT = dashboardValues.apyObj?.usdt;
+                if(apyUSDT){
+                    apy = apyUSDT;
+                }
+                            
+            }   
+            if(assetName =='BUSD'){
+                balanceStable = busdBalances.busdBalance;
+                depositBalance = busdDepositUserBalance.busdDepositBalance;
+                const tvlBUSD = dashboardValues.apyObj?.tvlBUSDBsc;
+                if(tvlBUSD){
+                    tvl ='$'+ Number(tvlBUSD).toFixed(2);
+                }
+                const apyBusd = dashboardValues.apyObj?.busd;
+                if(apyBusd){
+                    apy = apyBusd;
+                }
+                           
+            }        
+            if(assetName =='USDC'){
+                balanceStable = usdcBalances.usdcBalance; 
+                depositBalance = usdcDepositUserBalance.usdcDepositBalance;
+                const tvlUSDC = dashboardValues.apyObj?.tvlUSDCBsc;
+                if(tvlUSDC){
+                    tvl = '$'+Number(tvlUSDC).toFixed(2)
+                }
+                const apyUSDC = dashboardValues.apyObj?.usdc;
+                if(apyUSDC){
+                    apy = apyUSDC;
+                } 
+            }
+        }else{
+            if(assetName =='USDT'){
+                balanceStable = usdtBalances.usdtBalance;
+                depositBalance = usdtDepositUserBalanceXAuto.userUsdtDepositBalanceXAuto;
+                const tvlUSDT = dashboardValues.apyObj?.tvlUSDTBscXAuto;
+                if(tvlUSDT){
+                    tvl = Number(tvlUSDT).toFixed(2);
+                }
+                const apyUSDT = dashboardValues.apyObj?.usdtXauto;
+                if(apyUSDT){
+                    apy = apyUSDT;
+                }
+                            
+            }   
+            if(assetName =='BUSD'){
+                balanceStable = busdBalances.busdBalance;
+                depositBalance = busdDepositUserBalanceXAuto.userBusdDepositBalanceXAuto;
+                const tvlBUSD = dashboardValues.apyObj?.tvlBUSDBscXAuto;
+                if(tvlBUSD){
+                    tvl = Number(tvlBUSD).toFixed(2);
+                }
+                const apyBusd = dashboardValues.apyObj?.busdXauto;
+                if(apyBusd){
+                    apy = apyBusd;
+                }
+                           
+            }        
+            if(assetName =='USDC'){
+                balanceStable = usdcBalances.usdcBalance; 
+                depositBalance = usdcDepositUserBalanceXAuto.userUsdcDepositBalanceXAuto;
+                const tvlUSDC = dashboardValues.apyObj?.tvlUSDCBscXAuto;
+                if(tvlUSDC){
+                    tvl = Number(tvlUSDC).toFixed(2)
+                }
+                const apyUSDC = dashboardValues.apyObj?.usdcXauto;
+                if(apyUSDC){
+                    apy = apyUSDC;
+                } 
+            }
+            if(assetName =='BNB'){
+                balanceStable = bnbBalances.bnbBalance; 
+                depositBalance = bnbDepositUserBalanceXAuto.userBnbDepositBalanceXAuto;
+                const tvlUSDC = dashboardValues.apyObj?.tvlVBNBBscXAuto;
+                if(tvlUSDC){
+                    tvl = Number(tvlUSDC).toFixed(2)
+                }
+                const apyUSDC = dashboardValues.apyObj?.bnbXauto;
+                if(apyUSDC){
+                    apy = apyUSDC;
+                } 
+            }
+        }
+         } 
+        }
+       
+       
+     }, [usdtBalancesMatic.usdtBalanceMatic
+         ,usdcBalancesMatic.usdcBalanceMatic
+         ,aaveBalancesMatic.aaveBalanceMatic
+         ,wbtcBalancesMatic.wbtcBalanceMatic
+        ,busdDepositUserBalance.busdDepositBalance
+        ,usdtDepositUserBalance.usdtDepositBalance
+        ,usdcDepositUserBalance.usdcDepositBalance
+      ,bnbBalances.bnbBalance])
+
+
+
+
     return (
         <Modal open={open} onClose={() => setOpen(false)}>
             <Box className={classes.root}>
@@ -178,25 +875,22 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                     </Box>
                 </Box>
                 <Box className={classes.content}>
+                  
                     <Box className={classes.contentItem}>
-                        <Box className={classes.field}>Fees</Box>
-                        <Box className={classes.value}>V1</Box>
-                    </Box>
-                    <Box className={classes.contentItem}>
-                        <Box className={classes.field}>Balance</Box>
-                        <Box className={classes.value}>000.00</Box>
+                        <Box className={classes.field}> Balance</Box>
+                        <Box className={classes.value}>{depositBalance}</Box>
                     </Box>
                     <Box className={classes.contentItem}>
                         <Box className={classes.field}>Net APY</Box>
-                        <Box className={classes.value} style={{color: '#00D395'}}>45%</Box>
+                        <Box className={classes.value} style={{color: '#00D395'}}>{Number(apy).toFixed(2)}%</Box>
                     </Box>
                     <Box className={classes.contentItem}>
                         <Box className={classes.field}>Vault Assets</Box>
-                        <Box className={classes.value}>000.00</Box>
+                        <Box className={classes.value}>{'$'+tvl}</Box>
                     </Box>
                     <Box className={classes.contentItem}>
                         <Box className={classes.field}>Available to deposit</Box>
-                        <Box className={classes.value}>000.00</Box>
+                        <Box className={classes.value}>{balanceStable}</Box>
                     </Box>
                 </Box>
                 <BrowserView>
@@ -207,15 +901,15 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                                 <input type="text" value={depositAmount} onChange={(e)=>setDeposit(e.target.value)}/>
                                 <Box>MAX</Box>
                             </Box>
-                            <Box className={classes.button}>Approve</Box>
+                            <Box className={classes.button} onClick={buttonHandlerDeposit}>Deposit</Box>
                         </Grid>
                         <Grid item xs={6}>
-                            <Box className={classes.label}>Withdrawal XEND</Box>
+                            <Box className={classes.label}>Withdraw</Box>
                             <Box className={classes.rountInput}>
                                 <input type="text" value={withdrawalAmount} onChange={(e)=>setWithdrawal(e.target.value)}/>
                                 <Box>MAX</Box>
                             </Box>
-                            <Box className={classes.button}>Withdrawal XEND</Box>
+                            <Box className={classes.button} onClick={buttonHandlerWithdraw}>Withdraw</Box>
                         </Grid>
                     </Grid>
                 </BrowserView>

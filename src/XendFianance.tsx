@@ -7,8 +7,7 @@ import { Box } from '@material-ui/core';
 import LandingPage  from './pages/LandingPage';
 import AboutPage from './pages/AboutPage';
 import WalletInfoModal from 'components/WalletInfoModal';
-
-import WalletConnectProvider from "@walletconnect/web3-provider";
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   getChainData
@@ -16,6 +15,14 @@ import {
 
 import Web3 from "web3";
 import Web3Modal from "web3modal";
+import { Login, recreateWeb3 } from 'utils/useAuth';
+import { ConnectorNames } from 'utils/types';
+import { notify } from 'components/core/Notifier';
+import { decodedTextSpanIntersectsWith } from 'typescript';
+import { disconnect } from 'methods/redux/actions/contract-setup';
+import getNativeBalance from 'methods/redux/actions/getBalances';
+import getAllBalances from 'methods/contracts/getAllBalances';
+import getXVaultAPI from 'methods/redux/actions/get-apy-xvault';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,125 +40,138 @@ const XendFianance = ({ light, setTheme, connected, setConnected, omitted, setOm
 
   const [web3, setWeb3]: any = useState(null);
   const [chainId, setChainId]: any = useState(1);
-  const [address, setAddress]: any = useState(null);
   const [balance, setBalance]: any = useState(0);
+  const [address, setAddress]: any = useState('');
+  
+  const addressStore = useSelector((store: any) => store.DashboardReducer.address);
+   
+  const walletConnectType = useSelector((store: any) => store.DashboardReducer.wcp);
+ 
+  const walletChosenConnection = walletConnectType.WCP;
+  
+  const wca = useSelector((store: any) => store.DashboardReducer.wca);
+  
+
+
+  
+  const ChainId = useSelector((store: any) => store.DashboardReducer.networkConnect);
+ 
+  let chainIdNumber = Number(ChainId.ChainId); 
+  const Lender = useSelector((store: any) => store.DashboardReducer.lender);
+ 
+  const LenderProtocol = Lender.lenderProtocol;
+
+  const dispatch = useDispatch();
+
 
   const [openWalletInfoModal, setOpenWalletInfoModal]: any = useState(false);
 
-  const getNetwork = () => {
-    return getChainData(chainId).network;
-  }
-
-  const getProviderOptions = () => {
-    const providerOptions = {
-      walletconnect: {
-        display: {
-          name: "Mobile"
-        },
-        package: WalletConnectProvider,
-        options: {
-          infuraId: process.env.REACT_APP_INFURA_ID
-        }
-      },
-    };
-    return providerOptions;
-  };
-
-  const subscribeProvider = async (provider: any) => {
-    if (!provider.on) {
-      return;
-    }
-    
-    provider.on("close", () => {
-      onDisconnect()
-    });
-    
-    provider.on("accountsChanged", async (accounts: string[]) => {
-      setAddress(accounts[0]);
-    });
-
-    provider.on("chainChanged", async (chainId: number) => {
-      setChainId(parseInt(chainId.toString()));
-    });
-
-    provider.on("disconnect", async (error: {code: number; message: string}) => {
-    });
-  };
-
-  const initWeb3 = (provider: any) => {
-    const web3: any = new Web3(provider);
-    web3.eth.extend({
-      methods: [
-        {
-          name: "chainId",
-          call: "eth_chainId",
-          outputFormatter: web3.utils.hexToNumber
-        }
-      ]
-    });
-    return web3;
-  }
-
-  const web3Modal = new Web3Modal({
-    network: getNetwork(),
-    cacheProvider: true,
-    providerOptions: getProviderOptions(),
-    theme: {
-      background: "#1C1D21",
-      main: "#ffffff",
-      secondary: "#8E93A4",
-      border: "none",
-      hover: "rgba(255, 255, 255, 0.05);"
-    }
-  });
 
   const onConnect = async () => {
+   // const connectionDetails = JSON.parse(localStorage.getItem('CONNECTION_DETAILS') || '{}');
+
+    
+
+
+  if(wca.address){
+
+    
+    
+    setAddress(wca.address)
+    setConnected(true);
+    setOpenWalletInfoModal(true);
+    return;
+  }else{
     if (!connected) {
-      const provider = await web3Modal.connect();
-      await subscribeProvider(provider);
+      
+      if(walletChosenConnection){
+        if(walletChosenConnection =='walletconnect'){
+          if(chainIdNumber == 56){
   
-      const web3: any = initWeb3(provider);
-      const accounts = await web3.eth.getAccounts();
-      const address = accounts[0];
-  
-      setAddress(address);
-      setWeb3(web3);
-      setConnected(true);
-  
-      const chain_Id = await web3.eth.chainId();
-      setChainId(chain_Id);
+            const addressRet = await dispatch(Login(ConnectorNames.WalletConnect,56,LenderProtocol))
+            
+            
+              setConnected(true);
+              setAddress(addressRet)
+              getXVaultAPI(chainIdNumber);
+              //dispatch(await getAllBalances(String(addressRet)));
+            
+            
+           
+           
+          }else if(chainIdNumber == 137){
+            const addressRet = await dispatch(Login(ConnectorNames.WalletConnect,137,LenderProtocol))
+            if(addressRet){
+              setConnected(true);
+              setAddress(addressRet)
+              getXVaultAPI(chainIdNumber);
+              //dispatch(await getAllBalances(String(addressRet)));
+            }
+           
+          }else{
+            notify('info', 'No Valid Network')
+          }
+        }else if(walletChosenConnection =='injected'){
+          if(chainIdNumber == 56){
+            const addressRet =  dispatch(await Login(ConnectorNames.Injected,56,LenderProtocol))
+            if(addressRet){
+              setConnected(true);
+              setAddress(addressRet)             
+              getXVaultAPI(chainIdNumber);
+            }
+            
+           
+          }else if(chainIdNumber == 137){
+            const addressRet = dispatch(await Login(ConnectorNames.Injected,137,LenderProtocol))
+            if(addressRet){
+              setConnected(true);
+              setAddress(addressRet)
+              getXVaultAPI(chainIdNumber);
+             
+            }
+            
+           
+           
+          }else{
+            notify('info', 'No Valid Network')
+          }
+        }else{
+          notify('info', 'No Valid Wallet Connection')
+        }
+      }else{
+        notify('info', 'Please Select Protocol,Network And Wallet Connection')
+        console.log("HIT HERE ON NOTHING SELECTED")
+      }
+    
+     
     } else {
       setOpenWalletInfoModal(true);
     }
+  }
+    
   };
+
+
+	const disconnectWallet = () => {
+		dispatch(disconnect());
+		setTimeout(() => {
+			window.location.reload();
+		}, 500)
+	}
+
 
   const onDisconnect = async () => {
-    if (web3 && web3.currentProvider && web3.currentProvider.close) {
-      await web3.currentProvider.close();
-    }
-    await web3Modal.clearCachedProvider();
-    setChainId(1);
-    setAddress(null);
-    setBalance(0);
-    setConnected(false);
-    setOpenWalletInfoModal(false);
+    disconnectWallet();
   };
 
   useEffect(()=>{
-    if (web3Modal.cachedProvider) {
-      onConnect();
-    }
+    recreateWeb3();
+    
   }, []);
 
-  const getBalance = async (address: any) => {
-    if (web3 && address) {
-      const balance = await web3.eth.getBalance(address);
-      setBalance(balance);
-    }
-  }
-
+ 
   useEffect(()=>{
-    getBalance(address)
+    //getBalance(address)
   }, [address, chainId, web3])
   
   return (
@@ -180,3 +200,5 @@ const XendFianance = ({ light, setTheme, connected, setConnected, omitted, setOm
   );
 }
 export default XendFianance;
+
+
