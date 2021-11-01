@@ -26,9 +26,9 @@ export const Login = (connectorID: ConnectorNames, chainId: number, lender: stri
             
             // const ChainId = useSelector((store: any) => store.DashboardReducer.networkConnect);
             // console.log("WALLET CONNECT TYPE",ChainId);
-
+            console.log("CHAIN ID IS",chainId);
             const connector: any = connectorsByName(connectorID, chainId);
-
+    
 
             // dispatch({
             //     type: _const.CONNDETAILS,
@@ -42,8 +42,28 @@ export const Login = (connectorID: ConnectorNames, chainId: number, lender: stri
 
                     let connection = await connector.activate();
 
-                    account = connection.account;
+                   
 
+                    connection.provider.on('accountsChanged', (code: any, reason: string) => {
+                       if(code.length == 0){
+                        DisconnectFromWallet();
+                       }else{
+                        const accountSwitch = code[0];
+                        if (accountSwitch) {
+                            if (accountSwitch) {
+                                dispatch({
+                                    type: _const.CONWALLETADD,
+                                    payload: { address: accountSwitch, chainId:chainId }
+                                })
+                            }
+                        } else {
+                            DisconnectFromWallet();
+                        }
+                       }
+                      
+                    });
+
+                    account = connection.account;
 
                     window.APPWEB3 = new web3(web3.givenProvider);
 
@@ -66,10 +86,7 @@ export const Login = (connectorID: ConnectorNames, chainId: number, lender: stri
 
 
                 if (account) {
-                    // dispatch({
-                    //     type: _const.CONWALLETADD,
-                    //     payload: { address: account, chainId:chainId }
-                    // })
+                 
                     dispatch(getAllBalances(String(account),chainId));
                     
                 }
@@ -193,6 +210,11 @@ export const DisconnectFromWallet = async () => {
 
        
         window.localStorage.removeItem("CONNECTION_DETAILS");
+        
+        //Need To Clear All Reducer Data 
+        //TODO
+
+
 
         // const ConnectWalletReducerAction: any = await reduxStore();
         // ConnectWalletReducerAction.dispatch({
@@ -281,6 +303,4 @@ async function switchOrAddNetworkToMetamask(chainId: number) {
     }
 }
 
-function dispatch(arg0: { type: string; payload: { address: any; walletInUse: string; chainId: number; }; }) {
-    throw new Error('Function not implemented.');
-}
+

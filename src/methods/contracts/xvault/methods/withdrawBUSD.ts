@@ -9,8 +9,6 @@ async function WithdrawSavingsBUSD(amount: any,addressOwner:string,chainId:any) 
 
         const ownerAddress = addressOwner;
 
-        console.log("Withdraw METHOD ",ownerAddress)
-
         const xVaultcontract = await createContract(abiManager.xvVaultBUSD, "0xE7e53128Bf23463F7B0B4F0aec1FCB50988c7E9E");
      
 
@@ -32,7 +30,7 @@ async function WithdrawSavingsBUSD(amount: any,addressOwner:string,chainId:any) 
        const shares = GetWithdrawAmountPerFullShare(amountWithdraw,pricePerShareConverted);
       
      
-        const res= xVaultcontract.methods.withdraw(shares,ownerAddress,0)
+       return await xVaultcontract.methods.withdraw(shares,ownerAddress,0)
         .send({ from: ownerAddress })
         .on('transactionHash', (hash: string) => {
            

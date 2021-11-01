@@ -13,6 +13,7 @@ interface Props {
     netAPY: string;
     vaultasset: string;
     availableDeposite: string;
+    auditedState:string;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -57,7 +58,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const VaultMobile: React.FC<Props> = ({ className, assetIcon, assetName, fees, balance, netAPY, vaultasset, availableDeposite  }: any) => {
+const VaultMobile: React.FC<Props> = ({ className, assetIcon, assetName, fees, balance, netAPY, vaultasset,auditedState, availableDeposite  }: any) => {
     const classes = useStyles();
     const [isOpenDepositeModal, setOpenDepositeModal] = useState(false);
 
@@ -72,25 +73,21 @@ const VaultMobile: React.FC<Props> = ({ className, assetIcon, assetName, fees, b
                 </Box>
                 <Box className={classes.content}>
                     <Box>
-                        <Box className={classes.field}>Fees</Box>
-                        <Box className={classes.value}>V1</Box>
-                    </Box>
-                    <Box>
                         <Box className={classes.field}>Net APY</Box>
-                        <Box className={classes.value} style={{color: '#00D395'}}>45%</Box>
+                        <Box className={classes.value} style={{color: '#00D395'}}>{netAPY}</Box>
                     </Box>
                     <Box>
                         <Box className={classes.field}>Balance</Box>
-                        <Box className={classes.value}>000.00</Box>
+                        <Box className={classes.value}>{balance}</Box>
                     </Box>
                     <Box>
                         <Box className={classes.field}>Vault Assets</Box>
-                        <Box className={classes.value}>000.00</Box>
+                        <Box className={classes.value}>{vaultasset}</Box>
                     </Box>
                 </Box>
                 <Box style={{marginTop: 20}}>
                     <Box className={classes.field}>Available to Deposit</Box>
-                    <Box className={classes.value}>000.00</Box>
+                    <Box className={classes.value}>{availableDeposite}</Box>
                 </Box>
                 <Box className={classes.openVaultButton}>
                     <Button variant='secondary' fontSize='14' title='Open Vault&nbsp;&nbsp; >' onClick={() => {setOpenDepositeModal(!isOpenDepositeModal);}} />

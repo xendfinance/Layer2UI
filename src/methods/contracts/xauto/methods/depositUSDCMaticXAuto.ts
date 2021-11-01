@@ -33,14 +33,14 @@ async function DepositSavingsUSDCMatic(amount: any,addressOwner:string,chainId:a
           
            notifyBNC.hash(hash);
        });
-     
+        
 
-       const res =  await xAutocontract.methods.deposit(amountDeposit)
+        return await xAutocontract.methods.deposit(amountDeposit)
             .send({ from: ownerAddress })
             .on('transactionHash', (hash: string) => {
                
                 notifyBNC.hash(hash);
-            })
+            });
       
 
     } catch (err :any) {

@@ -1,7 +1,7 @@
 import createContract from '../../contract-creator';
 import abiManager from '../../../../abiManager';
 import Notify from "bnc-notify";
-import { GetWithdrawAmountPerFullShare, GetWithdrawAmountPerFullShareMaticUSDT } from 'methods/bignumber-converter';
+import { GetWithdrawAmountPerFullShare, GetWithdrawAmountPerFullShareMaticUSDT, toBigNumber } from 'methods/bignumber-converter';
 
 async function WithdrawSavingsAAVEMatic(amount: any,addressOwner:string,chainId:any) {
     try {
@@ -25,13 +25,18 @@ async function WithdrawSavingsAAVEMatic(amount: any,addressOwner:string,chainId:
       
         const pricePerShare = await xAutocontract.methods.getPricePerFullShare().call();  
        
-        const amountWithdraw = Number(amount) * Math.pow(10, 18);
+       
+        const amountWithdraw =  parseFloat(amount);
+        
+       
         const pricePerShareConverted = Number(pricePerShare);
    
     
-        const shares = GetWithdrawAmountPerFullShareMaticUSDT(amountWithdraw,pricePerShareConverted)* Math.pow(10, 18);;      
-        const finalShares = Math.round(shares);  
-        await xAutocontract.methods.withdraw(finalShares)
+        const shares = GetWithdrawAmountPerFullShareMaticUSDT(amountWithdraw,pricePerShareConverted)* Math.pow(10, 18);    
+        const sharesFinal = toBigNumber(shares);
+         
+      
+        return await xAutocontract.methods.withdraw(sharesFinal)
         .send({ from: ownerAddress })
         .on('transactionHash', (hash: string) => {
            

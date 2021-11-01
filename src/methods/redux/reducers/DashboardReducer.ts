@@ -15,14 +15,25 @@ const initialState = {
     wcp:'injected',
     networkConnect:'56',
     wca:'',
-    usdtBalance:'',
-    busdBalance:'',
-    usdcBalance:'',
-    busdDepositBalance:0,
-    usdtBalanceMatic:'',
-    usdcBalanceMatic:'',
-    aaveBalanceMatic:'',
-    wbtcBalanceMatic:'',
+    usdtBalance:'0.00',
+    busdBalance:'0.00',
+    usdcBalance:'0.00',
+    bnbBalance:'0.00',
+    busdDepositBalance:'0.00',
+    usdtDepositBalance:'0.00',
+    usdcDepositBalance:'0.00',
+    userBusdDepositBalanceXAuto:'0.00',
+    userUsdtDepositBalanceXAuto:'0.00',
+    userUsdcDepositBalanceXAuto:'0.00',
+    userBnbDepositBalanceXAuto:'0.00',
+    aaveDepositBalanceMatic:'0.00',
+    usdtDepositBalanceMatic:'0.00',
+    wbtcDepositBalanceMatic:'0.00',
+    usdcDepositBalanceMatic:'0.00',
+    usdtBalanceMatic:'0.00',
+    usdcBalanceMatic:'0.00',
+    aaveBalanceMatic:'0.00',
+    wbtcBalanceMatic:'0.00',
     dashboardGrid:{},
     dashboardGridMatic:{}
 
@@ -47,6 +58,9 @@ const DashboardReducer = (state = initialState, action: Action) => {
         //bsc    
         case _const.USDTBALANCE:
             return { ...state, usdtBalance: action.payload }
+        
+        case _const.BNBBALANCE:
+            return { ...state, bnbBalance: action.payload }
             
         case _const.BUSDBALANCE:
             return { ...state, busdBalance: action.payload }
@@ -57,6 +71,44 @@ const DashboardReducer = (state = initialState, action: Action) => {
                   
         case _const.BUSDDEPOSITBALANCE:
             return { ...state, busdDepositBalance: action.payload }
+
+                        
+        case _const.USDTDEPOSITBALANCE:
+            return { ...state, usdtDepositBalance: action.payload }
+
+                        
+        case _const.USDCDEPOSITBALANCE:
+            return { ...state, usdcDepositBalance: action.payload }
+
+        case _const.userBUSDDEPOSITBALANCEXAuto:
+            return { ...state, userBusdDepositBalanceXAuto: action.payload }
+
+                        
+        case _const.userUSDTDEPOSITBALANCEXAuto:
+         return { ...state, userUsdtDepositBalanceXAuto: action.payload }
+
+                        
+        case _const.userUSDCDEPOSITBALANCEXAuto:
+            return { ...state, userUsdcDepositBalanceXAuto: action.payload }
+                            
+        case _const.userBNBDEPOSITBALANCEXAuto:
+            return { ...state, userBnbDepositBalanceXAuto: action.payload }
+
+                      
+        case _const.AAVEDEPOSITBALANCEMatic:
+            return { ...state, aaveDepositBalanceMatic: action.payload }
+
+                        
+        case _const.USDCDEPOSITBALANCEMatic:
+            return { ...state, usdcDepositBalanceMatic: action.payload }
+
+                        
+        case _const.USDTDEPOSITBALANCEMatic:
+            return { ...state, usdtDepositBalanceMatic: action.payload }
+
+            
+        case _const.WBTCDEPOSITBALANCEMatic:
+            return { ...state, wbtcDepositBalanceMatic: action.payload }
 
 
         //Matic    

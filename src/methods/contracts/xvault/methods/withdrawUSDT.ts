@@ -29,7 +29,7 @@ async function WithdrawSavingsUSDT(amount: any,addressOwner:string,chainId:any) 
        const shares = GetWithdrawAmountPerFullShare(amountWithdraw,pricePerShareConverted);
       
      
-        const res= xVaultcontract.methods.withdraw(shares,ownerAddress,0)
+        return await xVaultcontract.methods.withdraw(shares,ownerAddress,0)
         .send({ from: ownerAddress })
         .on('transactionHash', (hash: string) => {
            

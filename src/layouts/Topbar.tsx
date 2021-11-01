@@ -13,6 +13,8 @@ import Mainnet from '../assets/images/busd.svg';
 import Polygon from '../assets/images/polygon.svg';
 import Metamask from 'assets/images/metamask-fox.svg';
 import WalletConnect from 'assets/images/trust-wallet.svg'
+import Wallets from 'pages/LandingPage/components/Wallets';
+import ConnectionModal from 'pages/LandingPage/components/ConnectionModal';
 
 interface Props {
     connected:any;
@@ -51,9 +53,9 @@ const useStyles = makeStyles((theme: Theme) =>
 const Topbar: React.FC<Props> = ({ connected, setConnected, onConnect, chainId }:any) => {
     const classes = useStyles();
     const networks = [137, 56];
-    console.log("networks",networks);
-   // const selectedNetworkIndex = networks.indexOf(chainId) !== -1 ? networks.indexOf(chainId) : 0;
-    
+    const wca = useSelector((store: any) => store.DashboardReducer.wca);
+    const [connectModal, setConnectModal] = useState(false);
+
 
     return (
         <Box className={classes.root}>
@@ -62,8 +64,15 @@ const Topbar: React.FC<Props> = ({ connected, setConnected, onConnect, chainId }
                 <Dropdown className={classes.dropdownButton} dwidth={68} values={isMobile?['xvault', 'xauto']:['X Vault','X Auto']} selected={0}/>
                 <Dropdown className={classes.dropdownButton} dwidth={130} btnIcons={[Mainnet, Polygon]} values={['BSC', 'Polygon']} selected={0}/>
                 <Dropdown className={classes.dropdownButton} dwidth={130} btnIcons={[Metamask, WalletConnect]} values={['Metamask', 'WalletConnect']} selected={0}/>
-                <Button className={classes.connectButton} variant='primary' title={connected?'Connected':'Connect Wallet'} btnIcon={Vector} onClick={() => onConnect()}/>
+                <Button className={classes.connectButton} variant='primary' title={wca.address?'Connected':'Connect Wallet'} btnIcon={Vector} onClick={() => onConnect()}/>
                 
+               {/* <figure></figure>
+              <Wallets setOpen={setConnectModal} />
+
+              <ConnectionModal
+                    open={connectModal}
+                    setOpen={setConnectModal} /> */}
+                    
             </Box>
         </Box>
     );

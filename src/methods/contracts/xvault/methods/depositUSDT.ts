@@ -12,7 +12,6 @@ async function DepositSavingsUSDT(amount: any,addressOwner:string,chainId:any) {
 
         const ownerAddress = addressOwner;
 
-        console.log("DEPOSIT METHOD ",ownerAddress)
 
         const xVaultcontract = await createContract(abiManager.xvVaultUSDT, "0xF8604eE08c70389856242dF88b4CCA90a70733a7");
        
@@ -29,14 +28,7 @@ async function DepositSavingsUSDT(amount: any,addressOwner:string,chainId:any) {
                 desktopPosition: 'bottomRight', 
               });
         }
-        if(chainId == 137){
-            notifyBNC = Notify({
-                dappId: 'a7f90c48-943a-4d3a-a8df-6ca5d0f7522a',       
-                networkId: 137,
-                mobilePosition: 'bottom', 
-                desktopPosition: 'bottomRight', 
-              });
-        }
+      
       
        
          await usdtContract.methods
@@ -46,19 +38,15 @@ async function DepositSavingsUSDT(amount: any,addressOwner:string,chainId:any) {
                 console.log(hash, ' the transaction hash')
                 notifyBNC.hash(hash);
             });
-           
+ 
 
-        // const receipt = await contract.methods.deposit().send({ from: ownerAddress })
-
-        // return receipt
-
-       const res =  await xVaultcontract.methods.deposit(toBigNumber(amount))
+      return await xVaultcontract.methods.deposit(toBigNumber(amount))
             .send({ from: ownerAddress })
             .on('transactionHash', (hash: string) => {
                 console.log(hash, ' the transaction hash')
                 notifyBNC.hash(hash);
             })
-       console.log("DEPOSIT FUNCTION TOTAL SHARE LOCKED IS  ",res)
+     
 
     } catch (err :any) {
         console.log(err);

@@ -33,7 +33,7 @@ async function WithdrawSavingsUSDCMatic(amount: any,addressOwner:string,chainId:
         const shares = GetWithdrawAmountPerFullShareMaticUSDT(amountWithdrawFinal,pricePerShareConverted);
         const finalShares = Math.round(shares);       
         
-        await xAutocontract.methods.withdraw(finalShares)
+        return await xAutocontract.methods.withdraw(finalShares)
         .send({ from: ownerAddress })
         .on('transactionHash', (hash: string) => {
            

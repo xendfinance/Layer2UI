@@ -1,5 +1,5 @@
 import { Config, ConnectorNames } from './types';
-import Metamask from 'assets/icons/metamask-fox.svg';
+import Metamask from '../assets/icons/metamask-fox.svg';
 import WalletConnect from 'assets/icons/walletconnect.svg'
 import TrustWallet from 'assets/icons/trust-wallet.svg';
 

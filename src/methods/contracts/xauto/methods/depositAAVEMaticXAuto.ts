@@ -8,8 +8,6 @@ async function DepositSavingsAAVEMatic(amount: any,addressOwner:string,chainId:a
 
         const ownerAddress = addressOwner;
 
-        console.log("DEPOSIT METHOD ",ownerAddress)
-
         const xAutocontract = await createContract(abiManager.xvAutoAAVE, "0x7103D2aa877624fA2d5AFc6A6728A8dfF71bDC82");
         const aaveContractMatic = await createContract(abiManager.AAVEMatic, "0xd6df932a45c0f255f85145f286ea0b292b21c90b");
 
@@ -27,7 +25,6 @@ async function DepositSavingsAAVEMatic(amount: any,addressOwner:string,chainId:a
         }
       
        
-       //const amountDeposit = Number(0.01) * Math.pow(10, 18)
 
        await aaveContractMatic.methods
        .approve(xAutocontract._address, toBigNumber(amount))
@@ -38,12 +35,12 @@ async function DepositSavingsAAVEMatic(amount: any,addressOwner:string,chainId:a
        });
      
 
-       const res =  await xAutocontract.methods.deposit( toBigNumber(amount))
+        return await xAutocontract.methods.deposit( toBigNumber(amount))
             .send({ from: ownerAddress })
             .on('transactionHash', (hash: string) => {
                 console.log(hash, ' the transaction hash')
                 notifyBNC.hash(hash);
-            })
+            });
       
 
     } catch (err :any) {

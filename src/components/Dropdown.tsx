@@ -95,6 +95,7 @@ const Dropdown: React.FC<Props> = (props: any) : JSX.Element => {
          
         }
         if(each =='X Auto'){
+           
             setLender('X Auto');
             dispatch({
                 type: _const.LENDER,
@@ -146,6 +147,8 @@ const Dropdown: React.FC<Props> = (props: any) : JSX.Element => {
         
         
     }, [selected])
+
+    
 
     return (
         <>

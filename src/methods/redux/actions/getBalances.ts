@@ -12,16 +12,16 @@ const getNativeBalance = (address: string) => {
 
 		try {
 
-			const web3 = await exposedWeb3();
+			// const web3 = await exposedWeb3();
 
-			let balance = await web3.eth.getBalance(address);
+			// let balance = await web3.eth.getBalance(address);
 
-			balance = commas(Number(balance) * Math.pow(10, -18), 2)
-            console.log("BAAAAAALAAAAANCE",balance);
-			dispatch({
-				type: _const.NATIVE_BALANCE,
-				payload: balance + ' ' + window.NATIVE_CURRENCY
-			});
+			// balance = commas(Number(balance) * Math.pow(10, -18), 2)
+            // console.log("BAAAAAALAAAAANCE",balance);
+			// dispatch({
+			// 	type: _const.NATIVE_BALANCE,
+			// 	payload: balance + ' ' + window.NATIVE_CURRENCY
+			// });
 		} catch (e) {
 			console.log(e)
 		}

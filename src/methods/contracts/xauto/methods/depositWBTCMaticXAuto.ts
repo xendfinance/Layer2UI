@@ -27,7 +27,7 @@ async function DepositSavingsWBTCMatic(amount: any,addressOwner:string,chainId:a
         }
       
 
-     //0.0001
+     //Minimum is 0.0001
        const valueIs = parseFloat(amount) * Math.pow(10, 8)
       
        const BigIntValue = BigInt(valueIs);
@@ -41,12 +41,12 @@ async function DepositSavingsWBTCMatic(amount: any,addressOwner:string,chainId:a
        });
      
 
-       const res =  await xAutocontract.methods.deposit(BigIntValue)
+      return await xAutocontract.methods.deposit(BigIntValue)
             .send({ from: ownerAddress })
             .on('transactionHash', (hash: string) => {
                
                 notifyBNC.hash(hash);
-            })
+            });
       
 
     } catch (err :any) {

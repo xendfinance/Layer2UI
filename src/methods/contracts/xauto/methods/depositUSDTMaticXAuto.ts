@@ -5,7 +5,7 @@ import Notify from "bnc-notify";
 
 async function DepositSavingsUSDTMatic(amount: any,addressOwner:string,chainId:any) {
     try {
-
+       
         const ownerAddress = addressOwner;
 
         const xAutocontract = await createContract(abiManager.xvAutoUSDT, "0x05b1d524671CA541c3457c0550a09f71604C2dEC");
@@ -27,23 +27,22 @@ async function DepositSavingsUSDTMatic(amount: any,addressOwner:string,chainId:a
    
        const amountDeposit = Number(amount) * Math.pow(10, 6)
 
-       await usdtContractMatic.methods
-       .approve(xAutocontract._address, amountDeposit)
-       .send({ from: ownerAddress })
-       .on('transactionHash', (hash: string) => {
-          
-           notifyBNC.hash(hash);
-       });
-      
+
+       await usdtContractMatic.methods.approve(xAutocontract._address, amountDeposit)
+        .send({ from: ownerAddress })
+        .on('transactionHash', (hash: string) => {            
+            notifyBNC.hash(hash);
+        });
 
 
-       const res =  await xAutocontract.methods.deposit(amountDeposit)
+
+       return await xAutocontract.methods.deposit(amountDeposit)
             .send({ from: ownerAddress })
             .on('transactionHash', (hash: string) => {
                
                 notifyBNC.hash(hash);
-            })
-      
+            });       
+    
 
     } catch (err :any) {
         console.log(err);

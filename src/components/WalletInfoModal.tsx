@@ -81,8 +81,15 @@ const useStyles = makeStyles((theme: any) =>
 
 const WalletInfoModal: React.FC<Props> = ({ open, setOpen, onDisconnect,chainId, address, balance }: any) => {
     const classes = useStyles();
-    
-  const wca = useSelector((store: any) => store.DashboardReducer.wca);
+    const currentChainId = useSelector((store: any) => store.DashboardReducer.networkConnect);
+    let finalChainId;
+    if(currentChainId.ChainId){
+        finalChainId = Number(currentChainId.ChainId);
+       
+    }else{
+        finalChainId = Number(currentChainId);
+    } 
+   
  
     const currentNetwork = useMemo(()=>{
         if (chainId) {
@@ -99,12 +106,12 @@ const WalletInfoModal: React.FC<Props> = ({ open, setOpen, onDisconnect,chainId,
                 </Box>
                 <Box className={classes.connectedText}>Connected</Box>
                 <Box className={classes.walletInfoBox}>
-                    <Box className={classes.label}>{currentNetwork && currentNetwork.name}</Box>
-                    <Box className={classes.value}>
+                    <Box className={classes.label}>{finalChainId==56?'Binance Smart Chain':'Polygon Matic'}</Box>
+                    {/* <Box className={classes.value}>
                         {convertAmountFromRawNumber(balance, currentNetwork?parseInt(currentNetwork.native_currency.decimals):18)}
                         {' '}
                         {currentNetwork && currentNetwork.native_currency && currentNetwork.native_currency.symbol}
-                    </Box>
+                    </Box> */}
                     <Box className={classes.label} style={{marginTop: 28}}>Wallet Address</Box>
                     <Box className={classes.value}>{address}</Box>
                 </Box>                

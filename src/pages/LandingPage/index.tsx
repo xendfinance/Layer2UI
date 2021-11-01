@@ -5,6 +5,7 @@ import Header from './components/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import getXVaultAPI from 'methods/redux/actions/get-apy-xvault';
 import _const from 'methods/_const';
+import getAllBalances from 'methods/contracts/getAllBalances';
 
 interface Props {
     connected: any;  
@@ -24,6 +25,7 @@ const LandingPage: React.FC<Props> = ({ connected }:any) => {
    
  
     const currentChainId = useSelector((store: any) => store.DashboardReducer.networkConnect);
+    const wca = useSelector((store: any) => store.DashboardReducer.wca);
     const dispatch = useDispatch()
 
 
@@ -41,6 +43,10 @@ const LandingPage: React.FC<Props> = ({ connected }:any) => {
              type: _const.DashboardGridMatic,
              payload: { apyObjMatic }
          });
+
+         if(wca.address){
+            dispatch(getAllBalances(wca.address,currentChainId))
+         }
      }
  
     

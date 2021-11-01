@@ -1,7 +1,4 @@
 import abiManager from "abiManager";
-import { GetWithdrawAmountPerFullShare } from "methods/bignumber-converter";
-import createContract from "methods/contracts/contract-creator";
-import { toBigNumber } from "methods/utils/multiply-amount";
 import reduxStore from "..";
 
 
@@ -31,7 +28,7 @@ const web3Matic = new Web3('https://polygon-mainnet.g.alchemy.com/v2/A3s0YpUEWXb
 const usdtMantissa = 1e18;
 const blocksPerDay = 60 * 60 * 24 / 3;
 const daysPerYear = 365;
-
+const CoinGecko = require('coingecko-api');
 
 
 
@@ -40,7 +37,7 @@ const getXVaultAPIUSDT = async() => {
 		try {
             let extra_profit;
             var vToken = new web3.eth.Contract(vUsdtAbi, vUsdtAddress);
-            console.log("VTOKEN CONTRACT IS",vToken);
+           
             var supplyRatePerBlock = await vToken.methods.supplyRatePerBlock().call();
             var borrowRatePerBlock = await vToken.methods.borrowRatePerBlock().call();
         
@@ -68,7 +65,7 @@ const getXVaultAPIUSDT = async() => {
             var apy = 0;
             
             extra_profit = supplyApy.plus(supplyRewardApy).plus(borrowRewardApy).minus(borrowApy);
-            console.log('extra_profit', extra_profit.toString(10));
+        
             if (extra_profit.toNumber() > 0) {
                 apy = supplyApy.plus(supplyRewardApy).plus(extra_profit.times(3));
             } else {
@@ -89,7 +86,7 @@ const getXVaultAPIUSDC = async() => {
     try {
         let extra_profit;
         var vToken = new web3.eth.Contract(vUSDCAbi, vUSDCAddress);
-        console.log("VTOKEN CONTRACT IS",vToken);
+       
         var supplyRatePerBlock = await vToken.methods.supplyRatePerBlock().call();
         var borrowRatePerBlock = await vToken.methods.borrowRatePerBlock().call();
     
@@ -117,7 +114,7 @@ const getXVaultAPIUSDC = async() => {
         var apy = 0;
         
         extra_profit = supplyApy.plus(supplyRewardApy).plus(borrowRewardApy).minus(borrowApy);
-        console.log('extra_profit', extra_profit.toString(10));
+       
         if (extra_profit.toNumber() > 0) {
             apy = supplyApy.plus(supplyRewardApy).plus(extra_profit.times(3));
         } else {
@@ -139,7 +136,7 @@ const getXVaultAPIBUSD = async() => {
     try {
         let extra_profit;
         var vToken = new web3.eth.Contract(vBUSDAbi, vBUSDAddress);
-        console.log("VTOKEN CONTRACT IS",vToken);
+     
         var supplyRatePerBlock = await vToken.methods.supplyRatePerBlock().call();
         var borrowRatePerBlock = await vToken.methods.borrowRatePerBlock().call();
     
@@ -167,7 +164,7 @@ const getXVaultAPIBUSD = async() => {
         var apy = 0;
         
         extra_profit = supplyApy.plus(supplyRewardApy).plus(borrowRewardApy).minus(borrowApy);
-        console.log('extra_profit', extra_profit.toString(10));
+      
         if (extra_profit.toNumber() > 0) {
             apy = supplyApy.plus(supplyRewardApy).plus(extra_profit.times(3));
         } else {
@@ -196,7 +193,155 @@ export function getHighestAPYMatic(array:any){
     return Math.max.apply(null, array);
  }
 
-//TVL Matic WBTC APR
+
+//BSC BNB APR
+const getAPRBNBXAutoBSC = async() => {
+
+    try {
+      
+
+       const web3Instance = new web3.eth.Contract(abiManager.APYPoolBSC, '0x21026da06d8979982D325Fd3321bdcf439cC3bD8');
+        
+       if (web3Instance) {
+ 
+       const BNBApy = await web3Instance.methods.recommend('0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c').call();
+      
+       const alpcaAPRNumber = Number(BNBApy._alpaca); 
+      
+       const fortubeAPR = Number(BNBApy._fortube); 
+       const fulcrumAPR = Number(BNBApy._fulcrum); 
+       const venusAPR = Number(BNBApy._venus); 
+       
+       const apyArray = [alpcaAPRNumber,fortubeAPR,fulcrumAPR,venusAPR];
+
+       const finalBNBApy =  getHighestAPYMatic(apyArray);
+
+       const finalBNBAPYConverted =finalBNBApy * Math.pow(10,-18); 
+     
+       return finalBNBAPYConverted;
+       }
+
+
+       
+    } catch (e) {
+        console.log(e)
+    }
+
+}
+
+//BSC BUSD APR
+const getAPRBUSDXAutoBSC = async() => {
+
+    try {
+      
+
+       const web3Instance = new web3.eth.Contract(abiManager.APYPoolBSC, '0x21026da06d8979982D325Fd3321bdcf439cC3bD8');
+        
+       if (web3Instance) {
+ 
+       const BNBApy = await web3Instance.methods.recommend('0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56').call();
+       const alpcaAPRNumber = Number(BNBApy._alpaca); 
+      
+       const fortubeAPR = Number(BNBApy._fortube); 
+       const fulcrumAPR = Number(BNBApy._fulcrum); 
+       const venusAPR = Number(BNBApy._venus); 
+       
+       const apyArray = [alpcaAPRNumber,fortubeAPR,fulcrumAPR,venusAPR];
+
+       const finalBNBApy =  getHighestAPYMatic(apyArray);
+
+       const finalBNBAPYConverted = finalBNBApy * Math.pow(10,-18);
+     
+
+       return finalBNBAPYConverted;
+
+     
+       }
+
+
+       
+    } catch (e) {
+        console.log(e)
+    }
+
+}
+
+//BSC USDT APR
+const getAPRUSDTXAutoBSC = async() => {
+
+    try {
+      
+
+       const web3Instance = new web3.eth.Contract(abiManager.APYPoolBSC, '0x21026da06d8979982D325Fd3321bdcf439cC3bD8');
+        
+       if (web3Instance) {
+ 
+       const BNBApy = await web3Instance.methods.recommend('0x55d398326f99059fF775485246999027B3197955').call();
+       const alpcaAPRNumber = Number(BNBApy._alpaca); 
+      
+       const fortubeAPR = Number(BNBApy._fortube); 
+       const fulcrumAPR = Number(BNBApy._fulcrum); 
+       const venusAPR = Number(BNBApy._venus); 
+       
+       const apyArray = [alpcaAPRNumber,fortubeAPR,fulcrumAPR,venusAPR];
+
+       const finalBNBApy =  getHighestAPYMatic(apyArray);
+
+       const finalBNBAPYConverted = finalBNBApy * Math.pow(10,-18);
+     
+
+       return finalBNBAPYConverted;
+
+     
+       }
+
+
+       
+    } catch (e) {
+        console.log(e)
+    }
+
+}
+
+//BSC USDC APR
+const getAPRUSDCXAutoBSC = async() => {
+
+    try {
+      
+
+       const web3Instance = new web3.eth.Contract(abiManager.APYPoolBSC, '0x21026da06d8979982D325Fd3321bdcf439cC3bD8');
+        
+       if (web3Instance) {
+ 
+       const BNBApy = await web3Instance.methods.recommend('0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d').call();
+       const alpcaAPRNumber = Number(BNBApy._alpaca); 
+      
+       const fortubeAPR = Number(BNBApy._fortube); 
+       const fulcrumAPR = Number(BNBApy._fulcrum); 
+       const venusAPR = Number(BNBApy._venus); 
+       
+       const apyArray = [alpcaAPRNumber,fortubeAPR,fulcrumAPR,venusAPR];
+
+       const finalBNBApy =  getHighestAPYMatic(apyArray);
+
+       const finalBNBAPYConverted = finalBNBApy * Math.pow(10,-18);
+      
+
+       return finalBNBAPYConverted;
+
+     
+       }
+
+
+       
+    } catch (e) {
+        console.log(e)
+    }
+
+}
+
+
+//Matic WBTC APR
 const getAPRWBTCMatic = async() => {
 
     try {
@@ -207,7 +352,7 @@ const getAPRWBTCMatic = async() => {
        if (web3Instance) {
  
        const WBTCApy = await web3Instance.methods.recommend('0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6').call();
-       console.log("APY IS ",WBTCApy);
+      
        
        const fortubeAPRNumber = Number(WBTCApy.fapr); 
       
@@ -221,7 +366,7 @@ const getAPRWBTCMatic = async() => {
        const finalWBTCAPYConverted = fromBigNumberMatic(finalWBTCApy)*10000000; 
 
      
-      console.log("HIGHEST APY IS ",finalWBTCAPYConverted);
+   
        return finalWBTCAPYConverted;
        }
 
@@ -245,7 +390,7 @@ const getAPRUSDTMatic = async() => {
        if (web3Instance) {
  
        const USDTApy = await web3Instance.methods.recommend('0xc2132D05D31c914a87C6611C10748AEb04B58e8F').call();
-       console.log("APY IS ",USDTApy);
+     
        
        const fortubeAPRNumber = Number(USDTApy.fapr); 
       
@@ -258,8 +403,6 @@ const getAPRUSDTMatic = async() => {
 
        const finalUSDTAPYConverted = fromBigNumberMatic(finalUSDTApy)*10000000; 
 
-     
-      console.log("HIGHEST APY IS USDT FINALL ",finalUSDTAPYConverted);
        return finalUSDTAPYConverted;
        }
 
@@ -297,7 +440,6 @@ const getAPRUSDCMatic = async() => {
        const finalUSDCAPYConverted = fromBigNumberMatic(finalUSDCApy)*10000000; 
 
      
-      console.log("HIGHEST APY IS USDC FINALL ",finalUSDCAPYConverted);
        return finalUSDCAPYConverted;
        }
 
@@ -332,11 +474,124 @@ const getAPRAAVEMatic = async() => {
 
        const finalAaveApy =  getHighestAPYMatic(apyArray);
 
-       const finalAaveAPYConverted = fromBigNumberMatic(finalAaveApy)*10000000; 
+       const finalAaveAPYConverted = fromBigNumberMatic(finalAaveApy)*100000; 
 
-     
-      console.log("HIGHEST APY IS USDC FINALL ",finalAaveAPYConverted);
-       return finalAaveAPYConverted;
+       const AaveFinalAPYConverted =finalAaveAPYConverted  *100000
+
+       return AaveFinalAPYConverted;
+       }
+
+
+       
+    } catch (e) {
+        console.log(e)
+    }
+
+}
+
+
+//TVL BSC 
+const getTVLBalanceUSDTBSCXAuto = async() => {
+
+    try {
+        //const web3Instance = window.APPWEB3;
+
+       const web3Instance = new web3.eth.Contract(abiManager.xvAutoBSCUSDT, '0x22501e8d4F766351CB63545BbfcBA1dFe3BaC6E5');
+        
+       if (web3Instance) {
+ 
+       const usdtTVLBalance = await web3Instance.methods.calcPoolValueInToken().call();       
+      
+
+       const FinalTVL = usdtTVLBalance * Math.pow(10,-18); 
+      
+       return FinalTVL;
+       }
+
+
+       
+    } catch (e) {
+        console.log(e)
+    }
+
+}
+
+
+//TVL BSC 
+const getTVLBalanceUSDCBSCXAuto = async() => {
+
+    try {
+       
+
+       const web3Instance = new web3.eth.Contract(abiManager.xvAutoBSCUSDC, '0x2C7a0FD397D20eb85b7c7F179015833f3dBfa665');
+        
+       if (web3Instance) {
+ 
+       const usdtTVLBalance = await web3Instance.methods.calcPoolValueInToken().call();       
+      
+
+       const FinalTVL = usdtTVLBalance * Math.pow(10,-18); 
+       return FinalTVL;
+       }
+
+
+       
+    } catch (e) {
+        console.log(e)
+    }
+
+}
+
+//TVL BSC 
+const getTVLBalanceBUSDBSCXAuto = async() => {
+
+    try {
+       
+
+       const web3Instance = new web3.eth.Contract(abiManager.xvAutoBSCBUSD, '0x4b75C26aC7E7b3DB22a67b74741fC965427Ae7eb');
+        
+       if (web3Instance) {
+ 
+       const usdtTVLBalance = await web3Instance.methods.calcPoolValueInToken().call();       
+      
+
+       const FinalTVL = web3.utils.fromWei(usdtTVLBalance.toString(), 'ether'); 
+       return FinalTVL;
+       }
+
+
+       
+    } catch (e) {
+        console.log(e)
+    }
+
+}
+
+
+//TVL BSC 
+const getTVLBalanceBNBBSCXAuto = async() => {
+
+    try {
+       
+
+       const web3Instance = new web3.eth.Contract(abiManager.xvAutoBSCBNB, '0x0682B619734f059c7255D3e08726DAb000dB4b62');
+        
+       if (web3Instance) {
+ 
+       const usdtTVLBalance = await web3Instance.methods.calcPoolValueInToken().call();       
+      
+      
+       const FinalTVL = web3.utils.fromWei(usdtTVLBalance.toString(), 'ether'); 
+
+       const coinGeckoClient = new CoinGecko();
+       const binanceCoin = await coinGeckoClient.coins.fetch('binancecoin', {});    
+
+       let bnbPriceCurrent = parseFloat(binanceCoin.data.market_data.current_price.usd); 
+
+
+       const USDResultBNB = (Number(FinalTVL) * bnbPriceCurrent);
+
+       return USDResultBNB;
        }
 
 
@@ -413,8 +668,18 @@ const getTVLBalanceAAVEMatic = async() => {
        const usdtTVLBalance = await web3Instance.methods.calcPoolValueInToken().call();       
       
 
-       const FinalTVL = web3.utils.fromWei(usdtTVLBalance.toString(), 'ether');     
-       return FinalTVL;
+       const FinalTVL = web3.utils.fromWei(usdtTVLBalance.toString(), 'ether');   
+       const coinGeckoClient = new CoinGecko();
+       const aavePrice = await coinGeckoClient.coins.fetch('aave', {});
+     
+       let aavePriceCurrent = parseFloat(aavePrice.data.market_data.current_price.usd);
+      
+   
+       const USDResultAAVE = (Number(FinalTVL) * aavePriceCurrent) / 100;
+      
+       const FinalAvvePrice = USDResultAAVE * 100;
+   
+       return FinalAvvePrice;
        }
 
 
@@ -440,7 +705,16 @@ const getTVLBalanceWBTCMatic = async() => {
       
 
        const FinalTVL = usdtTVLBalance / Math.pow(10,8);
-       return FinalTVL;
+
+       const coinGeckoClient = new CoinGecko();
+       const wbtcPrice = await coinGeckoClient.coins.fetch('wrapped-bitcoin', {});
+   
+       let wbtcPriceCurrent = parseFloat(wbtcPrice.data.market_data.current_price.usd);
+   
+   
+       const USDResultWBTC = (Number(FinalTVL) * wbtcPriceCurrent) * 100;   
+   
+       return USDResultWBTC;
        }
 
 
@@ -451,6 +725,42 @@ const getTVLBalanceWBTCMatic = async() => {
 
 }
 	
+
+const getUSDValueOfTVL = async(tvlUsdt:any,tvlUsdc :any,tvlAave:any,tvlWBTC:any) =>{
+    //const coinGeckoClient = new CoinGecko();
+    // const aavePrice = await coinGeckoClient.coins.fetch('aave', {});
+    // const wbtcPrice = await coinGeckoClient.coins.fetch('wrapped-bitcoin', {});
+
+    // let aavePriceCurrent = parseFloat(aavePrice.data.market_data.current_price.usd);
+    // let wbtcPriceCurrent = parseFloat(wbtcPrice.data.market_data.current_price.usd);
+
+
+    // const USDResultAAVE = (Number(tvlAave) * aavePriceCurrent) / 100;
+    // const USDResultWBTC = (Number(tvlWBTC) * wbtcPriceCurrent) * 100;
+
+    // const FinalAvvePrice = USDResultAAVE * 100;
+
+    const finalTvlInUSDValue = tvlAave + tvlWBTC + tvlUsdt + tvlUsdc;
+
+    return finalTvlInUSDValue;
+}
+
+
+const getUSDValueOfTVLXAuto = async(tvlUsdt:any,tvlUsdc :any,tvlBNB:any,tvlBUSD:any) =>{
+    // const coinGeckoClient = new CoinGecko();
+    // const binanceCoin = await coinGeckoClient.coins.fetch('binancecoin', {});    
+
+    // let bnbPriceCurrent = parseFloat(binanceCoin.data.market_data.current_price.usd); 
+
+
+    // const USDResultBNB = (Number(tvlBNB) * bnbPriceCurrent) * 100;  
+
+
+    const finalTvlInUSDValue = Number(tvlBNB) + Number(tvlBUSD) + Number(tvlUsdt) + Number(tvlUsdc);
+    
+
+    return finalTvlInUSDValue;
+}
 
 
 
@@ -549,10 +859,19 @@ const getXVaultAPI = async(chainId :any ) => {
             const TVLBusdBalance = Number(await getTVLBalanceBUSD());
             const TVLUsdcBalance = Number(await getTVLBalanceUSDC());
             const totalTVLXVault = TVLUsdtBalance +TVLBusdBalance+TVLUsdcBalance
-    
-           
-            //const res = await  getUSDTBalanceOfXVault("0xeDC9bee76Acf5f492ded78aF9C0ED54c75FCCE96")
-     
+            
+            
+            const apyXAutoBNB = await getAPRBNBXAutoBSC();
+            const apyXAutoBUSD = await getAPRBUSDXAutoBSC();
+            const apyXAutoUSDT = await getAPRUSDTXAutoBSC();
+            const apyXAutoUSDC = await getAPRUSDCXAutoBSC();
+
+            const tvlXAutoUSDTBSC = await getTVLBalanceUSDTBSCXAuto();
+            const tvlXAutoUSDCBSC = await getTVLBalanceUSDCBSCXAuto();
+            const tvlXAutoBUSDBSC = await getTVLBalanceBUSDBSCXAuto();
+            const tvlXAutoBNBBSC = await getTVLBalanceBNBBSCXAuto();
+
+            const finalTvlXauto = await (await getUSDValueOfTVLXAuto(tvlXAutoUSDTBSC,tvlXAutoUSDCBSC,tvlXAutoBNBBSC,tvlXAutoBUSDBSC)).toFixed(2);
     
     
            
@@ -560,10 +879,19 @@ const getXVaultAPI = async(chainId :any ) => {
                 busd:apyBusd,
                 usdt:apyUSDT,
                 usdc:apyUSDC,
+                usdtXauto:apyXAutoUSDT,
+                bnbXauto:apyXAutoBNB,
+                busdXauto:apyXAutoBUSD,
+                usdcXauto:apyXAutoUSDC,
                 tvlUSDTBsc:TVLUsdtBalance,
                 tvlBUSDBsc:TVLBusdBalance,
                 tvlUSDCBsc:TVLUsdcBalance,
+                tvlUSDCBscXAuto:tvlXAutoUSDCBSC,
+                tvlBUSDBscXAuto:tvlXAutoBUSDBSC,
+                tvlUSDTBscXAuto:tvlXAutoUSDTBSC,
+                tvlVBNBBscXAuto:tvlXAutoBNBBSC,
                 TVL:totalTVLXVault,
+                TVLXAuto:finalTvlXauto,
                 lendingProtocol:reduxStateCurrent.lender
             };
             return data
@@ -573,7 +901,9 @@ const getXVaultAPI = async(chainId :any ) => {
             const TVLUsdcBalanceMatic = Number(await getTVLBalanceUSDCMatic());
             const TVLAaveBalanceMatic = Number(await getTVLBalanceAAVEMatic());
             const TVLWbtcBalanceMatic = Number(await getTVLBalanceWBTCMatic());
-            const totalTVLXVault = TVLUsdtBalanceMatic +TVLUsdcBalanceMatic+TVLAaveBalanceMatic+TVLWbtcBalanceMatic
+
+            const usdtValueOfTvl = await getUSDValueOfTVL(TVLUsdtBalanceMatic,TVLUsdcBalanceMatic,TVLAaveBalanceMatic,TVLWbtcBalanceMatic)
+            const totalTVLXVault = usdtValueOfTvl;
 
             const WbtcApy = Number(await getAPRWBTCMatic()).toFixed(2);
             const UsdtApy = Number(await getAPRUSDTMatic()).toFixed(2);
@@ -590,6 +920,7 @@ const getXVaultAPI = async(chainId :any ) => {
                 tvlAAVE:TVLAaveBalanceMatic,
                 tvlWBTC:TVLWbtcBalanceMatic,
                 TVL:totalTVLXVault,
+                TVLXAuto:'',
                 lendingProtocol:reduxStateCurrent.lender
             };
             return data
@@ -598,10 +929,18 @@ const getXVaultAPI = async(chainId :any ) => {
                 busd:'',
                 usdt:'',
                 usdc:'',
+                usdtXauto:'',
+                bnbXauto:'',
+                busdXauto:'',
+                usdcXauto:'',
                 wbtcApyMatic:'',
                 usdcApyMatic:'',
                 usdtApyMatic:'',
                 aaveApyMatic:'',
+                tvlUSDCBscXAuto:'',
+                tvlBUSDBscXAuto:'',
+                tvlUSDTBscXAuto:'',
+                tvlVBNBBscXAuto:'',
                 tvlUSDTBsc:'',
                 tvlBUSD:'',
                 tvlUSDCBsc:'',
@@ -609,7 +948,8 @@ const getXVaultAPI = async(chainId :any ) => {
                 tvlUSDCMatic:'',
                 tvlAAVEMatic:'',
                 tvlWBTCMatic:'',
-                TVL:'',
+                TVL:'',                
+                TVLXAuto:'',
                 lendingProtocol:''
             };
             return data
