@@ -13,4 +13,4 @@ jobs:
       - run: echo "${{ secrets.GCP_VM_PRIVATE_KEY }}" > id_rsa
       - run: chmod -R 600 id_rsa
       - run: npm install && npm run build
-      - run: scp -i id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r build/* franklin@35.225.70.160:/var/www/layer2
+      - run: scp -i id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r build/* franklin@35.225.70.160:/var/www/layer
