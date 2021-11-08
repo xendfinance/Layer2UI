@@ -4,17 +4,15 @@ import { Box } from '@material-ui/core';
 import ReactTooltip from 'react-tooltip';
 import Vault from './Vault';
 import VaultMobile from './VaultMobile';
-import vault1 from 'assets/images/tether.svg';
-import vault2 from 'assets/images/busd.svg';
-import helpTooltip from 'assets/icons/help.svg';
-import vault3 from 'assets/images/usdc.com.svg';
-import vault4 from 'assets/images/bnb.svg';
-import vaultWBTC from 'assets/images/wrapped-bitcoin.svg';
-import vaultAAVE from 'assets/images/aave.svg';
+import vault1 from './../../../assets/images/tether.svg';
+import vault2 from './../../../assets/images/busd.svg';
+
+import vault3 from './../../../assets/images/usdc.com.svg';
+import vault4 from './../../../assets/images/bnb.svg';
+import vaultWBTC from './../../../assets/images/wrapped-bitcoin.svg';
+import vaultAAVE from './../../../assets/images/aave.svg';
 import {BrowserView, MobileView} from 'react-device-detect';
-import getXVaultAPI from 'methods/redux/actions/get-apy-xvault';
 import { useDispatch, useSelector } from 'react-redux';
-import getAllBalances from 'methods/contracts/getAllBalances';
 
 interface Props {
     connected:any;
@@ -309,7 +307,7 @@ const [list, setList] = useState(initalList);
                     {
                         assetIcon: vault1,
                         assetName: 'USDT',
-                        fees: 'XVault',
+                        fees: 'xVault',
                         balance: Number(usdtUserDepositValue).toFixed(2),
                         netAPY: Number(dashboardValues.apyObj?.usdt).toFixed(2),
                         vaultasset: Number(dashboardValues.apyObj?.tvlUSDTBsc).toFixed(2),
@@ -319,7 +317,7 @@ const [list, setList] = useState(initalList);
                     {
                         assetIcon: vault2,
                         assetName: 'BUSD',
-                        fees: 'XVault',
+                        fees: 'xVault',
                         balance: Number(busdUserDepositValue).toFixed(2),
                         netAPY: Number(dashboardValues.apyObj?.busd).toFixed(2),
                         vaultasset: Number(dashboardValues.apyObj?.tvlBUSDBsc).toFixed(2),
@@ -329,7 +327,7 @@ const [list, setList] = useState(initalList);
                     {
                         assetIcon: vault3,
                         assetName: 'USDC',
-                        fees: 'XVault',
+                        fees: 'xVault',
                         balance: usdcUserDepositValue,
                         netAPY: Number(dashboardValues.apyObj?.usdc).toFixed(2),
                         vaultasset: Number(dashboardValues.apyObj?.tvlUSDCBsc).toFixed(2),
@@ -347,41 +345,41 @@ const [list, setList] = useState(initalList);
                     {
                         assetIcon: vault1,
                         assetName: 'USDT',
-                        fees: 'XAuto',
+                        fees: 'xAuto',
                         balance:usdtUserDepositValueXAuto,
                         netAPY: Number(dashboardValues.apyObj?.usdtXauto).toFixed(2),
                         vaultasset: Number(dashboardValues.apyObj?.tvlUSDTBscXAuto).toFixed(2),
-                        auditedState:'audit in progress',
+                        auditedState:'audited',
                         availableDeposit: Number(usdtBalance).toFixed(2)
                     },
                     {
                         assetIcon: vault2,
                         assetName: 'BUSD',
-                        fees: 'XAuto',
+                        fees: 'xAuto',
                         balance: busdUserDepositValueXAuto,
                         netAPY: Number(dashboardValues.apyObj?.busdXauto).toFixed(2),
                         vaultasset: Number(dashboardValues.apyObj?.tvlBUSDBscXAuto).toFixed(2),
-                        auditedState:'audit in progress',
+                        auditedState:'audited',
                         availableDeposit: Number(busdBalance).toFixed(2)
                     },
                     {
                         assetIcon: vault4,
                         assetName: 'BNB',
-                        fees: 'XAuto',
+                        fees: 'xAuto',
                         balance: bnbUserDepositValueXAuto,
                         netAPY: Number(dashboardValues.apyObj?.bnbXauto).toFixed(2),
                         vaultasset: Number(dashboardValues.apyObj?.tvlVBNBBscXAuto).toFixed(2),
-                        auditedState:'audit in progress',
+                        auditedState:'audited',
                         availableDeposit: Number(bnbBalance).toFixed(6)
                     },
                     {
                         assetIcon: vault3,
                         assetName: 'USDC',
-                        fees: 'XAuto',
+                        fees: 'xAuto',
                         balance: usdcUserDepositValueXAuto,
                         netAPY: Number(dashboardValues.apyObj?.usdcXauto).toFixed(2),
                         vaultasset: Number(dashboardValues.apyObj?.tvlUSDCBscXAuto).toFixed(2),
-                        auditedState:'audit in progress',
+                        auditedState:'audited',
                         availableDeposit: Number(usdcBalance).toFixed(2)
                     }
                 ])
@@ -405,7 +403,7 @@ const [list, setList] = useState(initalList);
                    {
                        assetIcon: vault1,
                        assetName: 'USDT',
-                       fees: 'XAuto',
+                       fees: 'xAuto',
                        balance: usdtUserDepositValueMatic,
                        netAPY: Number(dashboardValuesMatic.apyObjMatic?.usdtApyMatic).toFixed(2),
                        vaultasset:  Number(dashboardValuesMatic.apyObjMatic?.tvlUSDTMatic).toFixed(2),
@@ -415,7 +413,7 @@ const [list, setList] = useState(initalList);
                    {
                        assetIcon: vault3,
                        assetName: 'USDC',
-                       fees: 'XAuto',
+                       fees: 'xAuto',
                        balance: usdcUserDepositValueMatic,
                        netAPY: Number(dashboardValuesMatic.apyObjMatic?.usdcApyMatic).toFixed(2),
                        vaultasset:  Number(dashboardValuesMatic.apyObjMatic?.tvlUSDCMatic).toFixed(2),
@@ -425,7 +423,7 @@ const [list, setList] = useState(initalList);
                    {
                        assetIcon: vaultAAVE,
                        assetName: 'AAVE',
-                       fees: 'XAuto',
+                       fees: 'xAuto',
                        balance: aaveUserDepositValue,
                        netAPY: Number(dashboardValuesMatic.apyObjMatic?.aaveApyMatic).toFixed(2),
                        vaultasset: Number(dashboardValuesMatic.apyObjMatic?.tvlAAVE).toFixed(2),
@@ -435,7 +433,7 @@ const [list, setList] = useState(initalList);
                    {
                        assetIcon: vaultWBTC,
                        assetName: 'WBTC',
-                       fees: 'XAuto',
+                       fees: 'xAuto',
                        balance: wbtcUserDepositValue,
                        netAPY: Number(dashboardValuesMatic.apyObjMatic?.wbtcApyMatic).toFixed(2),
                        vaultasset: Number(dashboardValuesMatic.apyObjMatic?.tvlWBTC).toFixed(2),
@@ -454,7 +452,7 @@ const [list, setList] = useState(initalList);
                         {
                             assetIcon: vault1,
                             assetName: 'USDT',
-                            fees: 'XVault',
+                            fees: 'xVault',
                             balance: '0.00',
                             netAPY: Number(dashboardValues.apyObj?.usdt).toFixed(2),
                             vaultasset: Number(dashboardValues.apyObj?.tvlUSDTBsc).toFixed(2),
@@ -464,7 +462,7 @@ const [list, setList] = useState(initalList);
                         {
                             assetIcon: vault2,
                             assetName: 'BUSD',
-                            fees: 'XVault',
+                            fees: 'xVault',
                             balance: '0.00',
                             netAPY: Number(dashboardValues.apyObj?.busd).toFixed(2),
                             vaultasset: Number(dashboardValues.apyObj?.tvlBUSDBsc).toFixed(2),
@@ -474,7 +472,7 @@ const [list, setList] = useState(initalList);
                         {
                             assetIcon: vault3,
                             assetName: 'USDC',
-                            fees: 'XVault',
+                            fees: 'xVault',
                             balance: '0.00',
                             netAPY: Number(dashboardValues.apyObj?.usdc).toFixed(2),
                             vaultasset: Number(dashboardValues.apyObj?.tvlUSDCBsc).toFixed(2),
@@ -487,41 +485,41 @@ const [list, setList] = useState(initalList);
                         {
                             assetIcon: vault1,
                             assetName: 'USDT',
-                            fees: 'XAuto',
+                            fees: 'xAuto',
                             balance: '0.00',
                             netAPY: Number(dashboardValues.apyObj?.usdtXauto).toFixed(2),
                             vaultasset: Number(dashboardValues.apyObj?.tvlUSDTBscXAuto).toFixed(2),
-                            auditedState:'audit in progress',
+                            auditedState:'audited',
                             availableDeposit: '0.00'
                         },
                         {
                             assetIcon: vault2,
                             assetName: 'BUSD',
-                            fees: 'XAuto',
+                            fees: 'xAuto',
                             balance: '0.00',
                             netAPY: Number(dashboardValues.apyObj?.busdXauto).toFixed(2),
                             vaultasset: Number(dashboardValues.apyObj?.tvlBUSDBscXAuto).toFixed(2),
-                            auditedState:'audit in progress',
+                            auditedState:'audited',
                             availableDeposit: '0.00'
                         },
                         {
                             assetIcon: vault4,
                             assetName: 'BNB',
-                            fees: 'XAuto',
+                            fees: 'xAuto',
                             balance: '0.00',
                             netAPY: Number(dashboardValues.apyObj?.bnbXauto).toFixed(2),
                             vaultasset: Number(dashboardValues.apyObj?.tvlVBNBBscXAuto).toFixed(2),
-                            auditedState:'audit in progress',
+                            auditedState:'audited',
                             availableDeposit: '0.00'
                         },
                         {
                             assetIcon: vault3,
                             assetName: 'USDC',
-                            fees: 'XAuto',
+                            fees: 'xAuto',
                             balance: '0.00',
                             netAPY: Number(dashboardValues.apyObj?.usdcXauto).toFixed(2),
                             vaultasset: Number(dashboardValues.apyObj?.tvlUSDCBscXAuto).toFixed(2),
-                            auditedState:'audit in progress',
+                            auditedState:'audited',
                             availableDeposit: '0.00'
                         }
                     ])
@@ -532,7 +530,7 @@ const [list, setList] = useState(initalList);
                     {
                         assetIcon: vault1,
                         assetName: 'USDT',
-                        fees: 'XAuto',
+                        fees: 'xAuto',
                         balance: '0.00',
                         netAPY: Number(dashboardValuesMatic.apyObjMatic?.usdtApyMatic).toFixed(2),
                         vaultasset: Number(dashboardValuesMatic.apyObjMatic?.tvlUSDTMatic).toFixed(2),
@@ -542,7 +540,7 @@ const [list, setList] = useState(initalList);
                     {
                         assetIcon: vault3,
                         assetName: 'USDC',
-                        fees: 'XAuto',
+                        fees: 'xAuto',
                         balance: '0.00',
                         netAPY: Number(dashboardValuesMatic.apyObjMatic?.usdcApyMatic).toFixed(2),
                         vaultasset: Number(dashboardValuesMatic.apyObjMatic?.tvlUSDCMatic).toFixed(2),
@@ -552,7 +550,7 @@ const [list, setList] = useState(initalList);
                     {
                         assetIcon: vaultAAVE,
                         assetName: 'AAVE',
-                        fees: 'XAuto',
+                        fees: 'xAuto',
                         balance: '0.00',
                         netAPY: Number(dashboardValuesMatic.apyObjMatic?.aaveApyMatic).toFixed(2),
                         vaultasset: Number(dashboardValuesMatic.apyObjMatic?.tvlAAVE).toFixed(2),
@@ -562,7 +560,7 @@ const [list, setList] = useState(initalList);
                     {
                         assetIcon: vaultWBTC,
                         assetName: 'WBTC',
-                        fees: 'XAuto',
+                        fees: 'xAuto',
                         balance: '0.00',
                         netAPY: Number(dashboardValuesMatic.apyObjMatic?.wbtcApyMatic).toFixed(2),
                         vaultasset: Number(dashboardValuesMatic.apyObjMatic?.tvlWBTC).toFixed(2),
@@ -594,7 +592,7 @@ const [list, setList] = useState(initalList);
     // }, [])
  
     useEffect(()=>{
-       
+     
         if(chainId.ChainId){
             const finalChainId = Number(chainId.ChainId);
           
@@ -707,11 +705,7 @@ const [list, setList] = useState(initalList);
                             }
                             </tbody>
                         </table>
-                            
-                        <Box className={classes.tableInfo}>
-                            <Box style={{fontSize: 14}}>More coming soon</Box>
-                            <Box style={{fontSize: 13, marginTop: 5}}>Join Our Announcement Channel for Update</Box>
-                        </Box>
+                   
                     </Box>
                 </BrowserView>
                 <MobileView>

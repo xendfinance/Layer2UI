@@ -167,19 +167,8 @@ const Footer: React.FC<Props> = ({ connected, light, setTheme, onConnect }: any)
                     </Box>
                     <Box position='relative'>
                         
-                        <Button className={classes.themeButton} variant='primary' title='· · ·' onClick={() => { setOpenTheme(!isOpenTheme); }} />
-                        {isOpenTheme && !isMobile &&
-                            <Box className={classes.popupMenuForDesktop} position='absolute' bottom='50px' left='50%'>
-                                <Box>
-                                    <Box style={{marginTop: 25}}>Telegram</Box>
-                                    <Box className={classes.themeSwitch} style={{marginTop: 15}}>
-                                        <Box>{(light ? 'Light' : 'Dark')} Theme</Box>
-                                        <Box><ThemeSwitch light={light} setTheme={setTheme} /></Box>
-                                    </Box>
-                                    <Box className={classes.versionText}>Version 1.9</Box>
-                                </Box>
-                            </Box>
-                        }
+             
+                        
                         {isOpenTheme && isMobile &&
                             <Box className={classes.popupMenuForMobile} position='absolute' bottom='50px' left='50%'>
                                 <Box>
@@ -190,13 +179,7 @@ const Footer: React.FC<Props> = ({ connected, light, setTheme, onConnect }: any)
                                     <Box className={classes.externalPopLinks}>
                                         <Box>About</Box>
                                         <Box>Docs</Box>
-                                        <Box>Github</Box>
-                                        <Box>Telegram</Box>
-                                        <Box>BUY XEND</Box>
-                                        <Box className={classes.themeSwitchForMobile} style={{margin: 0}}>
-                                            <Box>{(light ? 'Light' : 'Dark')} Theme</Box>
-                                            <ThemeSwitch light={light} setTheme={setTheme} />
-                                        </Box>
+                                        <Box>Github</Box>                                       
                                     </Box>
                                     <Box className={classes.versionText} style={{fontSize: 10}}>Version 1.9</Box>
                                     <Box className={classes.copyRightTextForMobile}>

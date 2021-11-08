@@ -1,5 +1,6 @@
-import abiManager from "abiManager";
+
 import reduxStore from "..";
+import abiManager from "../../../abiManager";
 
 
 //import exposedWeb3 from "../../../methods/contracts/exposedWeb3";

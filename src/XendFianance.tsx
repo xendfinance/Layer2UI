@@ -6,23 +6,13 @@ import Layout from './layouts';
 import { Box } from '@material-ui/core';
 import LandingPage  from './pages/LandingPage';
 import AboutPage from './pages/AboutPage';
-import WalletInfoModal from 'components/WalletInfoModal';
+
 import { useDispatch, useSelector } from 'react-redux';
+import { disconnect } from './methods/redux/actions/contract-setup';
+import { recreateWeb3 } from './utils/useAuth';
 
-import {
-  getChainData
-} from "./helpers/utilities";
 
-import Web3 from "web3";
-import Web3Modal from "web3modal";
-import { Login, recreateWeb3 } from 'utils/useAuth';
-import { ConnectorNames } from 'utils/types';
-import { notify } from 'components/core/Notifier';
-import { decodedTextSpanIntersectsWith } from 'typescript';
-import { disconnect } from 'methods/redux/actions/contract-setup';
-import getNativeBalance from 'methods/redux/actions/getBalances';
-import getAllBalances from 'methods/contracts/getAllBalances';
-import getXVaultAPI from 'methods/redux/actions/get-apy-xvault';
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -73,81 +63,81 @@ const XendFianance = ({ light, setTheme, connected, setConnected, omitted, setOm
     
 
 
-  if(wca.address){
+  // if(wca.address){
 
     
     
-    setAddress(wca.address)
-    setConnected(true);
-    setOpenWalletInfoModal(true);
-    return;
-  }else{
-    if (!connected) {
+  //   setAddress(wca.address)
+  //   setConnected(true);
+  //   setOpenWalletInfoModal(true);
+  //   return;
+  // }else{
+  //   if (!connected) {
       
-      if(walletChosenConnection){
-        if(walletChosenConnection =='walletconnect'){
-          if(chainIdNumber == 56){
+  //     if(walletChosenConnection){
+  //       if(walletChosenConnection =='walletconnect'){
+  //         if(chainIdNumber == 56){
   
-            const addressRet = await dispatch(Login(ConnectorNames.WalletConnect,56,LenderProtocol))
+  //           const addressRet = await dispatch(Login(ConnectorNames.WalletConnect,56,LenderProtocol))
             
             
-              setConnected(true);
-              setAddress(addressRet)
-              getXVaultAPI(chainIdNumber);
-              //dispatch(await getAllBalances(String(addressRet)));
+  //             setConnected(true);
+  //             setAddress(addressRet)
+  //             getXVaultAPI(chainIdNumber);
+  //             //dispatch(await getAllBalances(String(addressRet)));
             
             
            
            
-          }else if(chainIdNumber == 137){
-            const addressRet = await dispatch(Login(ConnectorNames.WalletConnect,137,LenderProtocol))
-            if(addressRet){
-              setConnected(true);
-              setAddress(addressRet)
-              getXVaultAPI(chainIdNumber);
-              //dispatch(await getAllBalances(String(addressRet)));
-            }
+  //         }else if(chainIdNumber == 137){
+  //           const addressRet = await dispatch(Login(ConnectorNames.WalletConnect,137,LenderProtocol))
+  //           if(addressRet){
+  //             setConnected(true);
+  //             setAddress(addressRet)
+  //             getXVaultAPI(chainIdNumber);
+  //             //dispatch(await getAllBalances(String(addressRet)));
+  //           }
            
-          }else{
-            notify('info', 'No Valid Network')
-          }
-        }else if(walletChosenConnection =='injected'){
-          if(chainIdNumber == 56){
-            const addressRet =  dispatch(await Login(ConnectorNames.Injected,56,LenderProtocol))
-            if(addressRet){
-              setConnected(true);
-              setAddress(addressRet)             
-              getXVaultAPI(chainIdNumber);
-            }
+  //         }else{
+  //           notify('info', 'No Valid Network')
+  //         }
+  //       }else if(walletChosenConnection =='injected'){
+  //         if(chainIdNumber == 56){
+  //           const addressRet =  dispatch(await Login(ConnectorNames.Injected,56,LenderProtocol))
+  //           if(addressRet){
+  //             setConnected(true);
+  //             setAddress(addressRet)             
+  //             getXVaultAPI(chainIdNumber);
+  //           }
             
            
-          }else if(chainIdNumber == 137){
-            const addressRet = dispatch(await Login(ConnectorNames.Injected,137,LenderProtocol))
-            if(addressRet){
-              setConnected(true);
-              setAddress(addressRet)
-              getXVaultAPI(chainIdNumber);
+  //         }else if(chainIdNumber == 137){
+  //           const addressRet = dispatch(await Login(ConnectorNames.Injected,137,LenderProtocol))
+  //           if(addressRet){
+  //             setConnected(true);
+  //             setAddress(addressRet)
+  //             getXVaultAPI(chainIdNumber);
              
-            }
+  //           }
             
            
            
-          }else{
-            notify('info', 'No Valid Network')
-          }
-        }else{
-          notify('info', 'No Valid Wallet Connection')
-        }
-      }else{
-        notify('info', 'Please Select Protocol,Network And Wallet Connection')
-        console.log("HIT HERE ON NOTHING SELECTED")
-      }
+  //         }else{
+  //           notify('info', 'No Valid Network')
+  //         }
+  //       }else{
+  //         notify('info', 'No Valid Wallet Connection')
+  //       }
+  //     }else{
+  //       notify('info', 'Please Select Protocol,Network And Wallet Connection')
+  //       console.log("HIT HERE ON NOTHING SELECTED")
+  //     }
     
      
-    } else {
-      setOpenWalletInfoModal(true);
-    }
-  }
+  //   } else {
+  //     setOpenWalletInfoModal(true);
+  //   }
+  // }
     
   };
 
@@ -186,15 +176,7 @@ const XendFianance = ({ light, setTheme, connected, setConnected, omitted, setOm
                     <AboutPage connected={connected} />
                 </Route>
               </Layout>
-          </Switch>
-          <WalletInfoModal
-            open = {openWalletInfoModal}
-            setOpen = {setOpenWalletInfoModal}
-            chainId={chainId}
-            balance={balance}
-            address={address}
-            onDisconnect = {onDisconnect}
-          />
+          </Switch>         
         </Router>
     </Box>
   );

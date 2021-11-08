@@ -3,8 +3,8 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 import downArrowIcon from '../assets/images/layout/down-arrow.png';
 import { useDispatch, useSelector } from 'react-redux';
-import _const from 'methods/_const';
-import reduxStore from 'methods/redux';
+import _const from '../methods/_const';
+import reduxStore from '../methods/redux';
 
 interface Props {
     className?: any;

@@ -22,3 +22,10 @@ export interface Config {
     image: any;
     connectorId: ConnectorNames;
 }
+
+export interface ConfigVaults {
+    code: string;
+    image: any;
+    name: any;
+    apy: any;
+}

@@ -34,10 +34,10 @@ const Modal: FC<Props> = ({ children, title, desc, visible, modalId, close, widt
         }
     }, [visible]);
 
-    const closeModal = (e:any) => {
-        // if (show && bodyOfModal.current && !bodyOfModal.current.contains(e.target)) {
-        //     close();
-        // }
+    const closeModal = (e) => {
+        if (show && bodyOfModal.current && !bodyOfModal.current.contains(e.target)) {
+            close();            
+        }
     };
 
     useEffect(() => {
@@ -56,12 +56,12 @@ const Modal: FC<Props> = ({ children, title, desc, visible, modalId, close, widt
                         <p className="desc">{desc}</p>
                     </div>
                     <div>
-                        {/* <button onClick={() => closeModal()} className="close">
+                        <button onClick={() => close()} className="close">
                             <Close className="close-btn" />
-                        </button> */}
+                        </button>
                     </div>
                 </ModalControls>}
-                {/* <div className="modal-content">{children}</div> */}
+              
                 <ModalContent contentWidth={contentWidth}>{children}</ModalContent>
             </div>
         </ModalStyles>
@@ -80,7 +80,7 @@ interface ModalStylesProps {
 const ModalStyles = styled.div<ModalStylesProps>`
 	display: none;
 	position: fixed;
-	background-color: transparent;
+	background: rgb(255, 255, 255);
 	z-index: -1;
 	top: 0;
 	left: 0;
@@ -111,7 +111,7 @@ const ModalStyles = styled.div<ModalStylesProps>`
 		& > div {
 			${show && css`
 				opacity	: 1;
-                background: ${p => p.theme.primary};
+                background: white;
 				transform: scale(1);
 			`}
 		}

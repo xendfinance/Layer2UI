@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 import DepositeModal from './DepositeModal';
-import Button from 'components/Button';
+import Button from '../../../components/Button';
 
 interface Props {
     className?: string;

@@ -3,9 +3,9 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Vaultlist from './components/Vaultlist';
 import Header from './components/Header';
 import { useDispatch, useSelector } from 'react-redux';
-import getXVaultAPI from 'methods/redux/actions/get-apy-xvault';
-import _const from 'methods/_const';
-import getAllBalances from 'methods/contracts/getAllBalances';
+import getXVaultAPI from '../../methods/redux/actions/get-apy-xvault';
+import _const from '../../methods/_const';
+import getAllBalances from '../../methods/contracts/getAllBalances';
 
 interface Props {
     connected: any;  

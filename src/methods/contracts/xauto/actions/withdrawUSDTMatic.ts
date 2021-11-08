@@ -1,5 +1,5 @@
-import { notify } from "components/core/Notifier";
-import getAllBalances from "methods/contracts/getAllBalances";
+import { notify } from "../../../../components/core/Notifier";
+import getAllBalances from "../../getAllBalances";
 import WithdrawSavingsUSDTMatic from "../methods/withdrawUSDTMaticXAuto";
 
 

@@ -1,7 +1,8 @@
 import createContract from '../../contract-creator';
 import abiManager from '../../../../abiManager';
 import Notify from "bnc-notify";
-import { GetWithdrawAmountPerFullShare } from 'methods/bignumber-converter';
+import { GetWithdrawAmountPerFullShare } from '../../../bignumber-converter';
+
 
 async function WithdrawSavingsUSDC(amount: any,addressOwner:string,chainId:any) {
     try {

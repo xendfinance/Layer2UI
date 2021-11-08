@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Box, Grid } from '@material-ui/core';
-import getXVaultAPI from 'methods/redux/actions/get-apy-xvault';
 import { useDispatch, useSelector } from 'react-redux';
-import _const from 'methods/_const';
+import getXVaultAPI from '../../../methods/redux/actions/get-apy-xvault';
+import _const from '../../../methods/_const';
+
 
 interface Props {
     connected:any;

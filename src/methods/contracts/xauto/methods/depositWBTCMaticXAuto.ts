@@ -1,7 +1,6 @@
 import createContract from '../../contract-creator';
 import abiManager from '../../../../abiManager';
 import Notify from "bnc-notify";
-import { toBigNumber, toBigNumberWBTC } from 'methods/utils/multiply-amount';
 
 async function DepositSavingsWBTCMatic(amount: any,addressOwner:string,chainId:any) {
     try {
