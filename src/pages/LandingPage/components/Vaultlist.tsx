@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
-import ReactTooltip from 'react-tooltip';
+import Tooltip from "@material-ui/core/Tooltip";
 import Vault from './Vault';
 import VaultMobile from './VaultMobile';
 import vault1 from './../../../assets/images/tether.svg';
@@ -86,9 +87,9 @@ const Vaultlist: React.FC<Props> = ({ connected,chainId }:any) => {
         assetName: 'USDT',
         fees: 'xVault',
         balance: '0.00',
-        netAPY: USDTapy_xvault,
-        vaultasset: USDTTVL_xvault,
-        auditedState:'',
+        netAPY: '0.00',
+        vaultasset: '0.00',
+        auditedState:'audited',
         availableDeposit: '0.00'
     },
     {
@@ -96,9 +97,9 @@ const Vaultlist: React.FC<Props> = ({ connected,chainId }:any) => {
         assetName: 'BUSD',
         fees: 'xVault',
         balance: '0.00',
-        netAPY: busdapy_xvault,
-        vaultasset: BUSDTVL_xvault,
-        auditedState:'',
+        netAPY: '0.00',
+        vaultasset: '0.00',
+        auditedState:'audited',
         availableDeposit: '0.00'
     },
     {
@@ -106,9 +107,9 @@ const Vaultlist: React.FC<Props> = ({ connected,chainId }:any) => {
         assetName: 'USDC',
         fees: 'xVault',
         balance: '0.00',
-        netAPY: USDCapy_xvault,
-        vaultasset: USDCTVL_xvault,
-        auditedState:'',
+        netAPY: '0.00',
+        vaultasset: '0.00',
+        auditedState:'audited',
         availableDeposit: '0.00'
     }
 ]
@@ -348,7 +349,7 @@ const [list, setList] = useState(initalList);
                         fees: 'xAuto',
                         balance:usdtUserDepositValueXAuto,
                         netAPY: Number(dashboardValues.apyObj?.usdtXauto).toFixed(2),
-                        vaultasset: Number(dashboardValues.apyObj?.tvlUSDTBscXAuto).toFixed(2),
+                        vaultasset: dashboardValues.apyObj?.tvlUSDTBscXAuto,
                         auditedState:'audited',
                         availableDeposit: Number(usdtBalance).toFixed(2)
                     },
@@ -358,7 +359,7 @@ const [list, setList] = useState(initalList);
                         fees: 'xAuto',
                         balance: busdUserDepositValueXAuto,
                         netAPY: Number(dashboardValues.apyObj?.busdXauto).toFixed(2),
-                        vaultasset: Number(dashboardValues.apyObj?.tvlBUSDBscXAuto).toFixed(2),
+                        vaultasset: dashboardValues.apyObj?.tvlBUSDBscXAuto,
                         auditedState:'audited',
                         availableDeposit: Number(busdBalance).toFixed(2)
                     },
@@ -368,7 +369,7 @@ const [list, setList] = useState(initalList);
                         fees: 'xAuto',
                         balance: bnbUserDepositValueXAuto,
                         netAPY: Number(dashboardValues.apyObj?.bnbXauto).toFixed(2),
-                        vaultasset: Number(dashboardValues.apyObj?.tvlVBNBBscXAuto).toFixed(2),
+                        vaultasset: dashboardValues.apyObj?.tvlVBNBBscXAuto,
                         auditedState:'audited',
                         availableDeposit: Number(bnbBalance).toFixed(6)
                     },
@@ -378,7 +379,7 @@ const [list, setList] = useState(initalList);
                         fees: 'xAuto',
                         balance: usdcUserDepositValueXAuto,
                         netAPY: Number(dashboardValues.apyObj?.usdcXauto).toFixed(2),
-                        vaultasset: Number(dashboardValues.apyObj?.tvlUSDCBscXAuto).toFixed(2),
+                        vaultasset: dashboardValues.apyObj?.tvlUSDCBscXAuto,
                         auditedState:'audited',
                         availableDeposit: Number(usdcBalance).toFixed(2)
                     }
@@ -406,7 +407,7 @@ const [list, setList] = useState(initalList);
                        fees: 'xAuto',
                        balance: usdtUserDepositValueMatic,
                        netAPY: Number(dashboardValuesMatic.apyObjMatic?.usdtApyMatic).toFixed(2),
-                       vaultasset:  Number(dashboardValuesMatic.apyObjMatic?.tvlUSDTMatic).toFixed(2),
+                       vaultasset:  dashboardValuesMatic.apyObjMatic?.tvlUSDTMatic,
                        auditedState:'audited',
                        availableDeposit: usdtBalanceMatic
                    },
@@ -416,7 +417,7 @@ const [list, setList] = useState(initalList);
                        fees: 'xAuto',
                        balance: usdcUserDepositValueMatic,
                        netAPY: Number(dashboardValuesMatic.apyObjMatic?.usdcApyMatic).toFixed(2),
-                       vaultasset:  Number(dashboardValuesMatic.apyObjMatic?.tvlUSDCMatic).toFixed(2),
+                       vaultasset:  dashboardValuesMatic.apyObjMatic?.tvlUSDCMatic,
                        auditedState:'audited',
                        availableDeposit: usdcBalanceMatic
                    },
@@ -426,7 +427,7 @@ const [list, setList] = useState(initalList);
                        fees: 'xAuto',
                        balance: aaveUserDepositValue,
                        netAPY: Number(dashboardValuesMatic.apyObjMatic?.aaveApyMatic).toFixed(2),
-                       vaultasset: Number(dashboardValuesMatic.apyObjMatic?.tvlAAVE).toFixed(2),
+                       vaultasset: dashboardValuesMatic.apyObjMatic?.tvlAAVE,
                        auditedState:'audited',
                        availableDeposit: aaveBalanceMatic
                    },
@@ -436,7 +437,7 @@ const [list, setList] = useState(initalList);
                        fees: 'xAuto',
                        balance: wbtcUserDepositValue,
                        netAPY: Number(dashboardValuesMatic.apyObjMatic?.wbtcApyMatic).toFixed(2),
-                       vaultasset: Number(dashboardValuesMatic.apyObjMatic?.tvlWBTC).toFixed(2),
+                       vaultasset: dashboardValuesMatic.apyObjMatic?.tvlWBTC,
                        auditedState:'audited',
                        availableDeposit: wbtcBalanceMatic
                    }
@@ -488,7 +489,7 @@ const [list, setList] = useState(initalList);
                             fees: 'xAuto',
                             balance: '0.00',
                             netAPY: Number(dashboardValues.apyObj?.usdtXauto).toFixed(2),
-                            vaultasset: Number(dashboardValues.apyObj?.tvlUSDTBscXAuto).toFixed(2),
+                            vaultasset: dashboardValues.apyObj?.tvlUSDTBscXAuto,
                             auditedState:'audited',
                             availableDeposit: '0.00'
                         },
@@ -498,7 +499,7 @@ const [list, setList] = useState(initalList);
                             fees: 'xAuto',
                             balance: '0.00',
                             netAPY: Number(dashboardValues.apyObj?.busdXauto).toFixed(2),
-                            vaultasset: Number(dashboardValues.apyObj?.tvlBUSDBscXAuto).toFixed(2),
+                            vaultasset: dashboardValues.apyObj?.tvlBUSDBscXAuto,
                             auditedState:'audited',
                             availableDeposit: '0.00'
                         },
@@ -508,7 +509,7 @@ const [list, setList] = useState(initalList);
                             fees: 'xAuto',
                             balance: '0.00',
                             netAPY: Number(dashboardValues.apyObj?.bnbXauto).toFixed(2),
-                            vaultasset: Number(dashboardValues.apyObj?.tvlVBNBBscXAuto).toFixed(2),
+                            vaultasset: dashboardValues.apyObj?.tvlVBNBBscXAuto,
                             auditedState:'audited',
                             availableDeposit: '0.00'
                         },
@@ -518,7 +519,7 @@ const [list, setList] = useState(initalList);
                             fees: 'xAuto',
                             balance: '0.00',
                             netAPY: Number(dashboardValues.apyObj?.usdcXauto).toFixed(2),
-                            vaultasset: Number(dashboardValues.apyObj?.tvlUSDCBscXAuto).toFixed(2),
+                            vaultasset: dashboardValues.apyObj?.tvlUSDCBscXAuto,
                             auditedState:'audited',
                             availableDeposit: '0.00'
                         }
@@ -533,7 +534,7 @@ const [list, setList] = useState(initalList);
                         fees: 'xAuto',
                         balance: '0.00',
                         netAPY: Number(dashboardValuesMatic.apyObjMatic?.usdtApyMatic).toFixed(2),
-                        vaultasset: Number(dashboardValuesMatic.apyObjMatic?.tvlUSDTMatic).toFixed(2),
+                        vaultasset: dashboardValuesMatic.apyObjMatic?.tvlUSDTMatic,
                         auditedState:'audited',
                         availableDeposit: '0.00'
                     },
@@ -543,7 +544,7 @@ const [list, setList] = useState(initalList);
                         fees: 'xAuto',
                         balance: '0.00',
                         netAPY: Number(dashboardValuesMatic.apyObjMatic?.usdcApyMatic).toFixed(2),
-                        vaultasset: Number(dashboardValuesMatic.apyObjMatic?.tvlUSDCMatic).toFixed(2),
+                        vaultasset: dashboardValuesMatic.apyObjMatic?.tvlUSDCMatic,
                         auditedState:'audited',
                         availableDeposit: '0.00'
                     },
@@ -553,7 +554,7 @@ const [list, setList] = useState(initalList);
                         fees: 'xAuto',
                         balance: '0.00',
                         netAPY: Number(dashboardValuesMatic.apyObjMatic?.aaveApyMatic).toFixed(2),
-                        vaultasset: Number(dashboardValuesMatic.apyObjMatic?.tvlAAVE).toFixed(2),
+                        vaultasset: dashboardValuesMatic.apyObjMatic?.tvlAAVE,
                         auditedState:'audited',
                         availableDeposit: '0.00'
                     },
@@ -563,7 +564,7 @@ const [list, setList] = useState(initalList);
                         fees: 'xAuto',
                         balance: '0.00',
                         netAPY: Number(dashboardValuesMatic.apyObjMatic?.wbtcApyMatic).toFixed(2),
-                        vaultasset: Number(dashboardValuesMatic.apyObjMatic?.tvlWBTC).toFixed(2),
+                        vaultasset: dashboardValuesMatic.apyObjMatic?.tvlWBTC,
                         auditedState:'audited',
                         availableDeposit: '0.00'
                     }
@@ -575,22 +576,7 @@ const [list, setList] = useState(initalList);
     }
 
 
-    // useEffect(()=>{       
-    //     const buildDashboard = async () => {
-    //         if(chainId.ChainId){
-    //             const finalChainId = Number(chainId.ChainId);
-    //             getxVaultApy(finalChainId);
-    //             redrawVaultList(finalChainId); 
-    //         }else{
-    //             const finalChainId = Number(chainId);         
-    //             getxVaultApy(finalChainId);
-    //             redrawVaultList(finalChainId); 
-    //         } 
-    //       };
-        
-    //       buildDashboard();   
-    // }, [])
- 
+    
     useEffect(()=>{
      
         if(chainId.ChainId){
@@ -675,13 +661,76 @@ const [list, setList] = useState(initalList);
                         <table>
                             <thead className={classes.listHeader}>
                                 <tr>
-                                    <th style={{width:"11%"}}>Asset</th>
-                                    <th style={{width:"10%"}}>Protocol</th>
-                                    <th style={{width:"10%"}}>Balance</th>
-                                    <th style={{width:"11%"}}>APY</th>
-                                    <th style={{width:"12%"}}>Vault Assets</th>
-                                    <th style={{width:"8%"}}>Audited</th>
-                                    <th style={{width:"20%"}}>Available to deposit</th>
+                                    <th style={{width:"11%"}}>                                    
+                                    <Tooltip
+                                    title='Assets Supported'
+                                    placement="top"
+                                    >
+                                    <div>
+                                    <span>Asset</span><QuestionCircleOutlined style={{ color: '#FF6600',paddingLeft:'3px' }} />
+                                    </div>
+                                    </Tooltip>
+                                    </th>
+                                    <th style={{width:"10%"}}>
+                                    <Tooltip
+                                    title='Layer 2 Defi protocols'
+                                    placement="top"
+                                    >
+                                    <div>
+                                    <span>Protocol</span><QuestionCircleOutlined style={{ color: '#FF6600',paddingLeft:'3px' }} />
+                                    </div>
+                                    </Tooltip>
+                                    </th>
+                                    <th style={{width:"10%"}}>
+                                    <Tooltip
+                                    title='User balance deposited into protocol'
+                                    placement="top"
+                                    >
+                                    <div>
+                                    <span>Balance</span><QuestionCircleOutlined style={{ color: '#FF6600',paddingLeft:'3px' }} />
+                                    </div>
+                                    </Tooltip>
+                                    </th>
+                                    <th style={{width:"11%"}}>
+                                    <Tooltip
+                                    title='Annual percentage yield'
+                                    placement="top"
+                                    >
+                                    <div>
+                                    <span>APY</span><QuestionCircleOutlined style={{ color: '#FF6600',paddingLeft:'3px' }} />
+                                    </div>
+                                    </Tooltip>  
+                                    </th>
+                                    <th style={{width:"12%"}}>
+                                    <Tooltip
+                                    title='Total vault assets in USD value'
+                                    placement="top"
+                                    >
+                                    <div>
+                                    <span>Vault Assets</span><QuestionCircleOutlined style={{ color: '#FF6600',paddingLeft:'3px' }} />
+                                    </div>
+                                    </Tooltip> 
+                                    </th>
+                                    <th style={{width:"8%"}}>
+                                    <Tooltip
+                                    title='Contract is verified'
+                                    placement="top"
+                                    >
+                                    <div>
+                                    <span>Audited</span><QuestionCircleOutlined style={{ color: '#FF6600',paddingLeft:'3px' }} />
+                                    </div>
+                                    </Tooltip>     
+                                    </th>
+                                    <th style={{width:"20%"}}>
+                                    <Tooltip
+                                    title='Wallet balance'
+                                    placement="top"
+                                    >
+                                    <div>
+                                    <span>Available to deposit</span><QuestionCircleOutlined style={{ color: '#FF6600',paddingLeft:'3px' }} />
+                                    </div>
+                                    </Tooltip>  
+                                     </th>
                                     <th></th>
                                 </tr>
                             </thead>

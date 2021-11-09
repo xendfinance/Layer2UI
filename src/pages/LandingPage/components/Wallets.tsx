@@ -291,5 +291,18 @@ const ConnectWalletStyle = styled.button`
 			}
 		}
 	}
+
+	@media (min-width: 300px) {
+		padding: 10px;
+		background: linear-gradient(
+			100.89deg, rgb(32, 66, 184) 3.11%, rgb(255, 102, 0) 122.62%);
+		font-size: 14px;
+
+		& .wallet figure {
+			& img {
+				width: 18px;
+			}
+		}
+	}
 `;
 

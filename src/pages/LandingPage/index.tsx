@@ -14,7 +14,7 @@ interface Props {
 const useStyles = makeStyles((theme: any) =>
   createStyles({
     root: {
-        // backgroundColor: 'red'
+      
         minHeight: 'calc(100vh - 203px)'
     }
   }),

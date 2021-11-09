@@ -31,6 +31,11 @@ export const Login = (connectorID: ConnectorNames, chainId: number, lender: stri
                 payload: { ChainId: chainId}
             })
 
+            dispatch({
+                type: _const.LENDER,
+                payload: { lenderProtocol: lender}
+            });
+
             if (connector) {
 
                 if (connectorID === 'injected') {
@@ -175,6 +180,10 @@ export const recreateWeb3 = () => {
 
                     if (account) {
                         dispatch(getAllBalances(String(account),chainId));
+                        dispatch({
+                            type: _const.ADDRESS,
+                            payload: { address: account }
+                        })
                     }
 
                 } else {
@@ -208,16 +217,12 @@ export const DisconnectFromWallet = async () => {
 
        
         window.localStorage.removeItem("CONNECTION_DETAILS");
-        
-        //Need To Clear All Reducer Data 
-        //TODO
+       
+        const DashboardReducerAction: any = await reduxStore();
+        DashboardReducerAction.dispatch({
+            type: _const.PRISTINE,
+        });
 
-
-
-        // const ConnectWalletReducerAction: any = await reduxStore();
-        // ConnectWalletReducerAction.dispatch({
-        //     type: _const.PRISTINE,
-        // });
         window.location.reload();
 
     } catch (error) {

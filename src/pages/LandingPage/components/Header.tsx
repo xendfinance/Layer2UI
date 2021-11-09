@@ -77,7 +77,7 @@ const Header: React.FC<Props> = ({ connected,chainId }:any) => {
      
     const buildPreData = async (chainId:any) => {
         //Build Pre Data
-         setTVLAPYXVault('Calculating');
+         setTVLAPYXVault('$0,00');
          const apyObj = await getXVaultAPI(56);
          dispatch({
              type: _const.DashboardGrid,
@@ -133,7 +133,7 @@ const Header: React.FC<Props> = ({ connected,chainId }:any) => {
                 
             initPreData();   
        
-     }, [chainId])
+     }, [chainId,lendingProtocol,lendingProtocol.lenderProtocol])
 
      
     // useEffect(()=>{

@@ -157,11 +157,9 @@ const Footer: React.FC<Props> = ({ connected, light, setTheme, onConnect }: any)
                     <Box className={classes.copyRight}>
                         Copyright © Xend Finance 2021. All rights reserved.
                     </Box>
-                    <Button className={classes.connectButton} variant='primary' title='Connect Wallet' btnIcon={Vector} onClick={() => onConnect()}/>
                 </Box>
                 <Box className={classes.centerFlex}>
-                    <Box className={classes.externalLinks}>
-                        <a href="/">About</a>
+                    <Box className={classes.externalLinks}>                      
                         <a href="/">Docs</a>
                         <a href="/">Github</a>
                     </Box>
@@ -175,14 +173,11 @@ const Footer: React.FC<Props> = ({ connected, light, setTheme, onConnect }: any)
                                     <Box className={classes.closeButton} onClick={()=>setOpenTheme(false)}>
                                         <img src={closeIcon} alt='XEND Finance' />
                                     </Box>
-                                    <Box className={classes.moreMenuTitle}>More Menu</Box>
-                                    <Box className={classes.externalPopLinks}>
-                                        <Box>About</Box>
+                                    <Box className={classes.externalPopLinks}>                                       
                                         <Box>Docs</Box>
                                         <Box>Github</Box>                                       
                                     </Box>
-                                    <Box className={classes.versionText} style={{fontSize: 10}}>Version 1.9</Box>
-                                    <Box className={classes.copyRightTextForMobile}>
+                                   <Box className={classes.copyRightTextForMobile}>
                                         Copyright © Xend Finance 2021. All rights reserved.
                                     </Box>
                                 </Box>

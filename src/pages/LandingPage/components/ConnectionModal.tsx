@@ -36,19 +36,30 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 	const address = useSelector((store: any) => store.DashboardReducer.address);
 	const walletInUse = useSelector((store: any) => store.DashboardReducer.walletInUse);
 	
+    const dashboardValues = useSelector((store: any) => store.DashboardReducer.dashboard);
+	let highestAPYXAuto;
+	let highestAPYXVault;
+
+    if(dashboardValues){
+		 highestAPYXAuto = Number(dashboardValues.apyObj?.HighestXAutoAPY).toFixed(2);
+		 highestAPYXVault = Number(dashboardValues.apyObj?.HighestXVaultAPY).toFixed(2);
+	}
+	
+	// const highestAPYXVault = useSelector((store: any) => store.DashboardReducer.highestApyXVaultBsc);
+	
 
 	const vaults = [
 		{
-			code: 'XVault',
+			code: 'X Vault',
 			image: BSC,
 			name: 'xVault',
-			apy: '26',
+			apy: highestAPYXVault,
 		},
 		{
-			code: 'XAuto',
+			code: 'X Auto',
 			image: BSC,
 			name: 'xAuto',
-			apy: '34',
+			apy: highestAPYXAuto,
 		},   
 	];
 	
@@ -154,7 +165,7 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 										<img src={item.image} width={40} />
 										<div className="chain-name">
 											<p>{item.name}</p>
-											{/* <p className="apy">{item.apy}%</p> */}
+											<p className="apy">{item.apy}%</p>
 										</div>
 									</CardWrapperNetwork>
 								))
@@ -240,8 +251,11 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 									setOpen(false);
 								}
 								}>
-								<img src={Polygon} width={40} alt='polygon' />
-								<div className="chain-name">xVault</div>
+								<img src={BSC} width={40} alt='polygon' />
+								<div className="chain-name">
+								  <p>xVault</p>
+								  <p className="apy">{highestAPYXVault}%</p>
+								</div>
 							</CardWrapperNetwork>
 		
 							<CardWrapperNetwork
@@ -255,8 +269,11 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 									setOpen(false);
 								}
 								}>
-								<img src={Polygon} width={40} alt='polygon' />
-								<div className="chain-name">xAuto</div>
+								<img src={BSC} width={40} alt='polygon' />
+								<div className="chain-name">
+								<p>xAuto</p>
+								<p className="apy">{highestAPYXAuto}%</p>	
+								</div>
 							</CardWrapperNetwork>
 						</SectionBodyNetwork>
 					</SectionWrapper>

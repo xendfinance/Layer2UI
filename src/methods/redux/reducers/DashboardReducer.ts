@@ -36,7 +36,9 @@ const initialState = {
     wbtcBalanceMatic:'0.00',
     dashboardGrid:{},
     dashboardGridMatic:{},
-    walletInUse: ''
+    walletInUse: '',
+    highestApyXAutoBsc: '',
+    highestApyXVaultBsc: ''
 };
 
 const DashboardReducer = (state = initialState, action: Action) => {
@@ -49,8 +51,12 @@ const DashboardReducer = (state = initialState, action: Action) => {
             return { ...state, address: '', nativeBalance: '0.0000' };      
         case _const.LENDER:
             return { ...state, lender: action.payload };
-        // case _const.ADDRESS:
-        //     return { ...state, address: action.payload };
+
+        case _const.HIGHESTAPYXAUTO:
+            return { ...state, highestApyXAutoBsc: action.payload };
+        case _const.HIGHESTAPYXVAULT:
+            return { ...state, highestApyXVaultBsc: action.payload };
+     
         case _const.WALLETINUSE:
             return { ...state, walletInUse: action.payload };
         case _const.CONNDETAILS:

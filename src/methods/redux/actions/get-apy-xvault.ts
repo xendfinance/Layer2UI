@@ -1,6 +1,7 @@
 
 import reduxStore from "..";
 import abiManager from "../../../abiManager";
+import _const from "../../_const";
 
 
 //import exposedWeb3 from "../../../methods/contracts/exposedWeb3";
@@ -194,6 +195,9 @@ export function getHighestAPYMatic(array:any){
     return Math.max.apply(null, array);
  }
 
+ export function getHighestAPYModal(array:any){
+    return Math.max.apply(null, array);
+ }
 
 //BSC BNB APR
 const getAPRBNBXAutoBSC = async() => {
@@ -477,9 +481,9 @@ const getAPRAAVEMatic = async() => {
 
        const finalAaveAPYConverted = fromBigNumberMatic(finalAaveApy)*100000; 
 
-       const AaveFinalAPYConverted =finalAaveAPYConverted  *100000
+       //const AaveFinalAPYConverted =finalAaveAPYConverted  *100000
 
-       return AaveFinalAPYConverted;
+       return finalAaveAPYConverted;
        }
 
 
@@ -854,15 +858,19 @@ const formatter = new Intl.NumberFormat('en-US', {
 const getXVaultAPI = async(chainId :any ) => {
 
     try {
-        const ConnectWalletReducerAction: any = await reduxStore();
-        const reduxStateCurrent = ConnectWalletReducerAction.getState().DashboardReducer;
+        const DashboardReducerAction: any = await reduxStore();
+        const reduxStateCurrent = DashboardReducerAction.getState().DashboardReducer;
         
 
         if(chainId==56){
             const apyBusd = await getXVaultAPIBUSD();
             const apyUSDT = await getXVaultAPIUSDT();
             const apyUSDC = await getXVaultAPIUSDC();
-           
+            const apyArray = [Number(apyBusd),Number(apyUSDT),Number(apyUSDC),Number(apyUSDC)];
+
+            const highestAPYXVaultBSC =  getHighestAPYModal(apyArray);
+      
+         
 
             const TVLUsdtBalance = Number(await getTVLBalanceUSDT());          
             const TVLBusdBalance = Number(await getTVLBalanceBUSD());
@@ -871,7 +879,6 @@ const getXVaultAPI = async(chainId :any ) => {
             const TVLUsdtBalanceFinal = formatter.format(TVLUsdtBalance);          
             const TVLBusdBalanceFinal = formatter.format(TVLBusdBalance);
             const TVLUsdcBalanceFinal = formatter.format(TVLUsdcBalance);
-            //const totalTVLXVault = formatter.format(Number(TVLUsdtBalance +TVLBusdBalance+TVLUsdcBalance));
             const totalTVLXVault = TVLUsdtBalance +TVLBusdBalance+TVLUsdcBalance;
             const totalTVLXVaultFinal = formatter.format(totalTVLXVault);
            
@@ -882,13 +889,24 @@ const getXVaultAPI = async(chainId :any ) => {
             const apyXAutoUSDT = await getAPRUSDTXAutoBSC();
             const apyXAutoUSDC = await getAPRUSDCXAutoBSC();
 
+            const apyArrayXAuto = [Number(apyXAutoBNB),Number(apyXAutoBUSD),Number(apyXAutoUSDT),Number(apyXAutoUSDC)];
+
+            const highestAPYXAutoBSC =  getHighestAPYModal(apyArrayXAuto);
+
+
             const tvlXAutoUSDTBSC = await getTVLBalanceUSDTBSCXAuto();
             const tvlXAutoUSDCBSC = await getTVLBalanceUSDCBSCXAuto();
             const tvlXAutoBUSDBSC = await getTVLBalanceBUSDBSCXAuto();
             const tvlXAutoBNBBSC = await getTVLBalanceBNBBSCXAuto();
 
-            const finalTvlXauto = await (await getUSDValueOfTVLXAuto(tvlXAutoUSDTBSC,tvlXAutoUSDCBSC,tvlXAutoBNBBSC,tvlXAutoBUSDBSC)).toFixed(2);
-    
+            
+            const tvlXAutoUSDTBSCFinal = formatter.format(tvlXAutoUSDTBSC);
+            const tvlXAutoUSDCBSCFinal = formatter.format(tvlXAutoUSDCBSC)
+            const tvlXAutoBUSDBSCFinal = formatter.format(tvlXAutoBUSDBSC)
+            const tvlXAutoBNBBSCFinal = formatter.format(tvlXAutoBNBBSC)
+
+            const finalTvlXauto = await getUSDValueOfTVLXAuto(tvlXAutoUSDTBSC,tvlXAutoUSDCBSC,tvlXAutoBNBBSC,tvlXAutoBUSDBSC);
+            const finalTvlXautoFinal = formatter.format(finalTvlXauto)
     
            
             const data={
@@ -902,13 +920,15 @@ const getXVaultAPI = async(chainId :any ) => {
                 tvlUSDTBsc:TVLUsdtBalanceFinal,
                 tvlBUSDBsc:TVLBusdBalanceFinal,
                 tvlUSDCBsc:TVLUsdcBalanceFinal,
-                tvlUSDCBscXAuto:tvlXAutoUSDCBSC,
-                tvlBUSDBscXAuto:tvlXAutoBUSDBSC,
-                tvlUSDTBscXAuto:tvlXAutoUSDTBSC,
-                tvlVBNBBscXAuto:tvlXAutoBNBBSC,
+                tvlUSDCBscXAuto:tvlXAutoUSDCBSCFinal,
+                tvlBUSDBscXAuto:tvlXAutoBUSDBSCFinal,
+                tvlUSDTBscXAuto:tvlXAutoUSDTBSCFinal,
+                tvlVBNBBscXAuto:tvlXAutoBNBBSCFinal,
                 TVL:totalTVLXVaultFinal,
-                TVLXAuto:finalTvlXauto,
-                lendingProtocol:reduxStateCurrent.lender
+                TVLXAuto:finalTvlXautoFinal,
+                lendingProtocol:reduxStateCurrent.lender,
+                HighestXVaultAPY:highestAPYXVaultBSC,
+                HighestXAutoAPY:highestAPYXAutoBSC,
             };
             return data
         }
@@ -918,8 +938,14 @@ const getXVaultAPI = async(chainId :any ) => {
             const TVLAaveBalanceMatic = Number(await getTVLBalanceAAVEMatic());
             const TVLWbtcBalanceMatic = Number(await getTVLBalanceWBTCMatic());
 
+
+            const TVLUsdtBalanceMaticFinal = formatter.format(TVLUsdtBalanceMatic);
+            const TVLUsdcBalanceMaticFinal = formatter.format(TVLUsdcBalanceMatic);
+            const TVLAaveBalanceMaticFinal = formatter.format(TVLAaveBalanceMatic);
+            const TVLWbtcBalanceMaticFinal = formatter.format(TVLWbtcBalanceMatic);
+
             const usdtValueOfTvl = await getUSDValueOfTVL(TVLUsdtBalanceMatic,TVLUsdcBalanceMatic,TVLAaveBalanceMatic,TVLWbtcBalanceMatic)
-            const totalTVLXVault = usdtValueOfTvl;
+            const totalTVLXVault = formatter.format(usdtValueOfTvl);
 
             const WbtcApy = Number(await getAPRWBTCMatic()).toFixed(2);
             const UsdtApy = Number(await getAPRUSDTMatic()).toFixed(2);
@@ -931,10 +957,10 @@ const getXVaultAPI = async(chainId :any ) => {
                 usdtApyMatic:UsdtApy,
                 usdcApyMatic:UsdcApy,
                 aaveApyMatic:AaveApy,               
-                tvlUSDTMatic:TVLUsdtBalanceMatic,
-                tvlUSDCMatic:TVLUsdcBalanceMatic,
-                tvlAAVE:TVLAaveBalanceMatic,
-                tvlWBTC:TVLWbtcBalanceMatic,
+                tvlUSDTMatic:TVLUsdtBalanceMaticFinal,
+                tvlUSDCMatic:TVLUsdcBalanceMaticFinal,
+                tvlAAVE:TVLAaveBalanceMaticFinal,
+                tvlWBTC:TVLWbtcBalanceMaticFinal,
                 TVL:totalTVLXVault,
                 TVLXAuto:'',
                 lendingProtocol:reduxStateCurrent.lender
@@ -942,31 +968,33 @@ const getXVaultAPI = async(chainId :any ) => {
             return data
         }else{
             const data={
-                busd:'',
-                usdt:'',
-                usdc:'',
-                usdtXauto:'',
-                bnbXauto:'',
-                busdXauto:'',
-                usdcXauto:'',
-                wbtcApyMatic:'',
-                usdcApyMatic:'',
-                usdtApyMatic:'',
-                aaveApyMatic:'',
-                tvlUSDCBscXAuto:'',
-                tvlBUSDBscXAuto:'',
-                tvlUSDTBscXAuto:'',
-                tvlVBNBBscXAuto:'',
-                tvlUSDTBsc:'',
-                tvlBUSD:'',
-                tvlUSDCBsc:'',
-                tvlUSDTMAtic:'',
-                tvlUSDCMatic:'',
-                tvlAAVEMatic:'',
-                tvlWBTCMatic:'',
-                TVL:'',                
-                TVLXAuto:'',
-                lendingProtocol:''
+                busd:'0.00',
+                usdt:'0.00',
+                usdc:'0.00',
+                usdtXauto:'0.00',
+                bnbXauto:'0.00',
+                busdXauto:'0.00',
+                usdcXauto:'0.00',
+                wbtcApyMatic:'0.00',
+                usdcApyMatic:'0.00',
+                usdtApyMatic:'0.00',
+                aaveApyMatic:'0.00',
+                tvlUSDCBscXAuto:'0.00',
+                tvlBUSDBscXAuto:'0.00',
+                tvlUSDTBscXAuto:'0.00',
+                tvlVBNBBscXAuto:'0.00',
+                tvlUSDTBsc:'0.00',
+                tvlBUSD:'0.00',
+                tvlUSDCBsc:'0.00',
+                tvlUSDTMAtic:'0.00',
+                tvlUSDCMatic:'0.00',
+                tvlAAVEMatic:'0.00',
+                tvlWBTCMatic:'0.00',
+                TVL:'0.00',                
+                TVLXAuto:'0.00',
+                lendingProtocol:'0.00',
+                HighestXVaultAPY:'0.00',
+                HighestXAutoAPY:'0.00',
             };
             return data
         }
