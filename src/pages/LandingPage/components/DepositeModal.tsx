@@ -255,7 +255,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                 depositBalance = usdtDepositUserBalance.usdtDepositBalance;
                 const tvlUSDT = dashboardValues.apyObj?.tvlUSDTBsc;
                 if(tvlUSDT){
-                    tvl = Number(tvlUSDT).toFixed(2);
+                    tvl = tvlUSDT;
                 }
                 const apyUSDT = dashboardValues.apyObj?.usdt;
                 if(apyUSDT){
@@ -268,7 +268,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                 depositBalance = busdDepositUserBalance.busdDepositBalance;
                 const tvlBUSD = dashboardValues.apyObj?.tvlBUSDBsc;
                 if(tvlBUSD){
-                    tvl = Number(tvlBUSD).toFixed(2);
+                    tvl = tvlBUSD;
                 }
                 const apyBusd = dashboardValues.apyObj?.busd;
                 if(apyBusd){
@@ -281,7 +281,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                 depositBalance = usdcDepositUserBalance.usdcDepositBalance;
                 const tvlUSDC = dashboardValues.apyObj?.tvlUSDCBsc;
                 if(tvlUSDC){
-                    tvl = Number(tvlUSDC).toFixed(2)
+                    tvl = tvlUSDC;
                 }
                 const apyUSDC = dashboardValues.apyObj?.usdc;
                 if(apyUSDC){
@@ -761,7 +761,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                 depositBalance = usdtDepositUserBalance.usdtDepositBalance;
                 const tvlUSDT = dashboardValues.apyObj?.tvlUSDTBsc;
                 if(tvlUSDT){
-                    tvl ='$'+ Number(tvlUSDT).toFixed(2);
+                    tvl =tvlUSDT;
                 }
                 const apyUSDT = dashboardValues.apyObj?.usdt;
                 if(apyUSDT){
@@ -774,7 +774,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                 depositBalance = busdDepositUserBalance.busdDepositBalance;
                 const tvlBUSD = dashboardValues.apyObj?.tvlBUSDBsc;
                 if(tvlBUSD){
-                    tvl ='$'+ Number(tvlBUSD).toFixed(2);
+                    tvl =tvlBUSD;
                 }
                 const apyBusd = dashboardValues.apyObj?.busd;
                 if(apyBusd){
@@ -787,7 +787,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                 depositBalance = usdcDepositUserBalance.usdcDepositBalance;
                 const tvlUSDC = dashboardValues.apyObj?.tvlUSDCBsc;
                 if(tvlUSDC){
-                    tvl = '$'+Number(tvlUSDC).toFixed(2)
+                    tvl = tvlUSDC;
                 }
                 const apyUSDC = dashboardValues.apyObj?.usdc;
                 if(apyUSDC){
@@ -887,7 +887,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                     </Box>
                     <Box className={classes.contentItem}>
                         <Box className={classes.field}>Vault Assets</Box>
-                        <Box className={classes.value}>{'$'+tvl}</Box>
+                        <Box className={classes.value}>{tvl}</Box>
                     </Box>
                     <Box className={classes.contentItem}>
                         <Box className={classes.field}>Available to deposit</Box>

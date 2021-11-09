@@ -84,7 +84,7 @@ const Vaultlist: React.FC<Props> = ({ connected,chainId }:any) => {
     {
         assetIcon: vault1,
         assetName: 'USDT',
-        fees: 'XVault',
+        fees: 'xVault',
         balance: '0.00',
         netAPY: USDTapy_xvault,
         vaultasset: USDTTVL_xvault,
@@ -94,7 +94,7 @@ const Vaultlist: React.FC<Props> = ({ connected,chainId }:any) => {
     {
         assetIcon: vault2,
         assetName: 'BUSD',
-        fees: 'XVault',
+        fees: 'xVault',
         balance: '0.00',
         netAPY: busdapy_xvault,
         vaultasset: BUSDTVL_xvault,
@@ -104,7 +104,7 @@ const Vaultlist: React.FC<Props> = ({ connected,chainId }:any) => {
     {
         assetIcon: vault3,
         assetName: 'USDC',
-        fees: 'XVault',
+        fees: 'xVault',
         balance: '0.00',
         netAPY: USDCapy_xvault,
         vaultasset: USDCTVL_xvault,
@@ -310,7 +310,7 @@ const [list, setList] = useState(initalList);
                         fees: 'xVault',
                         balance: Number(usdtUserDepositValue).toFixed(2),
                         netAPY: Number(dashboardValues.apyObj?.usdt).toFixed(2),
-                        vaultasset: Number(dashboardValues.apyObj?.tvlUSDTBsc).toFixed(2),
+                        vaultasset:dashboardValues.apyObj?.tvlUSDTBsc,
                         auditedState:'audited',
                         availableDeposit: Number(usdtBalance).toFixed(2)
                     },
@@ -320,7 +320,7 @@ const [list, setList] = useState(initalList);
                         fees: 'xVault',
                         balance: Number(busdUserDepositValue).toFixed(2),
                         netAPY: Number(dashboardValues.apyObj?.busd).toFixed(2),
-                        vaultasset: Number(dashboardValues.apyObj?.tvlBUSDBsc).toFixed(2),
+                        vaultasset: dashboardValues.apyObj?.tvlBUSDBsc,
                         auditedState:'audited',
                         availableDeposit: Number(busdBalance).toFixed(2)
                     },
@@ -330,7 +330,7 @@ const [list, setList] = useState(initalList);
                         fees: 'xVault',
                         balance: usdcUserDepositValue,
                         netAPY: Number(dashboardValues.apyObj?.usdc).toFixed(2),
-                        vaultasset: Number(dashboardValues.apyObj?.tvlUSDCBsc).toFixed(2),
+                        vaultasset: dashboardValues.apyObj?.tvlUSDCBsc,
                         auditedState:'audited',
                         availableDeposit: Number(usdcBalance).toFixed(2)
                     }
@@ -455,7 +455,7 @@ const [list, setList] = useState(initalList);
                             fees: 'xVault',
                             balance: '0.00',
                             netAPY: Number(dashboardValues.apyObj?.usdt).toFixed(2),
-                            vaultasset: Number(dashboardValues.apyObj?.tvlUSDTBsc).toFixed(2),
+                            vaultasset: dashboardValues.apyObj?.tvlUSDTBsc,
                             auditedState:'audited',
                             availableDeposit: '0.00'
                         },
@@ -465,7 +465,7 @@ const [list, setList] = useState(initalList);
                             fees: 'xVault',
                             balance: '0.00',
                             netAPY: Number(dashboardValues.apyObj?.busd).toFixed(2),
-                            vaultasset: Number(dashboardValues.apyObj?.tvlBUSDBsc).toFixed(2),
+                            vaultasset: dashboardValues.apyObj?.tvlBUSDBsc,
                             auditedState:'audited',
                             availableDeposit: '0.00'
                         },
@@ -475,7 +475,7 @@ const [list, setList] = useState(initalList);
                             fees: 'xVault',
                             balance: '0.00',
                             netAPY: Number(dashboardValues.apyObj?.usdc).toFixed(2),
-                            vaultasset: Number(dashboardValues.apyObj?.tvlUSDCBsc).toFixed(2),
+                            vaultasset: dashboardValues.apyObj?.tvlUSDCBsc,
                             auditedState:'audited',
                             availableDeposit: '0.00'
                         }
@@ -697,7 +697,7 @@ const [list, setList] = useState(initalList);
                                         fees={item.fees}
                                         balance={item.balance}
                                         netAPY={item.netAPY}
-                                        vaultasset={'$'+item.vaultasset}
+                                        vaultasset={item.vaultasset}
                                         auditedState={item.auditedState}
                                         availableDeposite={item.availableDeposit}
                                     />

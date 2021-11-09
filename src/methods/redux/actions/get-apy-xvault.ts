@@ -842,7 +842,14 @@ const getTVLBalanceUSDC = async() => {
 
 }
 
-
+const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  
+    // These options are needed to round to whole numbers if that's what you want.
+    //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+    //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+  });
 
 const getXVaultAPI = async(chainId :any ) => {
 
@@ -855,11 +862,19 @@ const getXVaultAPI = async(chainId :any ) => {
             const apyBusd = await getXVaultAPIBUSD();
             const apyUSDT = await getXVaultAPIUSDT();
             const apyUSDC = await getXVaultAPIUSDC();
-          
-            const TVLUsdtBalance = Number(await getTVLBalanceUSDT());
+           
+
+            const TVLUsdtBalance = Number(await getTVLBalanceUSDT());          
             const TVLBusdBalance = Number(await getTVLBalanceBUSD());
             const TVLUsdcBalance = Number(await getTVLBalanceUSDC());
-            const totalTVLXVault = TVLUsdtBalance +TVLBusdBalance+TVLUsdcBalance
+
+            const TVLUsdtBalanceFinal = formatter.format(TVLUsdtBalance);          
+            const TVLBusdBalanceFinal = formatter.format(TVLBusdBalance);
+            const TVLUsdcBalanceFinal = formatter.format(TVLUsdcBalance);
+            //const totalTVLXVault = formatter.format(Number(TVLUsdtBalance +TVLBusdBalance+TVLUsdcBalance));
+            const totalTVLXVault = TVLUsdtBalance +TVLBusdBalance+TVLUsdcBalance;
+            const totalTVLXVaultFinal = formatter.format(totalTVLXVault);
+           
             
             
             const apyXAutoBNB = await getAPRBNBXAutoBSC();
@@ -884,14 +899,14 @@ const getXVaultAPI = async(chainId :any ) => {
                 bnbXauto:apyXAutoBNB,
                 busdXauto:apyXAutoBUSD,
                 usdcXauto:apyXAutoUSDC,
-                tvlUSDTBsc:TVLUsdtBalance,
-                tvlBUSDBsc:TVLBusdBalance,
-                tvlUSDCBsc:TVLUsdcBalance,
+                tvlUSDTBsc:TVLUsdtBalanceFinal,
+                tvlBUSDBsc:TVLBusdBalanceFinal,
+                tvlUSDCBsc:TVLUsdcBalanceFinal,
                 tvlUSDCBscXAuto:tvlXAutoUSDCBSC,
                 tvlBUSDBscXAuto:tvlXAutoBUSDBSC,
                 tvlUSDTBscXAuto:tvlXAutoUSDTBSC,
                 tvlVBNBBscXAuto:tvlXAutoBNBBSC,
-                TVL:totalTVLXVault,
+                TVL:totalTVLXVaultFinal,
                 TVLXAuto:finalTvlXauto,
                 lendingProtocol:reduxStateCurrent.lender
             };

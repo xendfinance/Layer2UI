@@ -96,21 +96,21 @@ const Header: React.FC<Props> = ({ connected,chainId }:any) => {
                 if(lendingProtocol == "X Vault" ||lendingProtocol == 'X Vault' ||lendingProtocol.lenderProtocol =='X Vault' || lendingProtocol.lenderProtocol=="X Vault" ){
                 const tvlString = apyObj?.TVL;
                 if (tvlString){
-                    const finalAPY = Number(tvlString).toFixed(2); 
+                    const finalAPY = tvlString; 
                     setTVLAPYXVault(finalAPY);
                 }
             }else{
                 console.log("apy onj",apyObj);
                 const tvlString = apyObj?.TVLXAuto;
                 if (tvlString){
-                    const finalAPY = Number(tvlString).toFixed(2); 
+                    const finalAPY = tvlString; 
                     setTVLAPYXVault(finalAPY);
                 }
             }
             }else{
                 const tvlString = apyObjMatic?.TVL;
                 if (tvlString){
-                    const finalAPY = Number(tvlString).toFixed(2); 
+                    const finalAPY =tvlString; 
                     setTVLAPYXVault(finalAPY);
                 }
             }
@@ -170,7 +170,7 @@ const Header: React.FC<Props> = ({ connected,chainId }:any) => {
             </Grid>
             <Grid className={classes.asset} item xs={12} sm={5}>
                 <Box className={classes.assetTitle}>Total Vault Asset</Box>
-                <Box className={classes.assetValue}>${TVLapy_xvault}</Box>
+                <Box className={classes.assetValue}>{TVLapy_xvault}</Box>
             </Grid>
         </Grid>
     );

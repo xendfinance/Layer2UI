@@ -275,8 +275,8 @@ async function switchOrAddNetworkToMetamask(chainId: number) {
                         symbol: 'matic',
                         decimals: 18,
                     },
-                    rpcUrls: ['https://rpc-mainnet.matic.network'],
-                    blockExplorerUrls: ['https://explorer.matic.network/'],
+                    rpcUrls: ['https://polygon-rpc.com'],
+                    blockExplorerUrls: ['https://polygonscan.com/'],
                 }
             }
 

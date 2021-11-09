@@ -255,8 +255,8 @@ const ConnectWalletStyle = styled.button`
 		background-color: rgba(255, 255, 255, 0.2);
 		display: flex;
 		align-items: center;
-		padding: 5px;
-		border-radius: 30px;
+		padding: 0px;
+		border-radius: 52px;
 		margin-left: 10px;
 	}
 

@@ -15,7 +15,6 @@ const getNativeBalance = (address: string,chainId :any) => {
 			const web3 = await exposedWeb3();
 
 			let balance = await web3.eth.getBalance(address);
-          
 			balance = commas(Number(balance) * Math.pow(10, -18), 2)
             let currency = chainId == 56?'BNB':'MATIC';
 			dispatch({
