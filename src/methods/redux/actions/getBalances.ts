@@ -6,22 +6,21 @@ import _const from "../../_const";
 import createContract from "../../../methods/contracts/contract-creator";
 import exposedWeb3 from "../../../methods/contracts/exposedWeb3";
 
-const getNativeBalance = (address: string) => {
+const getNativeBalance = (address: string,chainId :any) => {
 
 	return async (dispatch: Function) => {
 
 		try {
 
-			// const web3 = await exposedWeb3();
+			const web3 = await exposedWeb3();
 
-			// let balance = await web3.eth.getBalance(address);
-
-			// balance = commas(Number(balance) * Math.pow(10, -18), 2)
-            // console.log("BAAAAAALAAAAANCE",balance);
-			// dispatch({
-			// 	type: _const.NATIVE_BALANCE,
-			// 	payload: balance + ' ' + window.NATIVE_CURRENCY
-			// });
+			let balance = await web3.eth.getBalance(address);
+			balance = commas(Number(balance) * Math.pow(10, -18), 2)
+            let currency = chainId == 56?'BNB':'MATIC';
+			dispatch({
+				type: _const.NATIVE_BALANCE,
+				payload: balance + ' ' + currency
+			});
 		} catch (e) {
 			console.log(e)
 		}

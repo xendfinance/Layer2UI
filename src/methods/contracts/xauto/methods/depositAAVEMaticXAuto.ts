@@ -1,7 +1,8 @@
 import createContract from '../../contract-creator';
 import abiManager from '../../../../abiManager';
 import Notify from "bnc-notify";
-import { toBigNumber } from 'methods/utils/multiply-amount';
+import { toBigNumber } from '../../../utils/multiply-amount';
+
 
 async function DepositSavingsAAVEMatic(amount: any,addressOwner:string,chainId:any) {
     try {

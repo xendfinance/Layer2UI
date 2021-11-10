@@ -1,11 +1,8 @@
 import createContract from '../../contract-creator';
-//import retrieveAddress from '../retrieve-address';
 import { toBigNumber } from '../../../utils/multiply-amount';
 
-import exposedWeb3 from '../../exposedWeb3';
 import abiManager from '../../../../abiManager';
 import Notify from "bnc-notify";
-import { notify } from '../../../../components/core/Notifier';
 
 async function DepositSavingsUSDC(amount: any,addressOwner:string,chainId:any) {
     try {

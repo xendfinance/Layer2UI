@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {Provider} from 'react-redux'; 
-import reduxStore from 'methods/redux';
+import reduxStore from './methods/redux';
 
 let store = undefined;
 reduxStore().then(value => {

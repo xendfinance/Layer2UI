@@ -9,31 +9,32 @@ import { connectorLocalStorageKey } from './config';
 import reduxStore from '../methods/redux';
 import { Dispatch } from "redux"
 import { useSelector } from 'react-redux';
-import getAllBalances from 'methods/contracts/getAllBalances';
+import getAllBalances from '../methods/contracts/getAllBalances';
+
 
 
 //Original
-export const Login = (connectorID: ConnectorNames, chainId: number, lender: string) => {
+export const Login = (connectorID: ConnectorNames, chainId: number, lender: string, walletName: string) => {
 
     return async (dispatch: Function) => {
         try {
             let account: any = null;
            
-            // const dt = { chainId, connectorID, walletName }
-            
-            // const walletConnectType = useSelector((store: any) => store.DashboardReducer.WCP);
-            // console.log("WALLET CONNECT TYPE",walletConnectType);
-            
-            // const ChainId = useSelector((store: any) => store.DashboardReducer.networkConnect);
-            // console.log("WALLET CONNECT TYPE",ChainId);
-            console.log("CHAIN ID IS",chainId);
             const connector: any = connectorsByName(connectorID, chainId);
-    
 
-            // dispatch({
-            //     type: _const.CONNDETAILS,
-            //     payload: { address: account, connectorId: connectorID, chainId }
-            // })
+            const dt = { chainId, connectorID, walletName,lender }
+
+            localStorage.setItem("CONNECTION_DETAILS", JSON.stringify(dt))
+
+            dispatch({
+                type: _const.NETWORK_CONNECT,
+                payload: { ChainId: chainId}
+            })
+
+            dispatch({
+                type: _const.LENDER,
+                payload: { lenderProtocol: lender}
+            });
 
             if (connector) {
 
@@ -86,14 +87,15 @@ export const Login = (connectorID: ConnectorNames, chainId: number, lender: stri
 
 
                 if (account) {
+                   
                  
                     dispatch(getAllBalances(String(account),chainId));
+                    dispatch({
+                        type: _const.ADDRESS,
+                        payload: { address: account, walletInUse: walletName, chainId }
+                    })
                     
                 }
-
-               const dt = { chainId, connectorID, lender,account }
-               localStorage.setItem("CONNECTION_DETAILS", JSON.stringify(dt))
-
 
             } else {
                 console.warn("Can't find connector \n The connector config is wrong");
@@ -112,18 +114,19 @@ export const recreateWeb3 = () => {
     return async (dispatch: Function) => {
 
         try {
-             const connectionDetails = JSON.parse(localStorage.getItem('CONNECTION_DETAILS') || '{}');
+            const connectionDetails = JSON.parse(localStorage.getItem("CONNECTION_DETAILS"));
 
 
 
             if (connectionDetails) {
                 
+                let account: any = null;
 
-                let { chainId, connectorID, lender,account } = connectionDetails;
-                // dispatch({
-                //     type: _const.ADDRESS,
-                //     payload: { address: account, walletInUse: connectorID, chainId }
-                // })
+                let { walletName, chainId } = connectionDetails;
+                dispatch({
+                    type: _const.ADDRESS,
+                    payload: { address: '', walletInUse: walletName, chainId }
+                })
 
 
                 const connector: any = connectorsByName(connectionDetails.connectorID, connectionDetails.chainId);
@@ -177,6 +180,10 @@ export const recreateWeb3 = () => {
 
                     if (account) {
                         dispatch(getAllBalances(String(account),chainId));
+                        dispatch({
+                            type: _const.ADDRESS,
+                            payload: { address: account }
+                        })
                     }
 
                 } else {
@@ -210,16 +217,12 @@ export const DisconnectFromWallet = async () => {
 
        
         window.localStorage.removeItem("CONNECTION_DETAILS");
-        
-        //Need To Clear All Reducer Data 
-        //TODO
+       
+        const DashboardReducerAction: any = await reduxStore();
+        DashboardReducerAction.dispatch({
+            type: _const.PRISTINE,
+        });
 
-
-
-        // const ConnectWalletReducerAction: any = await reduxStore();
-        // ConnectWalletReducerAction.dispatch({
-        //     type: _const.PRISTINE,
-        // });
         window.location.reload();
 
     } catch (error) {
@@ -277,8 +280,8 @@ async function switchOrAddNetworkToMetamask(chainId: number) {
                         symbol: 'matic',
                         decimals: 18,
                     },
-                    rpcUrls: ['https://rpc-mainnet.matic.network'],
-                    blockExplorerUrls: ['https://explorer.matic.network/'],
+                    rpcUrls: ['https://polygon-rpc.com'],
+                    blockExplorerUrls: ['https://polygonscan.com/'],
                 }
             }
 

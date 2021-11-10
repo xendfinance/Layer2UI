@@ -2,7 +2,8 @@ import React, {useState} from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 import DepositeModal from './DepositeModal';
-import Button from 'components/Button';
+import Button from '../../../components/Button';
+import { useSelector } from 'react-redux';
 
 interface Props {
     assetIcon: string;
@@ -45,6 +46,8 @@ const useStyles = makeStyles((theme: Theme) =>
 const Vault: React.FC<Props> = ({ assetIcon, assetName, fees, balance, netAPY, vaultasset,auditedState, availableDeposite  }: any) => {
     const classes = useStyles();
     const [isOpenDepositeModal, setOpenDepositeModal] = useState(false);
+    const address = useSelector((store: any) => store.DashboardReducer.address);
+
 
     return (
         <tr className={classes.root}>
@@ -62,7 +65,8 @@ const Vault: React.FC<Props> = ({ assetIcon, assetName, fees, balance, netAPY, v
             {auditedState =='audited'?<td className={classes.netAPY}> {auditedState} </td>:<td> {auditedState} </td>}
             
             <td> {availableDeposite} </td>
-            <td> <Button variant='secondary' fontSize='14' title='Open Vault&nbsp;&nbsp; >' onClick={() => {setOpenDepositeModal(!isOpenDepositeModal);}} /> </td>
+            {address?<td> <Button variant='secondary' fontSize='14' title='Open Vault&nbsp;&nbsp; >' onClick={() => {setOpenDepositeModal(!isOpenDepositeModal);}} /> </td>:<td> <Button variant='secondary' fontSize='14' title='Connect Wallet' /> </td>}
+            
         </tr>
     );
 }

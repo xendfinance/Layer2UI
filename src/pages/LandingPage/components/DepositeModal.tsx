@@ -1,32 +1,33 @@
 import React, { useEffect, useState ,MouseEvent } from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Modal, Box, Grid } from '@material-ui/core';
-import closeIcon from 'assets/images/layout/close.png';
-import logoIcon from 'assets/images/logo2.png';
+import closeIcon from './../../../assets/images/layout/close.png';
+import logoIcon from './../../../assets/images/logo2.png';
 import {BrowserView, MobileView} from 'react-device-detect';
 import { useDispatch, useSelector } from 'react-redux';
-import DepositUSDTMatic from 'methods/contracts/xauto/actions/depositUSDTMatic';
-import DepositUSDCMatic from 'methods/contracts/xauto/actions/depositUSDCMatic';
-import DepositAAVEMatic from 'methods/contracts/xauto/actions/depositAAVEMatic';
-import DepositWBTCMatic from 'methods/contracts/xauto/actions/depositWBTCMatic';
-import WithdrawWBTCMatic from 'methods/contracts/xauto/actions/withdrawWBTCMatic';
-import WithdrawUSDTMatic from 'methods/contracts/xauto/actions/withdrawUSDTMatic';
-import WithdrawUSDCMatic from 'methods/contracts/xauto/actions/withdrawUSDCMatic';
-import WithdrawAAVEMatic from 'methods/contracts/xauto/actions/withdrawAAVEMatic';
-import DepositUSDTBsc from 'methods/contracts/xvault/actions/depositUSDTBSC';
-import DepositBUSDBsc from 'methods/contracts/xvault/actions/depositBUSDBSC';
-import DepositUSDCBsc from 'methods/contracts/xvault/actions/depositUSDCBSC';
-import WithdrawUSDTBsc from 'methods/contracts/xvault/actions/withdrawUSDTBSC';
-import WithdrawBUSDBsc from 'methods/contracts/xvault/actions/withdrawBUSDBSC';
-import WithdrawUSDCBsc from 'methods/contracts/xvault/actions/withdrawUSDCBSC';
-import DepositUSDTBSCXAuto from 'methods/contracts/xauto/actions/depositUSDTBSC';
-import DepositBUSDBSCXAuto from 'methods/contracts/xauto/actions/depositBUSDBSC';
-import DepositBNBBSCXAuto from 'methods/contracts/xauto/actions/depositBNBBSC';
-import WithdrawUSDTBSCXAuto from 'methods/contracts/xauto/actions/withdrawUSDTBSC';
-import WithdrawBUSDBSCXAuto from 'methods/contracts/xauto/actions/withdrawBUSDBSC';
-import WithdrawUSDCBSCXAuto from 'methods/contracts/xauto/actions/withdrawUSDCBSC';
-import WithdrawBNBBSCXAuto from 'methods/contracts/xauto/actions/withdrawBNBBSC';
-import DepositUSDCBSCXAuto from 'methods/contracts/xauto/actions/depositUSDCBSC';
+
+import DepositUSDTMatic from '../../../methods/contracts/xauto/actions/depositUSDTMatic';
+import DepositUSDCMatic from '../../../methods/contracts/xauto/actions/depositUSDCMatic';
+import DepositAAVEMatic from '../../../methods/contracts/xauto/actions/depositAAVEMatic';
+import DepositWBTCMatic from '../../../methods/contracts/xauto/actions/depositWBTCMatic';
+import WithdrawWBTCMatic from '../../../methods/contracts/xauto/actions/withdrawWBTCMatic';
+import WithdrawUSDTMatic from '../../../methods/contracts/xauto/actions/withdrawUSDTMatic';
+import WithdrawUSDCMatic from '../../../methods/contracts/xauto/actions/withdrawUSDCMatic';
+import WithdrawAAVEMatic from '../../../methods/contracts/xauto/actions/withdrawAAVEMatic';
+import DepositUSDTBsc from '../../../methods/contracts/xvault/actions/depositUSDTBSC';
+import DepositBUSDBsc from '../../../methods/contracts/xvault/actions/depositBUSDBSC';
+import DepositUSDCBsc from '../../../methods/contracts/xvault/actions/depositUSDCBSC';
+import WithdrawUSDTBsc from '../../../methods/contracts/xvault/actions/withdrawUSDTBSC';
+import WithdrawBUSDBsc from '../../../methods/contracts/xvault/actions/withdrawBUSDBSC';
+import WithdrawUSDCBsc from '../../../methods/contracts/xvault/actions/withdrawUSDCBSC';
+import DepositUSDTBSCXAuto from '../../../methods/contracts/xauto/actions/depositUSDTBSC';
+import DepositBUSDBSCXAuto from '../../../methods/contracts/xauto/actions/depositBUSDBSC';
+import DepositBNBBSCXAuto from '../../../methods/contracts/xauto/actions/depositBNBBSC';
+import WithdrawUSDTBSCXAuto from '../../../methods/contracts/xauto/actions/withdrawUSDTBSC';
+import WithdrawBUSDBSCXAuto from '../../../methods/contracts/xauto/actions/withdrawBUSDBSC';
+import WithdrawUSDCBSCXAuto from '../../../methods/contracts/xauto/actions/withdrawUSDCBSC';
+import WithdrawBNBBSCXAuto from '../../../methods/contracts/xauto/actions/withdrawBNBBSC';
+import DepositUSDCBSCXAuto from '../../../methods/contracts/xauto/actions/depositUSDCBSC';
 
 interface Props {
     open: any;
@@ -254,7 +255,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                 depositBalance = usdtDepositUserBalance.usdtDepositBalance;
                 const tvlUSDT = dashboardValues.apyObj?.tvlUSDTBsc;
                 if(tvlUSDT){
-                    tvl = Number(tvlUSDT).toFixed(2);
+                    tvl = tvlUSDT;
                 }
                 const apyUSDT = dashboardValues.apyObj?.usdt;
                 if(apyUSDT){
@@ -267,7 +268,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                 depositBalance = busdDepositUserBalance.busdDepositBalance;
                 const tvlBUSD = dashboardValues.apyObj?.tvlBUSDBsc;
                 if(tvlBUSD){
-                    tvl = Number(tvlBUSD).toFixed(2);
+                    tvl = tvlBUSD;
                 }
                 const apyBusd = dashboardValues.apyObj?.busd;
                 if(apyBusd){
@@ -280,7 +281,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                 depositBalance = usdcDepositUserBalance.usdcDepositBalance;
                 const tvlUSDC = dashboardValues.apyObj?.tvlUSDCBsc;
                 if(tvlUSDC){
-                    tvl = Number(tvlUSDC).toFixed(2)
+                    tvl = tvlUSDC;
                 }
                 const apyUSDC = dashboardValues.apyObj?.usdc;
                 if(apyUSDC){
@@ -293,7 +294,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                 depositBalance = usdtDepositUserBalanceXAuto.userUsdtDepositBalanceXAuto;
                 const tvlUSDT = dashboardValues.apyObj?.tvlUSDTBscXAuto;
                 if(tvlUSDT){
-                    tvl = Number(tvlUSDT).toFixed(2);
+                    tvl = tvlUSDT;
                 }
                 const apyUSDT = dashboardValues.apyObj?.usdtXauto;
                 if(apyUSDT){
@@ -306,7 +307,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                 depositBalance = busdDepositUserBalanceXAuto.userBusdDepositBalanceXAuto;
                 const tvlBUSD = dashboardValues.apyObj?.tvlBUSDBscXAuto;
                 if(tvlBUSD){
-                    tvl = Number(tvlBUSD).toFixed(2);
+                    tvl = tvlBUSD;
                 }
                 const apyBusd = dashboardValues.apyObj?.busdXauto;
                 if(apyBusd){
@@ -319,7 +320,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                 depositBalance = usdcDepositUserBalanceXAuto.userUsdcDepositBalanceXAuto;
                 const tvlUSDC = dashboardValues.apyObj?.tvlUSDCBscXAuto;
                 if(tvlUSDC){
-                    tvl = Number(tvlUSDC).toFixed(2)
+                    tvl = tvlUSDC
                 }
                 const apyUSDC = dashboardValues.apyObj?.usdcXauto;
                 if(apyUSDC){
@@ -331,7 +332,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                 depositBalance = bnbDepositUserBalanceXAuto.userBnbDepositBalanceXAuto;
                 const tvlUSDC = dashboardValues.apyObj?.tvlVBNBBscXAuto;
                 if(tvlUSDC){
-                    tvl = Number(tvlUSDC).toFixed(2)
+                    tvl = tvlUSDC
                 }
                 const apyUSDC = dashboardValues.apyObj?.bnbXauto;
                 if(apyUSDC){
@@ -349,7 +350,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                 depositBalance = usdtDepositUserBalanceMatic.usdtDepositBalanceMatic;
                 const tvlUSDT = dashboardValuesMatic.apyObjMatic?.tvlUSDTMatic;
                 if(tvlUSDT){
-                 tvl = Number(tvlUSDT).toFixed(2);
+                 tvl = tvlUSDT;
                 }
                 const apyUSDT = dashboardValuesMatic.apyObjMatic?.usdtApyMatic;
                 if(apyUSDT){
@@ -362,7 +363,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                 depositBalance = usdcDepositUserBalanceMatic.usdcDepositBalanceMatic;
                 const tvlUSDC = dashboardValuesMatic.apyObjMatic?.tvlUSDCMatic;
                 if(tvlUSDC){
-                 tvl = Number(tvlUSDC).toFixed(2);
+                 tvl = tvlUSDC;
                 }
                 const apyUSDC = dashboardValuesMatic.apyObjMatic?.usdcApyMatic;
                 if(apyUSDC){
@@ -374,7 +375,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                 depositBalance = aaveDepositUserBalance.aaveDepositBalanceMatic;
                 const tvlAAVE = dashboardValuesMatic.apyObjMatic?.tvlAAVE;
                 if(tvlAAVE){
-                 tvl = Number(tvlAAVE).toFixed(6);
+                 tvl = tvlAAVE;
                 }
                 const apyAAVE = dashboardValuesMatic.apyObjMatic?.aaveApyMatic;
                 if(apyAAVE){
@@ -386,7 +387,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                 depositBalance = wbtcDepositUserBalance.wbtcDepositBalanceMatic;
                 const tvlWBTC = dashboardValuesMatic.apyObjMatic?.tvlWBTC;
                 if(tvlWBTC){
-                 tvl = Number(tvlWBTC).toFixed(6);
+                 tvl = tvlWBTC;
                 }
                 const apyWBTC = dashboardValuesMatic.apyObjMatic?.wbtcApyMatic;
                 if(apyWBTC){
@@ -403,7 +404,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
              
                 const tvlUSDT = dashboardValues.apyObj?.tvlUSDTBsc;
                 if(tvlUSDT){
-                    tvl = Number(tvlUSDT).toFixed(2);
+                    tvl = tvlUSDT;
                 }
                 const apyUSDT = dashboardValues.apyObj?.usdt;
                 if(apyUSDT){
@@ -415,7 +416,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
              
                 const tvlBUSD = dashboardValues.apyObj?.tvlBUSDBsc;
                 if(tvlBUSD){
-                    tvl = Number(tvlBUSD).toFixed(2);
+                    tvl = tvlBUSD;
                 }
                 const apyBusd = dashboardValues.apyObj?.busd;
                 if(apyBusd){
@@ -427,7 +428,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
           
                 const tvlUSDC = dashboardValues.apyObj?.tvlUSDCBsc;
                 if(tvlUSDC){
-                    tvl = Number(tvlUSDC).toFixed(2);
+                    tvl = tvlUSDC;
                 }
                 const apyUSDC = dashboardValues.apyObj?.usdc;
                 if(apyUSDC){
@@ -439,7 +440,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
               
                 const tvlUSDT = dashboardValues.apyObj?.tvlUSDTBscXAuto;
                 if(tvlUSDT){
-                    tvl = Number(tvlUSDT).toFixed(2);
+                    tvl = tvlUSDT;
                 }
                 const apyUSDT = dashboardValues.apyObj?.usdtXauto;
                 if(apyUSDT){
@@ -451,7 +452,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
               
                 const tvlBUSD = dashboardValues.apyObj?.tvlBUSDBscXAuto;
                 if(tvlBUSD){
-                    tvl = Number(tvlBUSD).toFixed(2);
+                    tvl = tvlBUSD;
                 }
                 const apyBusd = dashboardValues.apyObj?.busdXauto;
                 if(apyBusd){
@@ -463,7 +464,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
             
                 const tvlUSDC = dashboardValues.apyObj?.tvlUSDCBscXAuto;
                 if(tvlUSDC){
-                    tvl = '$'+Number(tvlUSDC).toFixed(2)
+                    tvl = tvlUSDC
                 }
                 const apyUSDC = dashboardValues.apyObj?.usdcXauto;
                 if(apyUSDC){
@@ -474,7 +475,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                
                 const tvlUSDC = dashboardValues.apyObj?.tvlBNBBscXAuto;
                 if(tvlUSDC){
-                    tvl = '$'+Number(tvlUSDC).toFixed(2)
+                    tvl = tvlUSDC
                 }
                 const apyUSDC = dashboardValues.apyObj?.bnbXauto;
                 if(apyUSDC){
@@ -489,7 +490,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
               
                 const tvlUSDT = dashboardValuesMatic.apyObjMatic?.tvlUSDTMatic;
                 if(tvlUSDT){
-                 tvl = '$'+Number(tvlUSDT).toFixed(2);
+                 tvl = tvlUSDT;
                 }
                 const apyUSDT = dashboardValuesMatic.apyObjMatic?.usdtApyMatic;
                 if(apyUSDT){
@@ -501,7 +502,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                
                 const tvlUSDC = dashboardValuesMatic.apyObjMatic?.tvlUSDCMatic;
                 if(tvlUSDC){
-                 tvl = '$'+Number(tvlUSDC).toFixed(2);
+                 tvl = tvlUSDC;
                 }
                 const apyUSDC = dashboardValuesMatic.apyObjMatic?.usdcApyMatic;
                 if(apyUSDC){
@@ -512,7 +513,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                
                 const tvlAAVE = dashboardValuesMatic.apyObjMatic?.tvlAAVE;
                 if(tvlAAVE){
-                 tvl ='$'+Number(tvlAAVE).toFixed(2);
+                 tvl =tvlAAVE;
                 }
                 const apyAAVE = dashboardValuesMatic.apyObjMatic?.aaveApyMatic;
                 if(apyAAVE){
@@ -523,7 +524,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                  
                 const tvlWBTC = dashboardValuesMatic.apyObjMatic?.tvlWBTC;
                 if(tvlWBTC){
-                 tvl = '$'+Number(tvlWBTC).toFixed(2);
+                 tvl = tvlWBTC;
                 }
                 const apyWBTC = dashboardValuesMatic.apyObjMatic?.wbtcApyMatic;
                 if(apyWBTC){
@@ -709,7 +710,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                 depositBalance = usdtDepositUserBalanceMatic.usdtDepositBalanceMatic;
                 const tvlUSDT = dashboardValuesMatic.apyObjMatic?.tvlUSDTMatic;
                 if(tvlUSDT){
-                 tvl = '$'+Number(tvlUSDT).toFixed(2);
+                 tvl = tvlUSDT;
                 }
                 const apyUSDT = dashboardValuesMatic.apyObjMatic?.usdtApyMatic;
                 if(apyUSDT){
@@ -722,7 +723,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                 depositBalance = usdcDepositUserBalanceMatic.usdcDepositBalanceMatic;
                 const tvlUSDC = dashboardValuesMatic.apyObjMatic?.tvlUSDCMatic;
                 if(tvlUSDC){
-                 tvl ='$'+ Number(tvlUSDC).toFixed(2);
+                 tvl =tvlUSDC;
                 }
                 const apyUSDC = dashboardValuesMatic.apyObjMatic?.usdcApyMatic;
                 if(apyUSDC){
@@ -734,7 +735,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                 depositBalance = aaveDepositUserBalance.aaveDepositBalanceMatic;
                 const tvlAAVE = dashboardValuesMatic.apyObjMatic?.tvlAAVE;
                 if(tvlAAVE){
-                 tvl = '$'+Number(tvlAAVE).toFixed(2);
+                 tvl = tvlAAVE;
                 }
                 const apyAAVE = dashboardValuesMatic.apyObjMatic?.aaveApyMatic;
                 if(apyAAVE){
@@ -746,7 +747,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                 depositBalance = wbtcDepositUserBalance.wbtcDepositBalanceMatic;
                 const tvlWBTC = dashboardValuesMatic.apyObjMatic?.tvlWBTC;
                 if(tvlWBTC){
-                 tvl = '$'+Number(tvlWBTC).toFixed(2);
+                 tvl = tvlWBTC;
                 }
                 const apyWBTC = dashboardValuesMatic.apyObjMatic?.wbtcApyMatic;
                 if(apyWBTC){
@@ -760,7 +761,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                 depositBalance = usdtDepositUserBalance.usdtDepositBalance;
                 const tvlUSDT = dashboardValues.apyObj?.tvlUSDTBsc;
                 if(tvlUSDT){
-                    tvl ='$'+ Number(tvlUSDT).toFixed(2);
+                    tvl =tvlUSDT;
                 }
                 const apyUSDT = dashboardValues.apyObj?.usdt;
                 if(apyUSDT){
@@ -773,7 +774,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                 depositBalance = busdDepositUserBalance.busdDepositBalance;
                 const tvlBUSD = dashboardValues.apyObj?.tvlBUSDBsc;
                 if(tvlBUSD){
-                    tvl ='$'+ Number(tvlBUSD).toFixed(2);
+                    tvl =tvlBUSD;
                 }
                 const apyBusd = dashboardValues.apyObj?.busd;
                 if(apyBusd){
@@ -786,7 +787,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                 depositBalance = usdcDepositUserBalance.usdcDepositBalance;
                 const tvlUSDC = dashboardValues.apyObj?.tvlUSDCBsc;
                 if(tvlUSDC){
-                    tvl = '$'+Number(tvlUSDC).toFixed(2)
+                    tvl = tvlUSDC;
                 }
                 const apyUSDC = dashboardValues.apyObj?.usdc;
                 if(apyUSDC){
@@ -799,7 +800,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                 depositBalance = usdtDepositUserBalanceXAuto.userUsdtDepositBalanceXAuto;
                 const tvlUSDT = dashboardValues.apyObj?.tvlUSDTBscXAuto;
                 if(tvlUSDT){
-                    tvl = Number(tvlUSDT).toFixed(2);
+                    tvl = tvlUSDT;
                 }
                 const apyUSDT = dashboardValues.apyObj?.usdtXauto;
                 if(apyUSDT){
@@ -812,7 +813,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                 depositBalance = busdDepositUserBalanceXAuto.userBusdDepositBalanceXAuto;
                 const tvlBUSD = dashboardValues.apyObj?.tvlBUSDBscXAuto;
                 if(tvlBUSD){
-                    tvl = Number(tvlBUSD).toFixed(2);
+                    tvl = tvlBUSD;
                 }
                 const apyBusd = dashboardValues.apyObj?.busdXauto;
                 if(apyBusd){
@@ -825,7 +826,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                 depositBalance = usdcDepositUserBalanceXAuto.userUsdcDepositBalanceXAuto;
                 const tvlUSDC = dashboardValues.apyObj?.tvlUSDCBscXAuto;
                 if(tvlUSDC){
-                    tvl = Number(tvlUSDC).toFixed(2)
+                    tvl = tvlUSDC;
                 }
                 const apyUSDC = dashboardValues.apyObj?.usdcXauto;
                 if(apyUSDC){
@@ -837,7 +838,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                 depositBalance = bnbDepositUserBalanceXAuto.userBnbDepositBalanceXAuto;
                 const tvlUSDC = dashboardValues.apyObj?.tvlVBNBBscXAuto;
                 if(tvlUSDC){
-                    tvl = Number(tvlUSDC).toFixed(2)
+                    tvl = tvlUSDC;
                 }
                 const apyUSDC = dashboardValues.apyObj?.bnbXauto;
                 if(apyUSDC){
@@ -886,7 +887,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                     </Box>
                     <Box className={classes.contentItem}>
                         <Box className={classes.field}>Vault Assets</Box>
-                        <Box className={classes.value}>{'$'+tvl}</Box>
+                        <Box className={classes.value}>{tvl}</Box>
                     </Box>
                     <Box className={classes.contentItem}>
                         <Box className={classes.field}>Available to deposit</Box>
@@ -917,7 +918,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                     <Box className={classes.form}>
                         <Box className={classes.tabs}>
                             <Box className={`${classes.tabItem} ${activeTab==='deposit' && classes.activeTab}`} onClick={()=>selectTab('deposit')}>Deposit</Box>
-                            <Box className={`${classes.tabItem} ${activeTab==='withdrawal' && classes.activeTab}`} onClick={()=>selectTab('withdrawal')}>Withdrawal</Box>
+                            <Box className={`${classes.tabItem} ${activeTab==='withdrawal' && classes.activeTab}`} onClick={()=>selectTab('withdrawal')}>Withdraw</Box>
                         </Box>
                         {
                             activeTab==='deposit'
@@ -926,14 +927,14 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                                     <input type="text" value={depositAmount} onChange={(e)=>setDeposit(e.target.value)}/>
                                     <Box>MAX</Box>
                                 </Box>
-                                <Box className={classes.button}>Approve</Box>
+                                <Box className={classes.button} onClick={buttonHandlerDeposit}>Deposit</Box>
                             </Box>
                             : <Box>
                                 <Box className={classes.rountInput}>
                                     <input type="text" value={withdrawalAmount} onChange={(e)=>setWithdrawal(e.target.value)}/>
                                     <Box>MAX</Box>
                                 </Box>
-                                <Box className={classes.button}>Withdrawal XEND</Box>
+                                <Box className={classes.button} onClick={buttonHandlerWithdraw}>Withdraw</Box>
                             </Box>
                         }
                     </Box>

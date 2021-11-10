@@ -2,14 +2,14 @@ import { applyMiddleware, createStore, combineReducers } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 
-import ConnectWalletReducer from './reducers/ConnectWalletReducer';
+//import ConnectWalletReducer from './reducers/ConnectWalletReducer';
 import DashboardReducer from './reducers/DashboardReducer';
 
 
 const reducers = combineReducers({
   
-    DashboardReducer,
-    ConnectWalletReducer,
+    DashboardReducer
+    //ConnectWalletReducer,
 });
 
 async function reduxStore() {

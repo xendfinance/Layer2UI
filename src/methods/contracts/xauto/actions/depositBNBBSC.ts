@@ -1,5 +1,5 @@
-import { notify } from "components/core/Notifier";
-import getAllBalances from "methods/contracts/getAllBalances";
+import { notify } from "../../../../components/core/Notifier";
+import getAllBalances from "../../getAllBalances";
 import DepositSavingsBNBXAuto from "../methods/depositBNBBSCXAuto";
 
 function DepositBNBBSCXAuto(amount: any,addressOwner:string,chainId:any) {

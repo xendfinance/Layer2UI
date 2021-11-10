@@ -1,8 +1,7 @@
 
-
-import createContract from './contract-creator';
 import abiManager from '../../abiManager';
-import _const from 'methods/_const';
+import _const from '../_const';
+
 const Web3 = require('web3');
 const web3 = new Web3('https://bsc-dataseed.binance.org/');
 
@@ -39,6 +38,7 @@ const getAllBalances = (addressOwner: string,chainId:any) => {
               payload: { usdtBalance: resUSDT}
           })
 
+      
                
           dispatch({
             type: _const.BNBBALANCE,

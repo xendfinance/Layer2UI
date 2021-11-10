@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Box, Grid } from '@material-ui/core';
-import getXVaultAPI from 'methods/redux/actions/get-apy-xvault';
 import { useDispatch, useSelector } from 'react-redux';
-import _const from 'methods/_const';
+import getXVaultAPI from '../../../methods/redux/actions/get-apy-xvault';
+import _const from '../../../methods/_const';
+
 
 interface Props {
     connected:any;
@@ -76,7 +77,7 @@ const Header: React.FC<Props> = ({ connected,chainId }:any) => {
      
     const buildPreData = async (chainId:any) => {
         //Build Pre Data
-         setTVLAPYXVault('Calculating');
+         setTVLAPYXVault('$0,00');
          const apyObj = await getXVaultAPI(56);
          dispatch({
              type: _const.DashboardGrid,
@@ -95,21 +96,21 @@ const Header: React.FC<Props> = ({ connected,chainId }:any) => {
                 if(lendingProtocol == "X Vault" ||lendingProtocol == 'X Vault' ||lendingProtocol.lenderProtocol =='X Vault' || lendingProtocol.lenderProtocol=="X Vault" ){
                 const tvlString = apyObj?.TVL;
                 if (tvlString){
-                    const finalAPY = Number(tvlString).toFixed(2); 
+                    const finalAPY = tvlString; 
                     setTVLAPYXVault(finalAPY);
                 }
             }else{
                 console.log("apy onj",apyObj);
                 const tvlString = apyObj?.TVLXAuto;
                 if (tvlString){
-                    const finalAPY = Number(tvlString).toFixed(2); 
+                    const finalAPY = tvlString; 
                     setTVLAPYXVault(finalAPY);
                 }
             }
             }else{
                 const tvlString = apyObjMatic?.TVL;
                 if (tvlString){
-                    const finalAPY = Number(tvlString).toFixed(2); 
+                    const finalAPY =tvlString; 
                     setTVLAPYXVault(finalAPY);
                 }
             }
@@ -132,7 +133,7 @@ const Header: React.FC<Props> = ({ connected,chainId }:any) => {
                 
             initPreData();   
        
-     }, [chainId])
+     }, [chainId,lendingProtocol,lendingProtocol.lenderProtocol])
 
      
     // useEffect(()=>{
@@ -169,7 +170,7 @@ const Header: React.FC<Props> = ({ connected,chainId }:any) => {
             </Grid>
             <Grid className={classes.asset} item xs={12} sm={5}>
                 <Box className={classes.assetTitle}>Total Vault Asset</Box>
-                <Box className={classes.assetValue}>${TVLapy_xvault}</Box>
+                <Box className={classes.assetValue}>{TVLapy_xvault}</Box>
             </Grid>
         </Grid>
     );
