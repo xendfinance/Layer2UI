@@ -134,6 +134,19 @@
   {
     "inputs": [
       {
+        "internalType": "enum xUSDT.Lender",
+        "name": "lender",
+        "type": "uint8"
+      }
+    ],
+    "name": "activateLender",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "address",
         "name": "owner",
         "type": "address"
@@ -362,6 +375,32 @@
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "enum xUSDT.Lender",
+        "name": "lender",
+        "type": "uint8"
+      }
+    ],
+    "name": "deactivateNonWithdrawableLender",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "enum xUSDT.Lender",
+        "name": "lender",
+        "type": "uint8"
+      }
+    ],
+    "name": "deactivateWithdrawableLender",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "decimals",
     "outputs": [
@@ -543,6 +582,25 @@
       }
     ],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "enum xUSDT.Lender",
+        "name": "",
+        "type": "uint8"
+      }
+    ],
+    "name": "lenderStatus",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -857,6 +915,25 @@
     "name": "withdraw",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "enum xUSDT.Lender",
+        "name": "",
+        "type": "uint8"
+      }
+    ],
+    "name": "withdrawable",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {

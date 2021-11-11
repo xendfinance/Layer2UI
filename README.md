@@ -25,19 +25,19 @@ https://polygonscan.com/address/0xd991924b2b01f07c2e2491d7a61e0d1e9633d852#code
 
 
 XUSDT:
-https://polygonscan.com/address/0x05b1d524671CA541c3457c0550a09f71604C2dEC#code
+https://polygonscan.com/address/0x6842E453ad9e7847a566876B8A2967FE9d155485#code
 
 XUSDC:
-https://polygonscan.com/address/0x3b1D848B20735B030D8ea85d2f516eb75c8e0e56#code
+https://polygonscan.com/address/0x418b8D697e72B90cBdF5Cb58015384b9016794F9#code
 
 
 XAAVE:
-https://polygonscan.com/address/0x7103D2aa877624fA2d5AFc6A6728A8dfF71bDC82#readContract
+https://polygonscan.com/address/0x0B12E60084816ed83c519a1fFd01022d5A50fcaC#readContract
 
 
 XWBTC:
 
-https://polygonscan.com/address/0x0D81fF82f99eaCbc67E2404DD7FD8896905dF0f9#code
+https://polygonscan.com/address/0x5b208c6Ed9c95907DC7E1Ef34F0Cac52dd22b9dc#code
 
 
 
@@ -46,24 +46,24 @@ https://polygonscan.com/address/0x0D81fF82f99eaCbc67E2404DD7FD8896905dF0f9#code
 
 APRWithPoolOracle:
 
-https://bscscan.com/address/0xe98c57858f2c954FCA2390BD6850B40d3C676C96#code
+https://bscscan.com/address/0xB08018D77D4ec4087AA0A807967eb19dDb649429#code
 
 EarnAPRWithPool:
 https://bscscan.com/address/0x21026da06d8979982D325Fd3321bdcf439cC3bD8#code
 
 XBUSD:
 
-https://bscscan.com/address/0x4b75C26aC7E7b3DB22a67b74741fC965427Ae7eb#code
+https://bscscan.com/address/0xa25dec88B81a94Ca951f3a4ff4AAbC32B3759E6C#code
 
 XUSDC:
-https://bscscan.com/address/0x2C7a0FD397D20eb85b7c7F179015833f3dBfa665#code
+https://bscscan.com/address/0x3058d344C8F845754F0C356881772788c128eA22#code
 
 
 XUSDT
-https://bscscan.com/address/0x22501e8d4F766351CB63545BbfcBA1dFe3BaC6E5#code
+https://bscscan.com/address/0x525A55eBd9464c1081077BCc1d7a53C1c431BD26#code
 
 XBNB
-https://bscscan.com/address/0x0682B619734f059c7255D3e08726DAb000dB4b62#code
+https://bscscan.com/address/0x2dABAeB84cACFEF30e95896301CEF65cb24b3176#code
 
 
 

@@ -8,7 +8,7 @@ async function WithdrawSavingsAAVEMatic(amount: any,addressOwner:string,chainId:
         
         const ownerAddress = addressOwner;
 
-        const xAutocontract = await createContract(abiManager.xvAutoAAVE, "0x7103D2aa877624fA2d5AFc6A6728A8dfF71bDC82");
+        const xAutocontract = await createContract(abiManager.xvAutoAAVE, "0x0B12E60084816ed83c519a1fFd01022d5A50fcaC");
 
 
        let notifyBNC :any;
