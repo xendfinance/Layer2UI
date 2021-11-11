@@ -63,6 +63,7 @@ const VaultMobile: React.FC<Props> = ({ className, assetIcon, assetName, fees, b
     const classes = useStyles();
     const [isOpenDepositeModal, setOpenDepositeModal] = useState(false);
     const address = useSelector((store: any) => store.DashboardReducer.address);
+    const wca = useSelector((store: any) => store.DashboardReducer.wca);
 
     return (
             <Box className={`${classes.root} ${className}`}>
@@ -92,7 +93,7 @@ const VaultMobile: React.FC<Props> = ({ className, assetIcon, assetName, fees, b
                     <Box className={classes.value}>{availableDeposite}</Box>
                 </Box>
                 <Box className={classes.openVaultButton}>
-                {address?<Button variant='secondary' fontSize='14' title='Open Vault&nbsp;&nbsp; >' onClick={() => {setOpenDepositeModal(!isOpenDepositeModal);}} />:<Button variant='secondary' fontSize='14' title='Connect Wallet' />}            
+                {address && wca.chainId?<Button variant='secondary' fontSize='14' title='Open Vault&nbsp;&nbsp; >' onClick={() => {setOpenDepositeModal(!isOpenDepositeModal);}} />:<Button variant='secondary' fontSize='14' title='Connect Wallet' />}            
                 </Box>
             </Box>
         );

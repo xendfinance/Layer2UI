@@ -47,7 +47,7 @@ const Vault: React.FC<Props> = ({ assetIcon, assetName, fees, balance, netAPY, v
     const classes = useStyles();
     const [isOpenDepositeModal, setOpenDepositeModal] = useState(false);
     const address = useSelector((store: any) => store.DashboardReducer.address);
-
+    const wca = useSelector((store: any) => store.DashboardReducer.wca);
 
     return (
         <tr className={classes.root}>
@@ -65,7 +65,7 @@ const Vault: React.FC<Props> = ({ assetIcon, assetName, fees, balance, netAPY, v
             {auditedState =='audited'?<td className={classes.netAPY}> {auditedState} </td>:<td> {auditedState} </td>}
             
             <td> {availableDeposite} </td>
-            {address?<td> <Button variant='secondary' fontSize='14' title='Open Vault&nbsp;&nbsp; >' onClick={() => {setOpenDepositeModal(!isOpenDepositeModal);}} /> </td>:<td> <Button variant='secondary' fontSize='14' title='Connect Wallet' /> </td>}
+            {address && wca.chainId?<td> <Button variant='secondary' fontSize='14' title='Open Vault&nbsp;&nbsp; >' onClick={() => {setOpenDepositeModal(!isOpenDepositeModal);}} /> </td>:<td> <Button variant='secondary' fontSize='14' title='Connect Wallet' /> </td>}
             
         </tr>
     );

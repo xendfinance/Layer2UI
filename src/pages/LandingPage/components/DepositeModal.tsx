@@ -239,16 +239,22 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
 
 
     let finalChainId :any;
-    if(currentChainId.ChainId){
-        finalChainId = Number(currentChainId.ChainId);
+    if(wca.chainId){
+        finalChainId = Number(wca.chainId);
     }else{
-        finalChainId = Number(currentChainId); 
+        if(currentChainId.ChainId){
+            finalChainId = Number(currentChainId.ChainId);
+        }else{
+            finalChainId = Number(currentChainId); 
+        }
     }
+  
    
     if(wca.address){ 
-             
+        if(dashboardValuesMatic && dashboardValues){     
         
         if(finalChainId == 56){
+            
             if(lendingProtocol == "X Vault" ||lendingProtocol == 'X Vault' ||lendingProtocol.lenderProtocol =='X Vault' || lendingProtocol.lenderProtocol=="X Vault" ){
             if(assetName =='USDT'){
                 balanceStable = usdtBalances.usdtBalance;
@@ -395,7 +401,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                 }                                 
             }    
         }  
-             
+    }     
     }else{
           if(dashboardValues && dashboardValuesMatic){
             if(finalChainId == 56){
@@ -705,6 +711,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
       useEffect(()=>{
         if(wca.address){
         if(finalChainId == 137){
+            if(dashboardValues && dashboardValuesMatic){
             if(assetName =='USDT'){
                 balanceStable = usdtBalancesMatic.usdtBalanceMatic;
                 depositBalance = usdtDepositUserBalanceMatic.usdtDepositBalanceMatic;
@@ -754,7 +761,9 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                     apy = apyWBTC;
                 }                                 
             }    
+        }
          }else{
+            if(dashboardValues && dashboardValuesMatic){
             if(lendingProtocol == "X Vault" ||lendingProtocol == 'X Vault' ||lendingProtocol.lenderProtocol =='X Vault' || lendingProtocol.lenderProtocol=="X Vault" ){
             if(assetName =='USDT'){
                 balanceStable = usdtBalances.usdtBalance;
@@ -794,7 +803,9 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                     apy = apyUSDC;
                 } 
             }
+        }
         }else{
+            if(dashboardValues && dashboardValuesMatic){
             if(assetName =='USDT'){
                 balanceStable = usdtBalances.usdtBalance;
                 depositBalance = usdtDepositUserBalanceXAuto.userUsdtDepositBalanceXAuto;
@@ -845,6 +856,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                     apy = apyUSDC;
                 } 
             }
+        }
         }
          } 
         }

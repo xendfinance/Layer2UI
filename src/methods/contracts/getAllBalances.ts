@@ -28,8 +28,7 @@ const getAllBalances = (addressOwner: string,chainId:any) => {
 
             const totalDepositedBNBXAuto = Number(await getXAutoUserDepositBNBBSC(addressOwner)).toFixed(2);
             const totalDepositedBUSDXAuto = Number(await getXAutoUserDepositBUSDBSC(addressOwner)).toFixed(2);
-            const totalDepositedUSDTXAuto = Number(await getXAutoUserDepositUSDTBSC(addressOwner)).toFixed(2);
-            console.log("BALANCE METHOD USDT",totalDepositedUSDTXAuto);
+            const totalDepositedUSDTXAuto = Number(await getXAutoUserDepositUSDTBSC(addressOwner)).toFixed(2);           
             const totalDepositedUSDCXAuto = Number(await getXAutoUserDepositUSDCBSC(addressOwner)).toFixed(2);
   
            
