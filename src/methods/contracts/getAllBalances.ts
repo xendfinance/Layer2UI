@@ -29,6 +29,7 @@ const getAllBalances = (addressOwner: string,chainId:any) => {
             const totalDepositedBNBXAuto = Number(await getXAutoUserDepositBNBBSC(addressOwner)).toFixed(2);
             const totalDepositedBUSDXAuto = Number(await getXAutoUserDepositBUSDBSC(addressOwner)).toFixed(2);
             const totalDepositedUSDTXAuto = Number(await getXAutoUserDepositUSDTBSC(addressOwner)).toFixed(2);
+            console.log("BALANCE METHOD USDT",totalDepositedUSDTXAuto);
             const totalDepositedUSDCXAuto = Number(await getXAutoUserDepositUSDCBSC(addressOwner)).toFixed(2);
   
            
@@ -174,7 +175,7 @@ async function getUSDTBalancesMatic(addressOwner:string) {
         if (usdtContract) {
         const usdtBalanceCoin = await usdtContract.methods.balanceOf(ownerAddress).call();  
        
-        const FinalUSDBalance = web3Matic.utils.fromWei(usdtBalanceCoin.toString(), 'mwei');   
+        const FinalUSDBalance = web3Matic.utils.fromWei(usdtBalanceCoin.toString(), 'ether');   
        
         return FinalUSDBalance;
         }else{
@@ -204,7 +205,7 @@ async function getUSDCBalancesMatic(addressOwner:string) {
         const usdtBalanceCoin = await usdtContract.methods.balanceOf(ownerAddress).call();      
        
        
-        const FinalUSCBalance = web3Matic.utils.fromWei(usdtBalanceCoin.toString(), 'mwei');  
+        const FinalUSCBalance = web3Matic.utils.fromWei(usdtBalanceCoin.toString(), 'ether');  
       
         return FinalUSCBalance;;
         }else{
@@ -293,7 +294,9 @@ async function getUSDTBalances(addressOwner:string) {
         if (usdtContract) {
         const usdtBalanceCoin = await usdtContract.methods.balanceOf(ownerAddress).call();    
         
-        const FinalUSDBalance = web3.utils.fromWei(usdtBalanceCoin.toString(), 'mwei');  
+        const FinalUSDBalance = web3.utils.fromWei(usdtBalanceCoin.toString(), 'ether');  
+
+       
         
         return FinalUSDBalance;
         }else{
@@ -322,7 +325,9 @@ async function getBUSDBalances(addressOwner:string) {
         const busdBalanceCoin = await busdContract.methods.balanceOf(ownerAddress).call();      
   
         
-        const FinalBUSDBalance = web3.utils.fromWei(busdBalanceCoin.toString(), 'mwei');  
+        const FinalBUSDBalance = web3.utils.fromWei(busdBalanceCoin.toString(), 'ether');  
+
+        
         
         return FinalBUSDBalance;
         }else{
@@ -351,7 +356,7 @@ async function getUSDCBalances(addressOwner:string) {
         const usdcBalanceCoin = await usdcContract.methods.balanceOf(ownerAddress).call();      
   
        
-        const FinalUSDCBalance = web3.utils.fromWei(usdcBalanceCoin.toString(), 'mwei');  
+        const FinalUSDCBalance = web3.utils.fromWei(usdcBalanceCoin.toString(), 'ether');  
            
         return FinalUSDCBalance;
         }else{
@@ -403,7 +408,7 @@ async function  getXAutoUserDepositBUSDBSC(addressOwner :string) {
         if (xvVaultBusd) {
        
         const usdtBalanceCoin = await xvVaultBusd.methods.balanceOf(addressOwner).call(); 
-        const FinalUserBusdBalance = web3.utils.fromWei(usdtBalanceCoin.toString(), 'mwei');     
+        const FinalUserBusdBalance = web3.utils.fromWei(usdtBalanceCoin.toString(), 'ether');     
     
         return FinalUserBusdBalance;
        }
@@ -427,7 +432,7 @@ async function  getXAutoUserDepositUSDTBSC(addressOwner :string) {
         if (xvVaultBusd) {
        
         const usdtBalanceCoin = await xvVaultBusd.methods.balanceOf(addressOwner).call(); 
-        const FinalUserBusdBalance = web3.utils.fromWei(usdtBalanceCoin.toString(), 'mwei');     
+        const FinalUserBusdBalance = usdtBalanceCoin / Math.pow(10,6);     
     
         return FinalUserBusdBalance;
        }
@@ -445,14 +450,14 @@ async function  getXAutoUserDepositUSDTBSC(addressOwner :string) {
 async function  getXAutoUserDepositUSDCBSC(addressOwner :string) {
 
     try {
-        const xvVaultBusd = new web3.eth.Contract(abiManager.xvAutoBSCUSDC, '0x3058d344C8F845754F0C356881772788c128eA22');
+        const xvVaultUsdc = new web3.eth.Contract(abiManager.xvAutoBSCUSDC, '0x3058d344C8F845754F0C356881772788c128eA22');
         
-        if (xvVaultBusd) {
+        if (xvVaultUsdc) {
        
-        const usdtBalanceCoin = await xvVaultBusd.methods.balanceOf(addressOwner).call(); 
+        const usdcBalanceCoin = await xvVaultUsdc.methods.balanceOf(addressOwner).call(); 
 
         
-        const FinalUserBusdBalance = web3.utils.fromWei(usdtBalanceCoin.toString(), 'mwei');     
+        const FinalUserBusdBalance = usdcBalanceCoin / Math.pow(10,18);     
         
         return FinalUserBusdBalance;
        }
@@ -497,7 +502,7 @@ async function  getXVaultUserDepositBUSD(addressOwner :string) {
         if (xvVaultBusd) {
        
         const usdtBalanceCoin = await xvVaultBusd.methods.balanceOf(addressOwner).call(); 
-        const FinalUserBusdBalance = web3.utils.fromWei(usdtBalanceCoin.toString(), 'mwei');     
+        const FinalUserBusdBalance = web3.utils.fromWei(usdtBalanceCoin.toString(), 'ether');     
     
         return FinalUserBusdBalance;
        }
@@ -522,7 +527,7 @@ async function  getXVaultUserDepositUSDT(addressOwner :string) {
         const usdtBalanceCoin = await xvVaultUSDT.methods.balanceOf(addressOwner).call(); 
 
         //Times Price Per Full Share 
-        const FinalUserUSDTBalance = web3.utils.fromWei(usdtBalanceCoin.toString(), 'mwei');     
+        const FinalUserUSDTBalance = web3.utils.fromWei(usdtBalanceCoin.toString(), 'ether');     
     
         return FinalUserUSDTBalance;
        }
@@ -545,7 +550,7 @@ async function  getXVaultUserDepositUSDC(addressOwner :string) {
         if (xvVaultUSDC) {
        
         const usdcBalanceCoin = await xvVaultUSDC.methods.balanceOf(addressOwner).call(); 
-        const FinalUserUSDCBalance = web3.utils.fromWei(usdcBalanceCoin.toString(), 'mwei');     
+        const FinalUserUSDCBalance = web3.utils.fromWei(usdcBalanceCoin.toString(), 'ether');     
     
         return FinalUserUSDCBalance;
        }
@@ -568,7 +573,8 @@ async function  getXAutoUserDepositUSDT(addressOwner :string) {
         if (xvAutoUSDT) {
        
         const usdtBalanceCoin = await xvAutoUSDT.methods.balanceOf(addressOwner).call(); 
-        const FinalUserUSDTBalance = web3Matic.utils.fromWei(usdtBalanceCoin.toString(), 'mwei');     
+        const FinalUserUSDTBalance = web3Matic.utils.fromWei(usdtBalanceCoin.toString(), 'ether');     
+        
     
         return FinalUserUSDTBalance;
        }
@@ -589,7 +595,7 @@ async function  getXAutoUserDepositUSDC(addressOwner :string) {
         if (xvAutoUSDC) {
        
         const usdcBalanceCoin = await xvAutoUSDC.methods.balanceOf(addressOwner).call(); 
-        const FinalUserUSDCBalance = web3Matic.utils.fromWei(usdcBalanceCoin.toString(), 'mwei');     
+        const FinalUserUSDCBalance = web3Matic.utils.fromWei(usdcBalanceCoin.toString(), 'ether');     
     
         return FinalUserUSDCBalance;
        }

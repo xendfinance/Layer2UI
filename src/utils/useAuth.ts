@@ -45,23 +45,19 @@ export const Login = (connectorID: ConnectorNames, chainId: number, lender: stri
 
                    
 
-                    connection.provider.on('accountsChanged', (code: any, reason: string) => {
-                       if(code.length == 0){
-                        DisconnectFromWallet();
-                       }else{
+                    connection.provider.on('accountsChanged', (code: number, reason: string) => {
+
                         const accountSwitch = code[0];
                         if (accountSwitch) {
                             if (accountSwitch) {
                                 dispatch({
-                                    type: _const.CONWALLETADD,
-                                    payload: { address: accountSwitch, chainId:chainId }
+                                    type: _const.ADDRESS,
+                                    payload: { address: accountSwitch }
                                 })
                             }
                         } else {
                             DisconnectFromWallet();
                         }
-                       }
-                      
                     });
 
                     account = connection.account;
@@ -138,7 +134,7 @@ export const recreateWeb3 = () => {
 
                         let connection = await connector.activate();
 
-                        connection.provider.on('accountsChanged', (code: any, reason: string) => {
+                        connection.provider.on('accountsChanged', (code: number, reason: string) => {
 
                             const accountSwitch = code[0];
                             if (accountSwitch) {
@@ -152,7 +148,7 @@ export const recreateWeb3 = () => {
                                 DisconnectFromWallet();
                             }
                         });
-
+                        
                         account = connection.account;
 
                         window.APPWEB3 = await new web3(web3.givenProvider);

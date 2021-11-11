@@ -5,13 +5,13 @@ import { Box } from '@material-ui/core';
 import Tooltip from "@material-ui/core/Tooltip";
 import Vault from './Vault';
 import VaultMobile from './VaultMobile';
-import vault1 from './../../../assets/images/tether.svg';
-import vault2 from './../../../assets/images/busd.svg';
+import vault1 from './../../../assets/icons/USDTether.svg';
+import vault2 from './../../../assets/icons/BUSD1.svg';
 
-import vault3 from './../../../assets/images/usdc.com.svg';
+import vault3 from './../../../assets/icons/USDC.svg';
 import vault4 from './../../../assets/images/bnb.svg';
-import vaultWBTC from './../../../assets/images/wrapped-bitcoin.svg';
-import vaultAAVE from './../../../assets/images/aave.svg';
+import vaultWBTC from './../../../assets/icons/WBTC.svg';
+import vaultAAVE from './../../../assets/icons/AAVE.svg';
 import {BrowserView, MobileView} from 'react-device-detect';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -340,6 +340,7 @@ const [list, setList] = useState(initalList);
           
                 busdUserDepositValueXAuto = busdDepositUserBalanceXAuto.userBusdDepositBalanceXAuto;
                 usdtUserDepositValueXAuto = usdtDepositUserBalanceXAuto.userUsdtDepositBalanceXAuto;
+                console.log("USDT VAULT USER BALANCE IS ",usdtUserDepositValueXAuto)
                 usdcUserDepositValueXAuto = usdcDepositUserBalanceXAuto.userUsdcDepositBalanceXAuto;
                 bnbUserDepositValueXAuto = bnbDepositUserBalanceXAuto.userBnbDepositBalanceXAuto;
                 setList([
