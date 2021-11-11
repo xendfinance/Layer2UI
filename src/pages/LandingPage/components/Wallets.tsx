@@ -55,7 +55,7 @@ const Wallets: FC<WalletProps> = ({ setOpen }) => {
 
 	// main function handling the connection into the app
 	const insideConnectWallet = (account: any) => {
-		console.log("Account Got ", account);
+		//console.log("Account Got ", account);
 		saveAddress(account);
 		dispatch({
 			type: _const.ADDRESS,
