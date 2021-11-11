@@ -12,5 +12,4 @@ jobs:
           node-version: 14
       - run: echo "${{ secrets.GCP_VM_PRIVATE_KEY }}" > id_rsa
       - run: chmod -R 600 id_rsa
-      - run: npm install
       - run: ssh -i id_rsa -o StrictHostKeyChecking=no franklin@35.225.70.160 "cd /var/www/layer2 && git pull origin main && npm install && && pm2 restart parse-apps.config.js && exit"
