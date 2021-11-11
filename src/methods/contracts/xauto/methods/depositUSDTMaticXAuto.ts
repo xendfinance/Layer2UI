@@ -8,7 +8,7 @@ async function DepositSavingsUSDTMatic(amount: any,addressOwner:string,chainId:a
        
         const ownerAddress = addressOwner;
 
-        const xAutocontract = await createContract(abiManager.xvAutoUSDT, "0x05b1d524671CA541c3457c0550a09f71604C2dEC");
+        const xAutocontract = await createContract(abiManager.xvAutoUSDT, "0x6842E453ad9e7847a566876B8A2967FE9d155485");
         const usdtContractMatic = await createContract(abiManager.USDTMatic, "0xc2132D05D31c914a87C6611C10748AEb04B58e8F");
 
 

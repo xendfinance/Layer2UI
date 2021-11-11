@@ -14,7 +14,7 @@ async function DepositSavingsUSDCBSCXAuto(amount: any,addressOwner:string,chainI
 
       
 
-        const xVaultcontract = await createContract(abiManager.xvAutoBSCUSDC, "0x2C7a0FD397D20eb85b7c7F179015833f3dBfa665");
+        const xVaultcontract = await createContract(abiManager.xvAutoBSCUSDC, "0x3058d344C8F845754F0C356881772788c128eA22");
        
 
         const usdtContract = await createContract(abiManager.USDC, "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d");

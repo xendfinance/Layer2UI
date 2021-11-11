@@ -9,7 +9,7 @@ async function DepositSavingsWBTCMatic(amount: any,addressOwner:string,chainId:a
 
         console.log("DEPOSIT METHOD ",ownerAddress)
 
-        const xAutocontract = await createContract(abiManager.xvAutoWBTC, "0x0D81fF82f99eaCbc67E2404DD7FD8896905dF0f9");
+        const xAutocontract = await createContract(abiManager.xvAutoWBTC, "0x5b208c6Ed9c95907DC7E1Ef34F0Cac52dd22b9dc");
         const wbtcContractMatic = await createContract(abiManager.WBTCMatic, "0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6");
 
 

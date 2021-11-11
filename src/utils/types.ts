@@ -1,5 +1,3 @@
-import { FC } from 'react';
-import { SvgProps } from './SVGTypes';
 
 export enum ConnectorNames {
     Injected = 'injected',

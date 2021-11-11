@@ -398,7 +398,7 @@ async function getBNBBalanceUser(addressOwner:string) {
 async function  getXAutoUserDepositBUSDBSC(addressOwner :string) {
 
     try {
-        const xvVaultBusd = new web3.eth.Contract(abiManager.xvAutoBSCBUSD, '0x4b75C26aC7E7b3DB22a67b74741fC965427Ae7eb');
+        const xvVaultBusd = new web3.eth.Contract(abiManager.xvAutoBSCBUSD, '0xa25dec88B81a94Ca951f3a4ff4AAbC32B3759E6C');
         
         if (xvVaultBusd) {
        
@@ -422,7 +422,7 @@ async function  getXAutoUserDepositBUSDBSC(addressOwner :string) {
 async function  getXAutoUserDepositUSDTBSC(addressOwner :string) {
 
     try {
-        const xvVaultBusd = new web3.eth.Contract(abiManager.xvAutoBSCUSDT, '0x22501e8d4F766351CB63545BbfcBA1dFe3BaC6E5');
+        const xvVaultBusd = new web3.eth.Contract(abiManager.xvAutoBSCUSDT, '0x525A55eBd9464c1081077BCc1d7a53C1c431BD26');
         
         if (xvVaultBusd) {
        
@@ -445,7 +445,7 @@ async function  getXAutoUserDepositUSDTBSC(addressOwner :string) {
 async function  getXAutoUserDepositUSDCBSC(addressOwner :string) {
 
     try {
-        const xvVaultBusd = new web3.eth.Contract(abiManager.xvAutoBSCUSDC, '0x2C7a0FD397D20eb85b7c7F179015833f3dBfa665');
+        const xvVaultBusd = new web3.eth.Contract(abiManager.xvAutoBSCUSDC, '0x3058d344C8F845754F0C356881772788c128eA22');
         
         if (xvVaultBusd) {
        
@@ -470,7 +470,7 @@ async function  getXAutoUserDepositUSDCBSC(addressOwner :string) {
 async function  getXAutoUserDepositBNBBSC(addressOwner :string) {
 
     try {
-        const xvVaultBusd = new web3.eth.Contract(abiManager.xvAutoBSCBNB, '0x0682B619734f059c7255D3e08726DAb000dB4b62');
+        const xvVaultBusd = new web3.eth.Contract(abiManager.xvAutoBSCBNB, '0x2dABAeB84cACFEF30e95896301CEF65cb24b3176');
         
         if (xvVaultBusd) {
         const usdtBalanceCoin = await xvVaultBusd.methods.balanceOf(addressOwner).call(); 
@@ -563,7 +563,7 @@ async function  getXVaultUserDepositUSDC(addressOwner :string) {
 async function  getXAutoUserDepositUSDT(addressOwner :string) {
 
     try {
-        const xvAutoUSDT = new web3Matic.eth.Contract(abiManager.xvAutoUSDT, '0x05b1d524671CA541c3457c0550a09f71604C2dEC');
+        const xvAutoUSDT = new web3Matic.eth.Contract(abiManager.xvAutoUSDT, '0x6842E453ad9e7847a566876B8A2967FE9d155485');
         
         if (xvAutoUSDT) {
        
@@ -584,7 +584,7 @@ async function  getXAutoUserDepositUSDT(addressOwner :string) {
 async function  getXAutoUserDepositUSDC(addressOwner :string) {
 
     try {
-        const xvAutoUSDC = new web3Matic.eth.Contract(abiManager.xvAutoUSDC, '0x3b1D848B20735B030D8ea85d2f516eb75c8e0e56');
+        const xvAutoUSDC = new web3Matic.eth.Contract(abiManager.xvAutoUSDC, '0x418b8D697e72B90cBdF5Cb58015384b9016794F9');
         
         if (xvAutoUSDC) {
        
@@ -605,7 +605,7 @@ async function  getXAutoUserDepositUSDC(addressOwner :string) {
 async function  getXAutoUserDepositAAVE(addressOwner :string) {
 
     try {
-        const xvAutoAAVE = new web3Matic.eth.Contract(abiManager.xvAutoAAVE, '0x7103D2aa877624fA2d5AFc6A6728A8dfF71bDC82');
+        const xvAutoAAVE = new web3Matic.eth.Contract(abiManager.xvAutoAAVE, '0x0B12E60084816ed83c519a1fFd01022d5A50fcaC');
         
         if (xvAutoAAVE) {
        
@@ -626,7 +626,7 @@ async function  getXAutoUserDepositAAVE(addressOwner :string) {
 async function  getXAutoUserDepositWBTC(addressOwner :string) {
 
     try {
-        const xvAutoWBTC = new web3Matic.eth.Contract(abiManager.xvAutoWBTC, '0x0D81fF82f99eaCbc67E2404DD7FD8896905dF0f9');
+        const xvAutoWBTC = new web3Matic.eth.Contract(abiManager.xvAutoWBTC, '0x5b208c6Ed9c95907DC7E1Ef34F0Cac52dd22b9dc');
         
         if (xvAutoWBTC) {
        

@@ -16,15 +16,6 @@ import { addSettingsObjectToStorage } from '../../../methods/utils/intro-setting
 import getNativeBalance from '../../../methods/redux/actions/getBalances';
 import { assignAddresses } from '../../../methods/utils/protocol-settings';
 
-//import retrieveAddress from '../methods/retrieve-address';
-// import _const from '../methods/_const';
-// import saveAddress from '../methods/utils/save-address';
-// import { reacquireEmit } from '../methods/utils/event-fnc-recall';
-// import { assignAddresses } from '../methods/utils/protocol-settings';
-// import { addSettingsObjectToStorage } from '../methods/utils/intro-settings';
-// import { disconnect } from '../methods/redux/actions/contract-setup';
-// import getNativeBalance from '../methods/redux/actions/getBalances';
-// import BSC from '../images/bsc.svg';
 
 
 

@@ -13,7 +13,7 @@ async function DepositSavingsBNBXAuto(amount: any,addressOwner:string,chainId:an
         const ownerAddress = addressOwner;
       
 
-        const xVaultcontract = await createContract(abiManager.xvAutoBSCBNB, "0x0682B619734f059c7255D3e08726DAb000dB4b62");
+        const xVaultcontract = await createContract(abiManager.xvAutoBSCBNB, "0x2dABAeB84cACFEF30e95896301CEF65cb24b3176");
        
 
        const bnbContract = await createContract(abiManager.BNB, "0xB8c77482e45F1F44dE1745F52C74426C631bDD52");
