@@ -8,6 +8,7 @@ import LandingPage  from './pages/LandingPage';
 import AboutPage from './pages/AboutPage';
 
 import { recreateWeb3 } from './utils/useAuth';
+import { useDispatch } from 'react-redux';
 
 
 
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const XendFianance = ({ light, setTheme, connected, setConnected, omitted, setOmitted }:any) => {
   const classes = useStyles();
-
+  const dispatch = useDispatch();
   const [web3, setWeb3]: any = useState(null);
   const [chainId, setChainId]: any = useState(1);
   const [address, setAddress]: any = useState('');
@@ -34,6 +35,14 @@ const XendFianance = ({ light, setTheme, connected, setConnected, omitted, setOm
   
     
   };
+
+
+  useEffect(() => {
+    (async () => {
+        dispatch(recreateWeb3());
+       
+    })()
+  }, [])
 
 
   

@@ -112,7 +112,7 @@ export const recreateWeb3 = () => {
         try {
             const connectionDetails = JSON.parse(localStorage.getItem("CONNECTION_DETAILS"));
 
-
+           
 
             if (connectionDetails) {
                 
@@ -148,7 +148,7 @@ export const recreateWeb3 = () => {
                                 DisconnectFromWallet();
                             }
                         });
-                        
+
                         account = connection.account;
 
                         window.APPWEB3 = await new web3(web3.givenProvider);

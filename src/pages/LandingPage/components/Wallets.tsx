@@ -15,6 +15,7 @@ import { reacquireEmit } from '../../../methods/utils/event-fnc-recall';
 import { addSettingsObjectToStorage } from '../../../methods/utils/intro-settings';
 import getNativeBalance from '../../../methods/redux/actions/getBalances';
 import { assignAddresses } from '../../../methods/utils/protocol-settings';
+import getAllBalances from '../../../methods/contracts/getAllBalances';
 
 
 
@@ -61,8 +62,9 @@ const Wallets: FC<WalletProps> = ({ setOpen }) => {
 			payload: { address: account },
 		});
 
-		console.log("CHAIN ID IS",chainId)
+		
 		dispatch(getNativeBalance(address,chainId));
+		dispatch(getAllBalances(account,chainId));
 		// dispatch({ type: _const.PRISTINE });
 		let path = window.location.pathname;
 		path = path.length > 1 ? path.substring(1) : path;

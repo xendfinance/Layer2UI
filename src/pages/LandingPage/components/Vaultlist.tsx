@@ -288,9 +288,9 @@ const [list, setList] = useState(initalList);
         let usdcUserDepositValueMatic ='0.00';
         let wbtcUserDepositValue ='0.00';
    
-      
-        if(wca.address){   
-            
+        if(wca.address){
+
+            if(dashboardValues && dashboardValuesMatic){
              if(chainId == 56){
                usdtBalance = usdtBalances.usdtBalance;        
           
@@ -340,7 +340,7 @@ const [list, setList] = useState(initalList);
           
                 busdUserDepositValueXAuto = busdDepositUserBalanceXAuto.userBusdDepositBalanceXAuto;
                 usdtUserDepositValueXAuto = usdtDepositUserBalanceXAuto.userUsdtDepositBalanceXAuto;
-                console.log("USDT VAULT USER BALANCE IS ",usdtUserDepositValueXAuto)
+               
                 usdcUserDepositValueXAuto = usdcDepositUserBalanceXAuto.userUsdcDepositBalanceXAuto;
                 bnbUserDepositValueXAuto = bnbDepositUserBalanceXAuto.userBnbDepositBalanceXAuto;
                 setList([
@@ -445,6 +445,7 @@ const [list, setList] = useState(initalList);
                    
                ])
              }  
+            }
          }else{
             if(dashboardValues && dashboardValuesMatic){
              if(chainId == 56){
@@ -579,30 +580,51 @@ const [list, setList] = useState(initalList);
 
     
     useEffect(()=>{
-     
-        if(chainId.ChainId){
-            const finalChainId = Number(chainId.ChainId);
-          
-            redrawVaultList(finalChainId); 
+        if(wca.chainId){
+            redrawVaultList(Number(wca.chainId)); 
         }else{
-            const finalChainId = Number(chainId);         
-           
-            redrawVaultList(finalChainId); 
-        } 
+            if(chainId.ChainId){
+                const finalChainId = Number(chainId.ChainId);
+              
+                redrawVaultList(finalChainId); 
+            }else{
+                const finalChainId = Number(chainId);         
+               
+                redrawVaultList(finalChainId); 
+            } 
+        }
+       
       
     }, [chainId,dashboardValuesMatic,dashboardValues,lendingProtocol,lendingProtocol.lenderProtocol])
 
     useEffect(()=>{
-       if(wca.address){
-        if(chainId.ChainId){
-            const finalChainId = Number(chainId.ChainId);
+       if(wca.address && wca.chainId){
+        // if(wca.chainId){
+        //     redrawVaultList(Number(wca.chainId)); 
+        // }else{
+        //     if(chainId.ChainId){
+        //         const finalChainId = Number(chainId.ChainId);
+              
+        //         redrawVaultList(finalChainId); 
+        //     }else{
+        //         const finalChainId = Number(chainId);         
+               
+        //         redrawVaultList(finalChainId); 
+        //     } 
+        // }   
+
+        const finalChainId = Number(wca.chainId);          
+        redrawVaultList(finalChainId); 
+        // if(chainId.ChainId){
+        //     const finalChainId = Number(wca.chainId);
           
-            redrawVaultList(finalChainId); 
-        }else{
-            const finalChainId = Number(chainId);         
+        //     redrawVaultList(finalChainId); 
+        // }else{
+        //     const finalChainId = Number(chainId);         
            
-            redrawVaultList(finalChainId); 
-        } 
+        //     redrawVaultList(finalChainId); 
+        // } 
+      
        }
       
       
@@ -612,16 +634,23 @@ const [list, setList] = useState(initalList);
         ,wbtcBalancesMatic.wbtcBalanceMatic])
 
     useEffect(()=>{
-        if(wca.address){
-         if(chainId.ChainId){
-             const finalChainId = Number(chainId.ChainId);
-           
-             redrawVaultList(finalChainId); 
-         }else{
-             const finalChainId = Number(chainId);         
-            
-             redrawVaultList(finalChainId); 
-         } 
+        if(wca.address && wca.chainId){
+            // if(wca.chainId){
+            //     redrawVaultList(Number(wca.chainId)); 
+            // }else{
+            //     if(chainId.ChainId){
+            //         const finalChainId = Number(chainId.ChainId);
+                  
+            //         redrawVaultList(finalChainId); 
+            //     }else{
+            //         const finalChainId = Number(chainId);         
+                   
+            //         redrawVaultList(finalChainId); 
+            //     } 
+            // }
+            const finalChainId = Number(wca.chainId);          
+            redrawVaultList(finalChainId); 
+        
         }
        
        
@@ -651,6 +680,8 @@ const [list, setList] = useState(initalList);
         } 
       
     }, [chainId])
+
+   
     
 
       

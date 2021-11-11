@@ -17,11 +17,7 @@ import { connectorLocalStorageKey } from '../../../utils/config';
 import { getCurrentSelectedNetwork } from '../../../methods/utils/get-current-network-selected';
 import { disconnect } from '../../../methods/redux/actions/contract-setup';
 import _const from '../../../methods/_const';
-//import { themeLight } from 'theme';
-// import { login } from '../utils/useAuth';
-// import { connectorLocalStorageKey } from '../utils/config';
-// import { changeProtocol } from '../methods/utils/protocol-settings';
-// import { getCurrentSelectedNetwork } from '../methods/utils/get-current-network-selected';
+
 
 
 interface ConnectionModalProps {
@@ -45,8 +41,7 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 		 highestAPYXVault = Number(dashboardValues.apyObj?.HighestXVaultAPY).toFixed(2);
 	}
 	
-	// const highestAPYXVault = useSelector((store: any) => store.DashboardReducer.highestApyXVaultBsc);
-	
+
 
 	const vaults = [
 		{
