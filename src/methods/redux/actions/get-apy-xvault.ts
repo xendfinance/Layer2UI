@@ -214,10 +214,10 @@ const getAPRBNBXAutoBSC = async() => {
        const alpcaAPRNumber = Number(BNBApy._alpaca); 
       
        const fortubeAPR = Number(BNBApy._fortube); 
-       const fulcrumAPR = Number(BNBApy._fulcrum); 
+       //const fulcrumAPR = Number(BNBApy._fulcrum); 
        const venusAPR = Number(BNBApy._venus); 
        
-       const apyArray = [alpcaAPRNumber,fortubeAPR,fulcrumAPR,venusAPR];
+       const apyArray = [alpcaAPRNumber,fortubeAPR,venusAPR];
 
        const finalBNBApy =  getHighestAPYMatic(apyArray);
 
@@ -248,10 +248,10 @@ const getAPRBUSDXAutoBSC = async() => {
        const alpcaAPRNumber = Number(BNBApy._alpaca); 
       
        const fortubeAPR = Number(BNBApy._fortube); 
-       const fulcrumAPR = Number(BNBApy._fulcrum); 
+       //const fulcrumAPR = Number(BNBApy._fulcrum); 
        const venusAPR = Number(BNBApy._venus); 
        
-       const apyArray = [alpcaAPRNumber,fortubeAPR,fulcrumAPR,venusAPR];
+       const apyArray = [alpcaAPRNumber,fortubeAPR,venusAPR];
 
        const finalBNBApy =  getHighestAPYMatic(apyArray);
 
@@ -285,10 +285,10 @@ const getAPRUSDTXAutoBSC = async() => {
        const alpcaAPRNumber = Number(BNBApy._alpaca); 
       
        const fortubeAPR = Number(BNBApy._fortube); 
-       const fulcrumAPR = Number(BNBApy._fulcrum); 
+       //const fulcrumAPR = Number(BNBApy._fulcrum); 
        const venusAPR = Number(BNBApy._venus); 
        
-       const apyArray = [alpcaAPRNumber,fortubeAPR,fulcrumAPR,venusAPR];
+       const apyArray = [alpcaAPRNumber,fortubeAPR,venusAPR];
 
        const finalBNBApy =  getHighestAPYMatic(apyArray);
 
@@ -322,10 +322,10 @@ const getAPRUSDCXAutoBSC = async() => {
        const alpcaAPRNumber = Number(BNBApy._alpaca); 
       
        const fortubeAPR = Number(BNBApy._fortube); 
-       const fulcrumAPR = Number(BNBApy._fulcrum); 
+       //const fulcrumAPR = Number(BNBApy._fulcrum); 
        const venusAPR = Number(BNBApy._venus); 
        
-       const apyArray = [alpcaAPRNumber,fortubeAPR,fulcrumAPR,venusAPR];
+       const apyArray = [alpcaAPRNumber,fortubeAPR,venusAPR];
 
        const finalBNBApy =  getHighestAPYMatic(apyArray);
 
@@ -359,12 +359,12 @@ const getAPRWBTCMatic = async() => {
        const WBTCApy = await web3Instance.methods.recommend('0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6').call();
       
        
-       const fortubeAPRNumber = Number(WBTCApy.fapr); 
+       //const fortubeAPRNumber = Number(WBTCApy.fapr); 
       
        const aaveAPR = Number(WBTCApy.aapr); 
        const ftAPR = Number(WBTCApy.ftapr); 
        
-       const apyArray = [fortubeAPRNumber,aaveAPR,ftAPR];
+       const apyArray = [aaveAPR,ftAPR];
 
        const finalWBTCApy =  getHighestAPYMatic(apyArray);
 
@@ -397,12 +397,13 @@ const getAPRUSDTMatic = async() => {
        const USDTApy = await web3Instance.methods.recommend('0xc2132D05D31c914a87C6611C10748AEb04B58e8F').call();
      
        
-       const fortubeAPRNumber = Number(USDTApy.fapr); 
+       //const fortubeAPRNumber = Number(USDTApy.fapr); 
       
        const aaveAPR = Number(USDTApy.aapr); 
        const ftAPR = Number(USDTApy.ftapr); 
        
-       const apyArray = [fortubeAPRNumber,aaveAPR,ftAPR];
+       //const apyArray = [fortubeAPRNumber,aaveAPR,ftAPR];
+       const apyArray = [aaveAPR,ftAPR];
 
        const finalUSDTApy =  getHighestAPYMatic(apyArray);
 
@@ -433,12 +434,13 @@ const getAPRUSDCMatic = async() => {
  
        const USDCApy = await web3Instance.methods.recommend('0x2791bca1f2de4661ed88a30c99a7a9449aa84174').call();      
        
-       const fortubeAPRNumber = Number(USDCApy.fapr); 
+       //const fortubeAPRNumber = Number(USDCApy.fapr); 
       
        const aaveAPR = Number(USDCApy.aapr); 
        const ftAPR = Number(USDCApy.ftapr); 
        
-       const apyArray = [fortubeAPRNumber,aaveAPR,ftAPR];
+       const apyArray = [aaveAPR,ftAPR];
+      // const apyArray = [fortubeAPRNumber,aaveAPR,ftAPR];
 
        const finalUSDCApy =  getHighestAPYMatic(apyArray);
 
@@ -470,12 +472,13 @@ const getAPRAAVEMatic = async() => {
  
        const AAveApy = await web3Instance.methods.recommend('0xd6df932a45c0f255f85145f286ea0b292b21c90b').call();      
        
-       const fortubeAPRNumber = Number(AAveApy.fapr); 
+       //const fortubeAPRNumber = Number(AAveApy.fapr); 
       
        const aaveAPR = Number(AAveApy.aapr); 
        const ftAPR = Number(AAveApy.ftapr); 
        
-       const apyArray = [fortubeAPRNumber,aaveAPR,ftAPR];
+       //const apyArray = [fortubeAPRNumber,aaveAPR,ftAPR];
+       const apyArray = [aaveAPR,ftAPR];
 
        const finalAaveApy =  getHighestAPYMatic(apyArray);
 
