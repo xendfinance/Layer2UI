@@ -32,35 +32,60 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 	const address = useSelector((store: any) => store.DashboardReducer.address);
 	const walletInUse = useSelector((store: any) => store.DashboardReducer.walletInUse);
 	
-    const dashboardValues = useSelector((store: any) => store.DashboardReducer.dashboard);
+    const highestXAutoBSC = useSelector((store: any) => store.DashboardReducer.highestApyXAutoBsc);
+    const highestXVaultBSC = useSelector((store: any) => store.DashboardReducer.highestApyXVaultBsc);
+    const highestXAutoMatic = useSelector((store: any) => store.DashboardReducer.highestApyXAutoMatic);
+    
+    
 	let highestAPYXAuto;
 	let highestAPYXVault;
+	let highestAPYXAutoMatic;
 
-    if(dashboardValues){
-		 highestAPYXAuto = Number(dashboardValues.apyObj?.HighestXAutoAPY).toFixed(2);
-		 highestAPYXVault = Number(dashboardValues.apyObj?.HighestXVaultAPY).toFixed(2);
+    if(highestXAutoBSC && highestXVaultBSC && highestXAutoMatic){
+		 highestAPYXAuto = Number(highestXAutoBSC.highestAPYXAutoBSC).toFixed(2);
+		 highestAPYXVault = Number(highestXVaultBSC.highestAPYXVaultBSC).toFixed(2);
+		 highestAPYXAutoMatic = Number(highestXAutoMatic.highestAPYXAutoMatic).toFixed(2);
 	}
 	
 
-
+    
 	const vaults = [
 		{
 			code: 'X Vault',
 			image: BSC,
 			name: 'xVault',
 			apy: highestAPYXVault,
+			chainId: 56,
+			network:'bsc',
+			lender:'XAutoBSC'
 		},
 		{
 			code: 'X Auto',
 			image: BSC,
 			name: 'xAuto',
 			apy: highestAPYXAuto,
-		},   
+			chainId: 56,
+            network:'bsc',
+			lender:'XAutoBSC'
+		},
+		{
+			code: 'X Auto',
+			image: Polygon,
+			name: 'xAuto',
+			apy: highestAPYXAutoMatic,
+			chainId: 137,
+			network:'polygon',
+			lender:'XAutoMatic'
+		},      
 	];
 	
+    
+
+	const [connectInfo, setConnectInfo] = useState({ network: null, protocol: null, wallet: null, chainId: null,lender:null })
+	const [vaultInfo, setVaultInfo] = useState(vaults);
 
 
-	const [connectInfo, setConnectInfo] = useState({ network: null, protocol: null, wallet: null, chainId: null })
+
 	const [lender, setlender] = useState({ lender:null })
 
 	const [currentNetwork, setCurrentNetwork] = useState(getCurrentSelectedNetwork());
@@ -99,12 +124,16 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 						</SectionHeader>
 						<SectionBodyNetwork>
 							<CardWrapperNetwork
-									onClick={() => setConnectInfo({
+									onClick={() => {setConnectInfo({
 										...connectInfo,
 										network: 'bsc',
 										chainId: 56,
-										protocol: null
-									})}>
+										protocol: null,
+										lender:'XAutoBSC'
+									})								
+								   
+								    }									
+									}>
                                 
 								{
 									connectInfo.network === 'bsc' &&
@@ -118,7 +147,8 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 									...connectInfo,
 									network: 'polygon',
 									protocol: 'XAuto',
-									chainId: 137
+									chainId: 137,
+									lender:'XAutoMatic'
 								})}>
 								{
 									connectInfo.network === 'polygon' &&
@@ -140,21 +170,23 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 
 							{
 								vaults.map((item, i) => (
-
-									<CardWrapperNetwork
+                                 <>
+								 {
+                                 connectInfo.network == item.network &&
+								 <CardWrapperNetwork
 										key={i}
-										disabled={connectInfo.network !== 'bsc' }
+										//disabled={connectInfo.lender == "XAutoMatic"? :  }
+										
 										onClick={() => setConnectInfo({
 											...connectInfo,
 											protocol: item.code
 										})}>
-										{
+										   {
 											connectInfo.protocol === item.code &&
 											connectInfo.network === 'bsc' &&
 											<img className="check" src={Check} alt="check" />}
-											{
-											connectInfo.protocol === item.code &&
-											connectInfo.network === 'polygon' &&
+											{											
+											connectInfo.network === 'polygon' &&										
 											<img className="check" src={Check} alt="check" />}
 									 
 										<img src={item.image} width={40} />
@@ -163,6 +195,10 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 											<p className="apy">{item.apy}%</p>
 										</div>
 									</CardWrapperNetwork>
+                                   
+                                 }
+									
+								</>
 								))
 							}
 
@@ -425,12 +461,14 @@ const SectionHeader = styled.div`
 		font-weight: 600;
 		font-size: 18px;
 		border-radius: 50%;
+		color:#edecec;
 	}
 
 	& .modal-title {
 		font-weight: 600;
 		font-size: 18px;
 		margin-left: 20px;
+		color:#edecec;
 	}
 `
 

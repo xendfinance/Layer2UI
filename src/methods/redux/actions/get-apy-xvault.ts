@@ -709,10 +709,12 @@ const getTVLBalanceWBTCMatic = async() => {
         
        if (web3Instance) {
  
-       const usdtTVLBalance = await web3Instance.methods.calcPoolValueInToken().call();       
+       const wbtcTVLBalance = await web3Instance.methods.calcPoolValueInToken().call();       
       
 
-       const FinalTVL = usdtTVLBalance / Math.pow(10,8);
+       const FinalTVL = wbtcTVLBalance / Math.pow(10,8);
+
+       console.log("FINAL TVL WBTC ",FinalTVL);
 
        const coinGeckoClient = new CoinGecko();
        const wbtcPrice = await coinGeckoClient.coins.fetch('wrapped-bitcoin', {});
@@ -720,7 +722,7 @@ const getTVLBalanceWBTCMatic = async() => {
        let wbtcPriceCurrent = parseFloat(wbtcPrice.data.market_data.current_price.usd);
    
    
-       const USDResultWBTC = (Number(FinalTVL) * wbtcPriceCurrent) * 100;   
+       const USDResultWBTC = (parseFloat(FinalTVL.toString()) * wbtcPriceCurrent);   
    
        return USDResultWBTC;
        }
@@ -735,19 +737,7 @@ const getTVLBalanceWBTCMatic = async() => {
 	
 
 const getUSDValueOfTVL = async(tvlUsdt:any,tvlUsdc :any,tvlAave:any,tvlWBTC:any) =>{
-    //const coinGeckoClient = new CoinGecko();
-    // const aavePrice = await coinGeckoClient.coins.fetch('aave', {});
-    // const wbtcPrice = await coinGeckoClient.coins.fetch('wrapped-bitcoin', {});
-
-    // let aavePriceCurrent = parseFloat(aavePrice.data.market_data.current_price.usd);
-    // let wbtcPriceCurrent = parseFloat(wbtcPrice.data.market_data.current_price.usd);
-
-
-    // const USDResultAAVE = (Number(tvlAave) * aavePriceCurrent) / 100;
-    // const USDResultWBTC = (Number(tvlWBTC) * wbtcPriceCurrent) * 100;
-
-    // const FinalAvvePrice = USDResultAAVE * 100;
-
+   
     const finalTvlInUSDValue = tvlAave + tvlWBTC + tvlUsdt + tvlUsdc;
 
     return finalTvlInUSDValue;
@@ -755,13 +745,7 @@ const getUSDValueOfTVL = async(tvlUsdt:any,tvlUsdc :any,tvlAave:any,tvlWBTC:any)
 
 
 const getUSDValueOfTVLXAuto = async(tvlUsdt:any,tvlUsdc :any,tvlBNB:any,tvlBUSD:any) =>{
-    // const coinGeckoClient = new CoinGecko();
-    // const binanceCoin = await coinGeckoClient.coins.fetch('binancecoin', {});    
 
-    // let bnbPriceCurrent = parseFloat(binanceCoin.data.market_data.current_price.usd); 
-
-
-    // const USDResultBNB = (Number(tvlBNB) * bnbPriceCurrent) * 100;  
 
 
     const finalTvlInUSDValue = Number(tvlBNB) + Number(tvlBUSD) + Number(tvlUsdt) + Number(tvlUsdc);
@@ -776,7 +760,7 @@ const getUSDValueOfTVLXAuto = async(tvlUsdt:any,tvlUsdc :any,tvlBNB:any,tvlBUSD:
 const getTVLBalanceUSDT = async() => {
 
     try {
-        //const web3Instance = window.APPWEB3;
+     
 
        const web3Instance = new web3.eth.Contract(abiManager.xvVaultUSDT, '0xF8604eE08c70389856242dF88b4CCA90a70733a7');
         
@@ -802,7 +786,7 @@ const getTVLBalanceUSDT = async() => {
 const getTVLBalanceBUSD = async() => {
 
     try {
-        //const web3Instance = window.APPWEB3;
+       
 
        const web3Instance = new web3.eth.Contract(abiManager.xvVaultBUSD, '0xE7e53128Bf23463F7B0B4F0aec1FCB50988c7E9E');
         
@@ -853,9 +837,6 @@ const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
   
-    // These options are needed to round to whole numbers if that's what you want.
-    //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
-    //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
   });
 
 const getXVaultAPI = async(chainId :any ) => {

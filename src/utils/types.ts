@@ -23,7 +23,5 @@ export interface Config {
 
 export interface ConfigVaults {
     code: string;
-    image: any;
-    name: any;
-    apy: any;
+    image: any;    
 }

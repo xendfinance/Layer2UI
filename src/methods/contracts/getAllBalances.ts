@@ -500,10 +500,12 @@ async function  getXVaultUserDepositBUSD(addressOwner :string) {
         
         if (xvVaultBusd) {
        
-        const usdtBalanceCoin = await xvVaultBusd.methods.balanceOf(addressOwner).call(); 
-        const FinalUserBusdBalance = web3.utils.fromWei(usdtBalanceCoin.toString(), 'ether');     
-    
-        return FinalUserBusdBalance;
+        const busdBalanceCoin = await xvVaultBusd.methods.balanceOf(addressOwner).call();
+        const pricePerFullShare = await xvVaultBusd.methods.pricePerShare().call();
+
+        const finalDepositBusdInProtocol = (Number(busdBalanceCoin) * Number(pricePerFullShare)) / Math.pow(10,36);
+
+        return finalDepositBusdInProtocol;
        }
 
 
@@ -524,9 +526,10 @@ async function  getXVaultUserDepositUSDT(addressOwner :string) {
         if (xvVaultUSDT) {
        
         const usdtBalanceCoin = await xvVaultUSDT.methods.balanceOf(addressOwner).call(); 
+        const pricePerFullShare = await xvVaultUSDT.methods.pricePerShare().call();
 
         //Times Price Per Full Share 
-        const FinalUserUSDTBalance = web3.utils.fromWei(usdtBalanceCoin.toString(), 'ether');     
+        const FinalUserUSDTBalance = (Number(usdtBalanceCoin) / Number(pricePerFullShare));     
     
         return FinalUserUSDTBalance;
        }
@@ -549,7 +552,9 @@ async function  getXVaultUserDepositUSDC(addressOwner :string) {
         if (xvVaultUSDC) {
        
         const usdcBalanceCoin = await xvVaultUSDC.methods.balanceOf(addressOwner).call(); 
-        const FinalUserUSDCBalance = web3.utils.fromWei(usdcBalanceCoin.toString(), 'ether');     
+        const pricePerFullShare = await xvVaultUSDC.methods.pricePerShare().call();
+
+        const FinalUserUSDCBalance = (Number(usdcBalanceCoin) / Number(pricePerFullShare));     
     
         return FinalUserUSDCBalance;
        }

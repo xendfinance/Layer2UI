@@ -38,7 +38,8 @@ const initialState = {
     dashboardGridMatic:{},
     walletInUse: '',
     highestApyXAutoBsc: '',
-    highestApyXVaultBsc: ''
+    highestApyXVaultBsc: '',
+    highestApyXAutoMatic: '',
 };
 
 const DashboardReducer = (state = initialState, action: Action) => {
@@ -56,7 +57,9 @@ const DashboardReducer = (state = initialState, action: Action) => {
             return { ...state, highestApyXAutoBsc: action.payload };
         case _const.HIGHESTAPYXVAULT:
             return { ...state, highestApyXVaultBsc: action.payload };
-     
+        case _const.HIGHESTAPYXAUTOMATIC:
+            return { ...state, highestApyXAutoMatic: action.payload };
+    
         case _const.WALLETINUSE:
             return { ...state, walletInUse: action.payload };
         case _const.CONNDETAILS:
