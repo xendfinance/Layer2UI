@@ -37,9 +37,9 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
     const highestXAutoMatic = useSelector((store: any) => store.DashboardReducer.highestApyXAutoMatic);
     
     
-	let highestAPYXAuto;
-	let highestAPYXVault;
-	let highestAPYXAutoMatic;
+	let highestAPYXAuto = '0.00';
+	let highestAPYXVault = '0.00';
+	let highestAPYXAutoMatic= '0.00';
 
     if(highestXAutoBSC && highestXVaultBSC && highestXAutoMatic){
 		 highestAPYXAuto = Number(highestXAutoBSC.highestAPYXAutoBSC).toFixed(2);
@@ -56,8 +56,7 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 			name: 'xVault',
 			apy: highestAPYXVault,
 			chainId: 56,
-			network:'bsc',
-			lender:'XAutoBSC'
+			network:'bsc',		
 		},
 		{
 			code: 'X Auto',
@@ -65,8 +64,7 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 			name: 'xAuto',
 			apy: highestAPYXAuto,
 			chainId: 56,
-            network:'bsc',
-			lender:'XAutoBSC'
+            network:'bsc',			
 		},
 		{
 			code: 'X Auto',
@@ -74,19 +72,15 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 			name: 'xAuto',
 			apy: highestAPYXAutoMatic,
 			chainId: 137,
-			network:'polygon',
-			lender:'XAutoMatic'
+			network:'polygon'			
 		},      
 	];
 	
     
 
-	const [connectInfo, setConnectInfo] = useState({ network: null, protocol: null, wallet: null, chainId: null,lender:null })
-	const [vaultInfo, setVaultInfo] = useState(vaults);
+	const [connectInfo, setConnectInfo] = useState({ network: null, protocol: null, wallet: null, chainId: null })	
 
 
-
-	const [lender, setlender] = useState({ lender:null })
 
 	const [currentNetwork, setCurrentNetwork] = useState(getCurrentSelectedNetwork());
 	const {chainId} = useSelector((store: any) => store.DashboardReducer)
@@ -128,8 +122,7 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 										...connectInfo,
 										network: 'bsc',
 										chainId: 56,
-										protocol: null,
-										lender:'XAutoBSC'
+										protocol: null,										
 									})								
 								   
 								    }									
@@ -147,8 +140,7 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 									...connectInfo,
 									network: 'polygon',
 									protocol: 'XAuto',
-									chainId: 137,
-									lender:'XAutoMatic'
+									chainId: 137								
 								})}>
 								{
 									connectInfo.network === 'polygon' &&
@@ -175,8 +167,7 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
                                  connectInfo.network == item.network &&
 								 <CardWrapperNetwork
 										key={i}
-										//disabled={connectInfo.lender == "XAutoMatic"? :  }
-										
+									
 										onClick={() => setConnectInfo({
 											...connectInfo,
 											protocol: item.code
@@ -246,20 +237,20 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 					<CardContainer>
 						<ConnectInfoWrapper>
 							<div>
-								<p style={{ color: '#959595' }}>Network</p>
-								{chainId === 56 ? <p>Binance Smart Chain</p> : null}								
-								{chainId === 137 ? <p>Polygon Mainnet</p> : null}
+								<p style={{ color:'#edecec' }}>Network</p>
+								{chainId === 56 ? <p style={{ color:'#edecec' }}>Binance Smart Chain</p> : null}								
+								{chainId === 137 ? <p style={{ color:'#edecec' }}>Polygon Mainnet</p> : null}
 
 							</div>
 						</ConnectInfoWrapper>
 
 						<AddressInfoWrapper>
-							<p style={{ color: '#959595' }}>Address</p>
+							<p style={{ color:'#edecec' }}>Address</p>
 							<AddressContainer>
 								<div>
-									<p>{address}</p>
+									<p style={{ color:'#edecec' }}>{address}</p>
 								</div>
-								<img src={Copy} alt="copy" />
+								<img style={{ backgroundColor:'#edecec' }} src={Copy} alt="copy" />
 							</AddressContainer>
 						</AddressInfoWrapper>
 					</CardContainer>
@@ -268,7 +259,7 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 					(
 						<SectionWrapper>
 						<SectionHeader>							
-							<div className="modal-title">Switch Vault</div>
+							<div style={{ color:'#edecec' }} className="modal-title">Select Protocol</div>
 						</SectionHeader>
 						<SectionBodyNetwork>							
 								<CardWrapperNetwork
@@ -284,7 +275,7 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 								}>
 								<img src={BSC} width={40} alt='polygon' />
 								<div className="chain-name">
-								  <p>xVault</p>
+								  <p style={{ color:'#090909' }}>xVault</p>
 								  <p className="apy">{highestAPYXVault}%</p>
 								</div>
 							</CardWrapperNetwork>
@@ -302,7 +293,7 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 								}>
 								<img src={BSC} width={40} alt='polygon' />
 								<div className="chain-name">
-								<p>xAuto</p>
+								<p style={{ color:'#090909' }}>xAuto</p>
 								<p className="apy">{highestAPYXAuto}%</p>	
 								</div>
 							</CardWrapperNetwork>
@@ -314,14 +305,10 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 					
                     }
 
-					<ActionContainer>
-						<div>
-							<img src={Transaction} alt="history" />
-							<p>Transaction History</p>
-						</div>
+					<ActionContainer>						
 						<div onClick={disconnectWallet}>
-							<img src={Disconnect} alt="disconnect" />
-							<p>Disconnect</p>
+							<img style={{ backgroundColor:'#edecec' }} src={Disconnect} alt="disconnect" />
+							<p style={{ color:'#edecec' }}>Disconnect</p>
 						</div>
 					</ActionContainer>
                    

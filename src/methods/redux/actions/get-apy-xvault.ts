@@ -714,7 +714,6 @@ const getTVLBalanceWBTCMatic = async() => {
 
        const FinalTVL = wbtcTVLBalance / Math.pow(10,8);
 
-       console.log("FINAL TVL WBTC ",FinalTVL);
 
        const coinGeckoClient = new CoinGecko();
        const wbtcPrice = await coinGeckoClient.coins.fetch('wrapped-bitcoin', {});

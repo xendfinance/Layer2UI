@@ -65,7 +65,7 @@ const Vault: React.FC<Props> = ({ assetIcon, assetName, fees, balance, netAPY, v
             {auditedState =='audited'?<td className={classes.netAPY}> {auditedState} </td>:<td> {auditedState} </td>}
             
             <td> {availableDeposite} </td>
-            {address && wca.chainId?<td> <Button variant='secondary' fontSize='14' title='Open Vault&nbsp;&nbsp; >' onClick={() => {setOpenDepositeModal(!isOpenDepositeModal);}} /> </td>:<td> <Button variant='secondary' fontSize='14' title='Connect Wallet' /> </td>}
+            {address && wca.chainId?<td> <Button variant='secondary' fontSize='14' title='Open Vault&nbsp;&nbsp;' onClick={() => {setOpenDepositeModal(!isOpenDepositeModal);}} /> </td>:<td> <Button variant='secondary' fontSize='14' title='Connect Wallet' /> </td>}
             
         </tr>
     );

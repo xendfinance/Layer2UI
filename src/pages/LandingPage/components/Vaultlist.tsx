@@ -309,7 +309,7 @@ const [list, setList] = useState(initalList);
                         assetIcon: vault1,
                         assetName: 'USDT',
                         fees: 'xVault',
-                        balance: Number(usdtUserDepositValue).toFixed(2),
+                        balance: usdtUserDepositValue,
                         netAPY: Number(dashboardValues.apyObj?.usdt).toFixed(2),
                         vaultasset:dashboardValues.apyObj?.tvlUSDTBsc,
                         auditedState:'audited',
@@ -319,7 +319,7 @@ const [list, setList] = useState(initalList);
                         assetIcon: vault2,
                         assetName: 'BUSD',
                         fees: 'xVault',
-                        balance: Number(busdUserDepositValue).toFixed(2),
+                        balance: busdUserDepositValue,
                         netAPY: Number(dashboardValues.apyObj?.busd).toFixed(2),
                         vaultasset: dashboardValues.apyObj?.tvlBUSDBsc,
                         auditedState:'audited',
@@ -329,7 +329,7 @@ const [list, setList] = useState(initalList);
                         assetIcon: vault3,
                         assetName: 'USDC',
                         fees: 'xVault',
-                        balance: usdcUserDepositValue,
+                        balance:usdcUserDepositValue,
                         netAPY: Number(dashboardValues.apyObj?.usdc).toFixed(2),
                         vaultasset: dashboardValues.apyObj?.tvlUSDCBsc,
                         auditedState:'audited',
@@ -396,11 +396,31 @@ const [list, setList] = useState(initalList);
                aaveBalanceMatic = aaveBalancesMatic.aaveBalanceMatic;
                wbtcBalanceMatic = wbtcBalancesMatic.wbtcBalanceMatic;
                
-               aaveUserDepositValue = aaveDepositUserBalance.aaveDepositBalanceMatic;
-               wbtcUserDepositValue = wbtcDepositUserBalance.wbtcDepositBalanceMatic;
-               usdtUserDepositValueMatic = usdtDepositUserBalanceMatic.usdtDepositBalanceMatic;
-               usdcUserDepositValueMatic = usdcDepositUserBalanceMatic.usdcDepositBalanceMatic;
+               if(aaveDepositUserBalance.aaveDepositBalanceMatic){
+                aaveUserDepositValue = aaveDepositUserBalance.aaveDepositBalanceMatic;
+               }else{
+                aaveUserDepositValue = aaveDepositUserBalance;
+               }
 
+               if(wbtcDepositUserBalance.wbtcDepositBalanceMatic){
+                wbtcUserDepositValue = wbtcDepositUserBalance.wbtcDepositBalanceMatic;  
+               }else{
+                wbtcUserDepositValue = wbtcDepositUserBalance; 
+               }
+
+               if( usdtDepositUserBalanceMatic.usdtDepositBalanceMatic){
+                usdtUserDepositValueMatic = usdtDepositUserBalanceMatic.usdtDepositBalanceMatic
+               }else{
+                usdtUserDepositValueMatic = usdtDepositUserBalanceMatic;
+               }
+
+               if(usdcDepositUserBalanceMatic.usdcDepositBalanceMatic){
+                usdcUserDepositValueMatic = usdcDepositUserBalanceMatic.usdcDepositBalanceMatic;
+               }else{
+                usdcUserDepositValueMatic = usdcDepositUserBalanceMatic;
+               }
+              
+            
                setList([
                    {
                        assetIcon: vault1,
@@ -633,7 +653,8 @@ const [list, setList] = useState(initalList);
     }, [usdtBalancesMatic.usdtBalanceMatic
         ,usdcBalancesMatic.usdcBalanceMatic
         ,aaveBalancesMatic.aaveBalanceMatic
-        ,wbtcBalancesMatic.wbtcBalanceMatic])
+        ,wbtcBalancesMatic.wbtcBalanceMatic
+      ])
 
     useEffect(()=>{
         if(wca.address && wca.chainId.ChainId){
