@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import getXVaultAPI from '../../methods/redux/actions/get-apy-xvault';
 import _const from '../../methods/_const';
 import getAllBalances from '../../methods/contracts/getAllBalances';
+import getHighestAPY from '../../methods/redux/actions/get-highest-apy';
 
 interface Props {
     connected: any;  
@@ -31,7 +32,8 @@ const LandingPage: React.FC<Props> = ({ connected }:any) => {
 
     const buildPreData = async () => {
         //Build Pre Data
-        
+         dispatch(getHighestAPY());
+         
          const apyObj = await getXVaultAPI(56);
          dispatch({
              type: _const.DashboardGrid,
@@ -43,6 +45,8 @@ const LandingPage: React.FC<Props> = ({ connected }:any) => {
              type: _const.DashboardGridMatic,
              payload: { apyObjMatic }
          });
+
+         
 
          if(wca.address){
             dispatch(getAllBalances(wca.address,currentChainId))

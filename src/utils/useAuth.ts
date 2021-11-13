@@ -211,7 +211,7 @@ export const DisconnectFromWallet = async () => {
 
         removeAddress();
 
-       
+        window.sessionStorage.removeItem(connectorLocalStorageKey);
         window.localStorage.removeItem("CONNECTION_DETAILS");
        
         const DashboardReducerAction: any = await reduxStore();

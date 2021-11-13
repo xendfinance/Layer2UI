@@ -16,6 +16,8 @@ import { addSettingsObjectToStorage } from '../../../methods/utils/intro-setting
 import getNativeBalance from '../../../methods/redux/actions/getBalances';
 import { assignAddresses } from '../../../methods/utils/protocol-settings';
 import getAllBalances from '../../../methods/contracts/getAllBalances';
+import BSC from '../../../assets/images/bsc.svg';
+import Polygon from '../../../assets/icons/polygon.svg';
 
 
 
@@ -34,6 +36,7 @@ const Wallets: FC<WalletProps> = ({ setOpen }) => {
 	const [width, setWidth] = useState<number>(window.innerWidth);
 
 	const [walletLogo, setWalletLogo] = useState('');
+	const [networkLogo, setNetworkLogo] = useState('');
 
 
 
@@ -62,13 +65,24 @@ const Wallets: FC<WalletProps> = ({ setOpen }) => {
 			payload: { address: account },
 		});
 
-		
-		dispatch(getNativeBalance(address,chainId));
-		dispatch(getAllBalances(account,chainId));
-		// dispatch({ type: _const.PRISTINE });
-		let path = window.location.pathname;
-		path = path.length > 1 ? path.substring(1) : path;
-		reacquireEmit(path);
+		const connectionDetails = JSON.parse(localStorage.getItem("CONNECTION_DETAILS"));
+		if(connectionDetails){
+			dispatch(getNativeBalance(address,connectionDetails.chainId));
+			dispatch(getAllBalances(account,connectionDetails.chainId));
+
+			let path = window.location.pathname;
+		    path = path.length > 1 ? path.substring(1) : path;
+		    reacquireEmit(path);
+		}else{
+
+			dispatch(getNativeBalance(address,chainId));
+			dispatch(getAllBalances(account,chainId));
+			// dispatch({ type: _const.PRISTINE });
+			let path = window.location.pathname;
+			path = path.length > 1 ? path.substring(1) : path;
+			reacquireEmit(path);
+		}
+
 	}
 
 
@@ -186,6 +200,22 @@ const Wallets: FC<WalletProps> = ({ setOpen }) => {
 	
 		const connectedWallet = connectors.filter(x => x.title === walletInUse);
 		connectedWallet[0] && setWalletLogo(connectedWallet[0].image);
+        
+		const connectionDetails = JSON.parse(localStorage.getItem("CONNECTION_DETAILS"));
+		if(connectionDetails){
+			if(connectionDetails.chainId == 56){
+				setNetworkLogo(BSC);
+			}else{
+				setNetworkLogo(Polygon);
+			}			
+		}else{
+			if(chainId == 56){
+				setNetworkLogo(BSC);
+			}else{
+				setNetworkLogo(Polygon);
+			}
+		}		
+
 	}, [address, walletInUse])
 
 
@@ -206,8 +236,11 @@ const Wallets: FC<WalletProps> = ({ setOpen }) => {
 					) : (
 						<div>
 							<span>{nativeBalance}</span>
-							<div className="wallet">
-								<figure className="connected">
+							<figure className="connectedNetwork">								    
+							    <img src={networkLogo} width={35} alt="" />
+								</figure>
+							<div className="wallet">							    
+								<figure className="connected">								    
 									<img src={walletLogo} width={20} alt="" />
 								</figure>
 								<span>{truncateAddress(address)}</span>
@@ -270,6 +303,14 @@ const ConnectWalletStyle = styled.button`
 
 	& figure.connected {
 		background: white;
+	}
+
+	
+
+	& figure.connectedNetwork {
+		background: white;
+		width: 40px;
+        height:40px;
 	}
 
 	@media (min-width: 900px) {

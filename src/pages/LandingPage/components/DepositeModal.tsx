@@ -912,17 +912,17 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                             <Box className={classes.label}>Deposit</Box>
                             <Box className={classes.rountInput}>
                                 <input type="text" value={depositAmount} onChange={(e)=>setDeposit(e.target.value)}/>
-                                <Box>MAX</Box>
+                               
                             </Box>
-                            <Box className={classes.button} onClick={buttonHandlerDeposit}>Deposit</Box>
+                           {Number(balanceStable) > 0?<Box className={classes.button} onClick={buttonHandlerDeposit}>Deposit</Box>:<Box className={classes.button} style={{ background:'linear-gradient(276.21deg, #eaecf1 -26.01%, rgb(140 130 124) 145.95%)' }}>Deposit</Box>} 
                         </Grid>
                         <Grid item xs={6}>
                             <Box className={classes.label}>Withdraw</Box>
                             <Box className={classes.rountInput}>
                                 <input type="text" value={withdrawalAmount} onChange={(e)=>setWithdrawal(e.target.value)}/>
-                                <Box>MAX</Box>
+                             
                             </Box>
-                            <Box className={classes.button} onClick={buttonHandlerWithdraw}>Withdraw</Box>
+                            {Number(depositBalance) > 0 ?<Box className={classes.button} onClick={buttonHandlerWithdraw}>Withdraw</Box>:<Box className={classes.button}  style={{ background:'linear-gradient(276.21deg, #eaecf1 -26.01%, rgb(140 130 124) 145.95%)' }} >Withdraw</Box>} 
                         </Grid>
                     </Grid>
                 </BrowserView>
@@ -937,16 +937,16 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                             ? <Box>
                                 <Box className={classes.rountInput}>
                                     <input type="text" value={depositAmount} onChange={(e)=>setDeposit(e.target.value)}/>
-                                    <Box>MAX</Box>
+                                  
                                 </Box>
-                                <Box className={classes.button} onClick={buttonHandlerDeposit}>Deposit</Box>
+                                {Number(balanceStable) > 0?<Box className={classes.button} onClick={buttonHandlerDeposit}>Deposit</Box>:<Box className={classes.button} style={{ background:'linear-gradient(276.21deg, #eaecf1 -26.01%, rgb(140 130 124) 145.95%)' }}>Deposit</Box>}
                             </Box>
                             : <Box>
                                 <Box className={classes.rountInput}>
                                     <input type="text" value={withdrawalAmount} onChange={(e)=>setWithdrawal(e.target.value)}/>
-                                    <Box>MAX</Box>
+                                   
                                 </Box>
-                                <Box className={classes.button} onClick={buttonHandlerWithdraw}>Withdraw</Box>
+                               {Number(depositBalance) > 0 ?<Box className={classes.button} onClick={buttonHandlerWithdraw}>Withdraw</Box>:<Box className={classes.button} style={{ background:'linear-gradient(276.21deg, #eaecf1 -26.01%, rgb(140 130 124) 145.95%)' }} >Withdraw</Box>} 
                             </Box>
                         }
                     </Box>

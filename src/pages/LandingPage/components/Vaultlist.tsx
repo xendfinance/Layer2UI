@@ -302,14 +302,14 @@ const [list, setList] = useState(initalList);
                busdUserDepositValue = busdDepositUserBalance.busdDepositBalance;
                usdtUserDepositValue = usdtDepositUserBalance.usdtDepositBalance;
                usdcUserDepositValue = usdcDepositUserBalance.usdcDepositBalance;
-
+             
                if(lendingProtocol == "X Vault" ||lendingProtocol == 'X Vault' ||lendingProtocol.lenderProtocol =='X Vault' || lendingProtocol.lenderProtocol=="X Vault" ){
                 setList([
                     {
                         assetIcon: vault1,
                         assetName: 'USDT',
                         fees: 'xVault',
-                        balance: Number(usdtUserDepositValue).toFixed(2),
+                        balance: usdtUserDepositValue,
                         netAPY: Number(dashboardValues.apyObj?.usdt).toFixed(2),
                         vaultasset:dashboardValues.apyObj?.tvlUSDTBsc,
                         auditedState:'audited',
@@ -319,7 +319,7 @@ const [list, setList] = useState(initalList);
                         assetIcon: vault2,
                         assetName: 'BUSD',
                         fees: 'xVault',
-                        balance: Number(busdUserDepositValue).toFixed(2),
+                        balance: busdUserDepositValue,
                         netAPY: Number(dashboardValues.apyObj?.busd).toFixed(2),
                         vaultasset: dashboardValues.apyObj?.tvlBUSDBsc,
                         auditedState:'audited',
@@ -329,7 +329,7 @@ const [list, setList] = useState(initalList);
                         assetIcon: vault3,
                         assetName: 'USDC',
                         fees: 'xVault',
-                        balance: usdcUserDepositValue,
+                        balance:usdcUserDepositValue,
                         netAPY: Number(dashboardValues.apyObj?.usdc).toFixed(2),
                         vaultasset: dashboardValues.apyObj?.tvlUSDCBsc,
                         auditedState:'audited',
@@ -396,11 +396,31 @@ const [list, setList] = useState(initalList);
                aaveBalanceMatic = aaveBalancesMatic.aaveBalanceMatic;
                wbtcBalanceMatic = wbtcBalancesMatic.wbtcBalanceMatic;
                
-               aaveUserDepositValue = aaveDepositUserBalance.aaveDepositBalanceMatic;
-               wbtcUserDepositValue = wbtcDepositUserBalance.wbtcDepositBalanceMatic;
-               usdtUserDepositValueMatic = usdtDepositUserBalanceMatic.usdtDepositBalanceMatic;
-               usdcUserDepositValueMatic = usdcDepositUserBalanceMatic.usdcDepositBalanceMatic;
+               if(aaveDepositUserBalance.aaveDepositBalanceMatic){
+                aaveUserDepositValue = aaveDepositUserBalance.aaveDepositBalanceMatic;
+               }else{
+                aaveUserDepositValue = aaveDepositUserBalance;
+               }
 
+               if(wbtcDepositUserBalance.wbtcDepositBalanceMatic){
+                wbtcUserDepositValue = wbtcDepositUserBalance.wbtcDepositBalanceMatic;  
+               }else{
+                wbtcUserDepositValue = wbtcDepositUserBalance; 
+               }
+
+               if( usdtDepositUserBalanceMatic.usdtDepositBalanceMatic){
+                usdtUserDepositValueMatic = usdtDepositUserBalanceMatic.usdtDepositBalanceMatic
+               }else{
+                usdtUserDepositValueMatic = usdtDepositUserBalanceMatic;
+               }
+
+               if(usdcDepositUserBalanceMatic.usdcDepositBalanceMatic){
+                usdcUserDepositValueMatic = usdcDepositUserBalanceMatic.usdcDepositBalanceMatic;
+               }else{
+                usdcUserDepositValueMatic = usdcDepositUserBalanceMatic;
+               }
+              
+            
                setList([
                    {
                        assetIcon: vault1,
@@ -529,6 +549,7 @@ const [list, setList] = useState(initalList);
                 }
                 
              }else{
+                 
                 setList([
                     {
                         assetIcon: vault1,
@@ -581,6 +602,7 @@ const [list, setList] = useState(initalList);
     
     useEffect(()=>{
         if(wca.chainId){
+          
             redrawVaultList(Number(wca.chainId)); 
         }else{
             if(chainId.ChainId){
@@ -631,10 +653,11 @@ const [list, setList] = useState(initalList);
     }, [usdtBalancesMatic.usdtBalanceMatic
         ,usdcBalancesMatic.usdcBalanceMatic
         ,aaveBalancesMatic.aaveBalanceMatic
-        ,wbtcBalancesMatic.wbtcBalanceMatic])
+        ,wbtcBalancesMatic.wbtcBalanceMatic
+      ])
 
     useEffect(()=>{
-        if(wca.address && wca.chainId){
+        if(wca.address && wca.chainId.ChainId){
             // if(wca.chainId){
             //     redrawVaultList(Number(wca.chainId)); 
             // }else{
@@ -648,7 +671,7 @@ const [list, setList] = useState(initalList);
             //         redrawVaultList(finalChainId); 
             //     } 
             // }
-            const finalChainId = Number(wca.chainId);          
+            const finalChainId = Number(wca.chainId.ChainId);          
             redrawVaultList(finalChainId); 
         
         }
@@ -695,7 +718,7 @@ const [list, setList] = useState(initalList);
                                 <tr>
                                     <th style={{width:"11%"}}>                                    
                                     <Tooltip
-                                    title='Assets Supported'
+                                    title='Digital Assets Supported'
                                     placement="top"
                                     >
                                     <div>
@@ -705,7 +728,7 @@ const [list, setList] = useState(initalList);
                                     </th>
                                     <th style={{width:"10%"}}>
                                     <Tooltip
-                                    title='Layer 2 Defi protocols'
+                                    title='This is the Xend Finance Layer 2 DeFi protocol'
                                     placement="top"
                                     >
                                     <div>
@@ -715,7 +738,7 @@ const [list, setList] = useState(initalList);
                                     </th>
                                     <th style={{width:"10%"}}>
                                     <Tooltip
-                                    title='User balance deposited into protocol'
+                                    title='This is overall user balance plus interest in the protocol'
                                     placement="top"
                                     >
                                     <div>
@@ -725,7 +748,7 @@ const [list, setList] = useState(initalList);
                                     </th>
                                     <th style={{width:"11%"}}>
                                     <Tooltip
-                                    title='Annual percentage yield'
+                                    title='Annual Percentage Yield'
                                     placement="top"
                                     >
                                     <div>
@@ -735,17 +758,17 @@ const [list, setList] = useState(initalList);
                                     </th>
                                     <th style={{width:"12%"}}>
                                     <Tooltip
-                                    title='Total vault assets in USD value'
+                                    title='Total amount in USD held in each protocol based on selected asset'
                                     placement="top"
                                     >
                                     <div>
-                                    <span>Vault Assets</span><QuestionCircleOutlined style={{ color: '#FF6600',paddingLeft:'3px' }} />
+                                    <span>Total Value Locked</span><QuestionCircleOutlined style={{ color: '#FF6600',paddingLeft:'3px' }} />
                                     </div>
                                     </Tooltip> 
                                     </th>
                                     <th style={{width:"8%"}}>
                                     <Tooltip
-                                    title='Contract is verified'
+                                    title='Audit status'
                                     placement="top"
                                     >
                                     <div>
@@ -755,7 +778,7 @@ const [list, setList] = useState(initalList);
                                     </th>
                                     <th style={{width:"20%"}}>
                                     <Tooltip
-                                    title='Wallet balance'
+                                    title='Wallet Balance'
                                     placement="top"
                                     >
                                     <div>

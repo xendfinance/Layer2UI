@@ -93,7 +93,7 @@ const VaultMobile: React.FC<Props> = ({ className, assetIcon, assetName, fees, b
                     <Box className={classes.value}>{availableDeposite}</Box>
                 </Box>
                 <Box className={classes.openVaultButton}>
-                {address && wca.chainId?<Button variant='secondary' fontSize='14' title='Open Vault&nbsp;&nbsp; >' onClick={() => {setOpenDepositeModal(!isOpenDepositeModal);}} />:<Button variant='secondary' fontSize='14' title='Connect Wallet' />}            
+                {address && wca.chainId?<Button variant='secondary' fontSize='14' title='Open Vault&nbsp;&nbsp;' onClick={() => {setOpenDepositeModal(!isOpenDepositeModal);}} />:<Button variant='secondary' fontSize='14' title='Connect Wallet' />}            
                 </Box>
             </Box>
         );
