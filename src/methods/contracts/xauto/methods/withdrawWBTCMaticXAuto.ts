@@ -23,18 +23,18 @@ async function WithdrawSavingsWBTCMatic(amount: any,addressOwner:string,chainId:
               });
         }
       
-        const pricePerShare = await xAutocontract.methods.getPricePerFullShare().call();  
-       
+        const wbtcShareBalance = await xAutocontract.methods.balanceOf(addressOwner).call(); 
+        const pricePerFullShare = await xAutocontract.methods.getPricePerFullShare().call();
 
-        const amountWithdraw = parseFloat(amount) * Math.pow(10, 8);
-        const amountWithdrawFinal = amountWithdraw * Math.pow(10, 18);
-        const pricePerShareConverted = Number(pricePerShare);
-   
-    
-        const shares = GetWithdrawAmountPerFullShareMaticUSDT(amountWithdrawFinal,pricePerShareConverted);
-        const finalShares = Math.round(shares);       
-        
-       return await xAutocontract.methods.withdraw(finalShares)
+        const FinalUserUSDCBalance = (Number(wbtcShareBalance) * Number(pricePerFullShare)) / Math.pow(10,26);  
+
+        const amountWithdraw =  Number(amount);
+       
+        const finalWithdrawShare = (wbtcShareBalance * amountWithdraw) / FinalUserUSDCBalance;
+       
+        const sharesFinal = Math.round(finalWithdrawShare);
+      
+       return await xAutocontract.methods.withdraw(BigInt(sharesFinal))
         .send({ from: ownerAddress })
         .on('transactionHash', (hash: string) => {
            

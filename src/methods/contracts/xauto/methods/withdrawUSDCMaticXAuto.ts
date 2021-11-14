@@ -24,17 +24,18 @@ async function WithdrawSavingsUSDCMatic(amount: any,addressOwner:string,chainId:
               });
         }
       
-        const pricePerShare = await xAutocontract.methods.getPricePerFullShare().call();  
+        const usdcShareBalance = await xAutocontract.methods.balanceOf(addressOwner).call(); 
+        const pricePerFullShare = await xAutocontract.methods.getPricePerFullShare().call();
+
+        const FinalUserUSDCBalance = (Number(usdcShareBalance) * Number(pricePerFullShare)) / Math.pow(10,24);  
+
+        const amountWithdraw =  Number(amount);
        
-        const amountWithdraw = Number(amount) * Math.pow(10, 6);
-        const amountWithdrawFinal = amountWithdraw * Math.pow(10, 18);
-        const pricePerShareConverted = Number(pricePerShare);
-   
-    
-        const shares = GetWithdrawAmountPerFullShareMaticUSDT(amountWithdrawFinal,pricePerShareConverted);
-        const finalShares = Math.round(shares);       
+        const finalWithdrawShare = (usdcShareBalance * amountWithdraw) / FinalUserUSDCBalance;
+       
+        const sharesFinal = Math.round(finalWithdrawShare);
         
-        return await xAutocontract.methods.withdraw(finalShares)
+        return await xAutocontract.methods.withdraw(BigInt(sharesFinal))
         .send({ from: ownerAddress })
         .on('transactionHash', (hash: string) => {
            

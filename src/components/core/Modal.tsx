@@ -101,8 +101,7 @@ const ModalStyles = styled.div<ModalStylesProps>`
 		opacity: 0;
 		transform: scale(0.8);
 		transition: all 300ms ease;
-        background:linear-gradient( 
-            100.89deg,rgb(32,66,184) 3.11%,rgb(255,102,0) 122.62%);
+        background:#1C1D21;
 	}
 
 	${({ open, show }) => open && css`
@@ -113,8 +112,7 @@ const ModalStyles = styled.div<ModalStylesProps>`
 		& > div {
 			${show && css`
 				opacity	: 1;
-                background:linear-gradient( 
-                    100.89deg,rgb(32,66,184) 3.11%,rgb(255,102,0) 122.62%);
+                background:#1C1D21;
 				transform: scale(1);
 			`}
 		}
