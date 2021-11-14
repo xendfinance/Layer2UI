@@ -76,7 +76,7 @@ const VaultMobile: React.FC<Props> = ({ className, assetIcon, assetName, fees, b
                 </Box>
                 <Box className={classes.content}>
                     <Box>
-                        <Box className={classes.field}>Net APY</Box>
+                        <Box className={classes.field}>APY</Box>
                         <Box className={classes.value} style={{color: '#00D395'}}>{netAPY}</Box>
                     </Box>
                     <Box>
@@ -84,12 +84,12 @@ const VaultMobile: React.FC<Props> = ({ className, assetIcon, assetName, fees, b
                         <Box className={classes.value}>{balance}</Box>
                     </Box>
                     <Box>
-                        <Box className={classes.field}>Vault Assets</Box>
+                        <Box className={classes.field}>Total Value Locked</Box>
                         <Box className={classes.value}>{vaultasset}</Box>
                     </Box>
                 </Box>
                 <Box style={{marginTop: 20}}>
-                    <Box className={classes.field}>Available to Deposit</Box>
+                    <Box className={classes.field}>Available to deposit</Box>
                     <Box className={classes.value}>{availableDeposite}</Box>
                 </Box>
                 <Box className={classes.openVaultButton}>

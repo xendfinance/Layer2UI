@@ -143,7 +143,7 @@ const [list, setList] = useState(initalList);
     const usdcDepositUserBalanceMatic = useSelector((store: any) => store.DashboardReducer.usdcDepositBalanceMatic); 
     const aaveDepositUserBalance = useSelector((store: any) => store.DashboardReducer.aaveDepositBalanceMatic); 
     const wbtcDepositUserBalance = useSelector((store: any) => store.DashboardReducer.wbtcDepositBalanceMatic); 
-    
+   
     const wca = useSelector((store: any) => store.DashboardReducer.wca);
     const lendingProtocol = useSelector((store: any) => store.DashboardReducer.lender);
 
@@ -313,7 +313,7 @@ const [list, setList] = useState(initalList);
                         netAPY: Number(dashboardValues.apyObj?.usdt).toFixed(2),
                         vaultasset:dashboardValues.apyObj?.tvlUSDTBsc,
                         auditedState:'audited',
-                        availableDeposit: Number(usdtBalance).toFixed(2)
+                        availableDeposit: Number(usdtBalance).toFixed(2) +" USDT"
                     },
                     {
                         assetIcon: vault2,
@@ -323,7 +323,7 @@ const [list, setList] = useState(initalList);
                         netAPY: Number(dashboardValues.apyObj?.busd).toFixed(2),
                         vaultasset: dashboardValues.apyObj?.tvlBUSDBsc,
                         auditedState:'audited',
-                        availableDeposit: Number(busdBalance).toFixed(2)
+                        availableDeposit: Number(busdBalance).toFixed(2)+" BUSD"
                     },
                     {
                         assetIcon: vault3,
@@ -333,7 +333,7 @@ const [list, setList] = useState(initalList);
                         netAPY: Number(dashboardValues.apyObj?.usdc).toFixed(2),
                         vaultasset: dashboardValues.apyObj?.tvlUSDCBsc,
                         auditedState:'audited',
-                        availableDeposit: Number(usdcBalance).toFixed(2)
+                        availableDeposit: Number(usdcBalance).toFixed(2)+" USDC"
                     }
                 ])
                }else{
@@ -352,7 +352,7 @@ const [list, setList] = useState(initalList);
                         netAPY: Number(dashboardValues.apyObj?.usdtXauto).toFixed(2),
                         vaultasset: dashboardValues.apyObj?.tvlUSDTBscXAuto,
                         auditedState:'audited',
-                        availableDeposit: Number(usdtBalance).toFixed(2)
+                        availableDeposit: Number(usdtBalance).toFixed(2)+" USDT"
                     },
                     {
                         assetIcon: vault2,
@@ -362,7 +362,7 @@ const [list, setList] = useState(initalList);
                         netAPY: Number(dashboardValues.apyObj?.busdXauto).toFixed(2),
                         vaultasset: dashboardValues.apyObj?.tvlBUSDBscXAuto,
                         auditedState:'audited',
-                        availableDeposit: Number(busdBalance).toFixed(2)
+                        availableDeposit: Number(busdBalance).toFixed(2)+" BUSD"
                     },
                     {
                         assetIcon: vault4,
@@ -372,7 +372,7 @@ const [list, setList] = useState(initalList);
                         netAPY: Number(dashboardValues.apyObj?.bnbXauto).toFixed(2),
                         vaultasset: dashboardValues.apyObj?.tvlVBNBBscXAuto,
                         auditedState:'audited',
-                        availableDeposit: Number(bnbBalance).toFixed(6)
+                        availableDeposit: Number(bnbBalance).toFixed(6)+" BNB"
                     },
                     {
                         assetIcon: vault3,
@@ -382,44 +382,49 @@ const [list, setList] = useState(initalList);
                         netAPY: Number(dashboardValues.apyObj?.usdcXauto).toFixed(2),
                         vaultasset: dashboardValues.apyObj?.tvlUSDCBscXAuto,
                         auditedState:'audited',
-                        availableDeposit: Number(usdcBalance).toFixed(2)
+                        availableDeposit: Number(usdcBalance).toFixed(2)+" USDC"
                     }
                 ])
                }
              
              }else{
    
-               usdtBalanceMatic = usdtBalancesMatic.usdtBalanceMatic;        
-          
-               usdcBalanceMatic = usdcBalancesMatic.usdcBalanceMatic;
-           
-               aaveBalanceMatic = aaveBalancesMatic.aaveBalanceMatic;
-               wbtcBalanceMatic = wbtcBalancesMatic.wbtcBalanceMatic;
+              
                
-               if(aaveDepositUserBalance.aaveDepositBalanceMatic){
-                aaveUserDepositValue = aaveDepositUserBalance.aaveDepositBalanceMatic;
-               }else{
-                aaveUserDepositValue = aaveDepositUserBalance;
+               if(usdtBalancesMatic.usdtBalanceMatic){
+                usdtBalanceMatic = usdtBalancesMatic.usdtBalanceMatic;    
+               }
+               if(usdcBalancesMatic.usdcBalanceMatic){
+                usdcBalanceMatic = usdcBalancesMatic.usdcBalanceMatic;
+               }
+               if(aaveBalancesMatic.aaveBalanceMatic){
+                aaveBalanceMatic = aaveBalancesMatic.aaveBalanceMatic;
+               }
+               if(wbtcBalancesMatic.wbtcBalanceMatic){
+                wbtcBalanceMatic = wbtcBalancesMatic.wbtcBalanceMatic;
+               }
+              
+           
+              
+              
+
+            
+               if(usdcDepositUserBalanceMatic.usdcDepositBalanceMatic){
+                usdcUserDepositValueMatic = usdcDepositUserBalanceMatic.usdcDepositBalanceMatic;
+               }
+
+               if(usdtDepositUserBalanceMatic.usdtDepositBalanceMatic){
+                usdtUserDepositValueMatic = usdtDepositUserBalanceMatic.usdtDepositBalanceMatic
                }
 
                if(wbtcDepositUserBalance.wbtcDepositBalanceMatic){
                 wbtcUserDepositValue = wbtcDepositUserBalance.wbtcDepositBalanceMatic;  
-               }else{
-                wbtcUserDepositValue = wbtcDepositUserBalance; 
                }
 
-               if( usdtDepositUserBalanceMatic.usdtDepositBalanceMatic){
-                usdtUserDepositValueMatic = usdtDepositUserBalanceMatic.usdtDepositBalanceMatic
-               }else{
-                usdtUserDepositValueMatic = usdtDepositUserBalanceMatic;
+               if(aaveDepositUserBalance.aaveDepositBalanceMatic){
+                aaveUserDepositValue = aaveDepositUserBalance.aaveDepositBalanceMatic;
                }
-
-               if(usdcDepositUserBalanceMatic.usdcDepositBalanceMatic){
-                usdcUserDepositValueMatic = usdcDepositUserBalanceMatic.usdcDepositBalanceMatic;
-               }else{
-                usdcUserDepositValueMatic = usdcDepositUserBalanceMatic;
-               }
-              
+               
             
                setList([
                    {
@@ -430,7 +435,7 @@ const [list, setList] = useState(initalList);
                        netAPY: Number(dashboardValuesMatic.apyObjMatic?.usdtApyMatic).toFixed(2),
                        vaultasset:  dashboardValuesMatic.apyObjMatic?.tvlUSDTMatic,
                        auditedState:'audited',
-                       availableDeposit: usdtBalanceMatic
+                       availableDeposit: usdtBalanceMatic+" USDT"
                    },
                    {
                        assetIcon: vault3,
@@ -440,7 +445,7 @@ const [list, setList] = useState(initalList);
                        netAPY: Number(dashboardValuesMatic.apyObjMatic?.usdcApyMatic).toFixed(2),
                        vaultasset:  dashboardValuesMatic.apyObjMatic?.tvlUSDCMatic,
                        auditedState:'audited',
-                       availableDeposit: usdcBalanceMatic
+                       availableDeposit: usdcBalanceMatic+" USDC"
                    },
                    {
                        assetIcon: vaultAAVE,
@@ -450,7 +455,7 @@ const [list, setList] = useState(initalList);
                        netAPY: Number(dashboardValuesMatic.apyObjMatic?.aaveApyMatic).toFixed(2),
                        vaultasset: dashboardValuesMatic.apyObjMatic?.tvlAAVE,
                        auditedState:'audited',
-                       availableDeposit: aaveBalanceMatic
+                       availableDeposit: aaveBalanceMatic+" AAVE"
                    },
                    {
                        assetIcon: vaultWBTC,
@@ -460,7 +465,7 @@ const [list, setList] = useState(initalList);
                        netAPY: Number(dashboardValuesMatic.apyObjMatic?.wbtcApyMatic).toFixed(2),
                        vaultasset: dashboardValuesMatic.apyObjMatic?.tvlWBTC,
                        auditedState:'audited',
-                       availableDeposit: wbtcBalanceMatic
+                       availableDeposit: wbtcBalanceMatic+" WBTC"
                    }
                    
                ])
@@ -617,7 +622,12 @@ const [list, setList] = useState(initalList);
         }
        
       
-    }, [chainId,dashboardValuesMatic,dashboardValues,lendingProtocol,lendingProtocol.lenderProtocol])
+    }, [chainId,dashboardValuesMatic,dashboardValues,lendingProtocol
+        ,lendingProtocol.lenderProtocol
+        ,usdcDepositUserBalanceMatic.usdcDepositBalanceMatic
+        ,usdtDepositUserBalanceMatic.usdtDepositBalanceMatic
+        ,wbtcDepositUserBalance.wbtcDepositBalanceMatic
+        ,aaveDepositUserBalance.aaveDepositBalanceMatic])
 
     useEffect(()=>{
        if(wca.address && wca.chainId){
@@ -654,6 +664,10 @@ const [list, setList] = useState(initalList);
         ,usdcBalancesMatic.usdcBalanceMatic
         ,aaveBalancesMatic.aaveBalanceMatic
         ,wbtcBalancesMatic.wbtcBalanceMatic
+        ,usdtDepositUserBalanceMatic.usdtDepositBalanceMatic
+        ,usdcDepositUserBalanceMatic.usdcDepositBalanceMatic
+        ,wbtcDepositUserBalance.wbtcDepositBalanceMatic
+        ,aaveDepositUserBalance.aaveDepositBalanceMatic
       ])
 
     useEffect(()=>{
@@ -684,7 +698,10 @@ const [list, setList] = useState(initalList);
         ,busdDepositUserBalance.busdDepositBalance
         ,usdtDepositUserBalance.usdtDepositBalance
         ,usdcDepositUserBalance.usdcDepositBalance
-        ,bnbBalances.bnbBalance])
+        ,bnbBalances.bnbBalance
+        ,usdcDepositUserBalanceMatic.usdcDepositBalanceMatic
+        ,wbtcDepositUserBalance.wbtcDepositBalanceMatic
+        ,aaveDepositUserBalance.aaveDepositBalanceMatic ])
  
 
     
@@ -705,7 +722,9 @@ const [list, setList] = useState(initalList);
     }, [chainId])
 
    
-    
+    const openAuditLink = (event: React.MouseEvent<HTMLButtonElement>) => {
+        window.open("https://docs.xend.finance/contracts/audit");
+    }
 
       
         
@@ -772,7 +791,7 @@ const [list, setList] = useState(initalList);
                                     placement="top"
                                     >
                                     <div>
-                                    <span>Audited</span><QuestionCircleOutlined style={{ color: '#FF6600',paddingLeft:'3px' }} />
+                                    <span style={{cursor:'pointer'}} onClick={openAuditLink} >Audited</span><QuestionCircleOutlined style={{ color: '#FF6600',paddingLeft:'3px' }} />
                                     </div>
                                     </Tooltip>     
                                     </th>

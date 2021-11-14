@@ -160,7 +160,7 @@ const Footer: React.FC<Props> = ({ connected, light, setTheme, onConnect }: any)
                 </Box>
                 <Box className={classes.centerFlex}>
                     <Box className={classes.externalLinks}>                      
-                        <a href="https://docs.xend.finance/contracts/audit">Docs</a>
+                        <a href="https://docs.xend.finance/contracts/registry">Docs</a>
                         <a href="https://github.com/xendfinance/Layer2UI">Github</a>
                     </Box>
                     <Box position='relative'>
@@ -174,7 +174,7 @@ const Footer: React.FC<Props> = ({ connected, light, setTheme, onConnect }: any)
                                         <img src={closeIcon} alt='XEND Finance' />
                                     </Box>
                                     <Box className={classes.externalPopLinks}>                                       
-                                        <Box> <a href="https://docs.xend.finance/contracts/audit">Docs</a></Box>
+                                        <Box> <a href="https://docs.xend.finance/contracts/registry">Docs</a></Box>
                                         <Box><a href="https://github.com/xendfinance/Layer2UI">Github</a></Box>                                       
                                     </Box>
                                    <Box className={classes.copyRightTextForMobile}>

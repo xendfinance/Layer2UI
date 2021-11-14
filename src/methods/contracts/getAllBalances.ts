@@ -107,6 +107,7 @@ const getAllBalances = (addressOwner: string,chainId:any) => {
             const totalDepositedWBTC = Number(await getXAutoUserDepositWBTC(addressOwner)).toFixed(6);
             const totalDepositedUSDTMatic = Number(await getXAutoUserDepositUSDT(addressOwner)).toFixed(2);
             const totalDepositedUSDCMatic = Number(await getXAutoUserDepositUSDC(addressOwner)).toFixed(2);
+          
 
             dispatch({
                 type: _const.USDTBALANCEMatic,
@@ -586,7 +587,7 @@ async function  getXAutoUserDepositUSDT(addressOwner :string) {
         const usdtBalanceCoin = await xvAutoUSDTMatic.methods.balanceOf(addressOwner).call(); 
         const pricePerFullShare = await xvAutoUSDTMatic.methods.getPricePerFullShare().call();
 
-        const FinalUserUSDTBalance = (Number(usdtBalanceCoin) * Number(pricePerFullShare)) / Math.pow(10,36); 
+        const FinalUserUSDTBalance = (Number(usdtBalanceCoin) * Number(pricePerFullShare)) / Math.pow(10,24); 
     
         return FinalUserUSDTBalance;
        }
@@ -609,7 +610,7 @@ async function  getXAutoUserDepositUSDC(addressOwner :string) {
         const usdcBalanceCoin = await xvAutoUSDCMatic.methods.balanceOf(addressOwner).call(); 
         const pricePerFullShare = await xvAutoUSDCMatic.methods.getPricePerFullShare().call();
 
-        const FinalUserUSDCBalance = (Number(usdcBalanceCoin) * Number(pricePerFullShare)) / Math.pow(10,36);     
+        const FinalUserUSDCBalance = (Number(usdcBalanceCoin) * Number(pricePerFullShare)) / Math.pow(10,24);          
     
         return FinalUserUSDCBalance;
        }
@@ -628,17 +629,17 @@ async function  getXAutoUserDepositAAVE(addressOwner :string) {
         const xvAutoAAVEMatic = new web3Matic.eth.Contract(abiManager.xvAutoAAVE, '0x0B12E60084816ed83c519a1fFd01022d5A50fcaC');
         
         if (xvAutoAAVEMatic) {
-       
+        let FinalAAVEBalance;
         const aaveBalanceCoin = await xvAutoAAVEMatic.methods.balanceOf(addressOwner).call(); 
-        //const pricePerFullShare = await xvAutoAAVEMatic.methods.getPricePerFullShare().call();
-        const FinalAAVEBalance = web3.utils.fromWei(aaveBalanceCoin.toString(), 'ether');  
-       // const FinalUserAAVEBalance = (Number(aaveBalanceCoin) * Number(pricePerFullShare)) / Math.pow(10,36);        
-    
+        if(Number(aaveBalanceCoin) == 0){
+            FinalAAVEBalance = web3.utils.fromWei(aaveBalanceCoin.toString(), 'ether');  
+        }else{
+            const pricePerFullShare = await xvAutoAAVEMatic.methods.getPricePerFullShare().call();
+            FinalAAVEBalance = (Number(aaveBalanceCoin) * Number(pricePerFullShare)) / Math.pow(10,36);  
+        }
         return FinalAAVEBalance;
        }
 
-
-       
     } catch (e) {
         console.log(e)
     }
@@ -655,7 +656,7 @@ async function  getXAutoUserDepositWBTC(addressOwner :string) {
         const wbtcBalanceCoin = await xvAutoWBTCMatic.methods.balanceOf(addressOwner).call(); 
         const pricePerFullShare = await xvAutoWBTCMatic.methods.getPricePerFullShare().call();
 
-        const FinalWBTCBalance = (Number(wbtcBalanceCoin) * Number(pricePerFullShare)) / Math.pow(10,36);        
+        const FinalWBTCBalance = (Number(wbtcBalanceCoin) * Number(pricePerFullShare)) / Math.pow(10,26);        
     
         return FinalWBTCBalance;
        }

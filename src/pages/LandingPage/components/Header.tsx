@@ -71,7 +71,7 @@ const Header: React.FC<Props> = ({ connected,chainId }:any) => {
     const [TVLapy_xvault, setTVLAPYXVault] = useState('');
     
     const lendingProtocol = useSelector((store: any) => store.DashboardReducer.lender);
-    
+ 
     const dispatch = useDispatch()
 
      
@@ -100,7 +100,7 @@ const Header: React.FC<Props> = ({ connected,chainId }:any) => {
                     setTVLAPYXVault(finalAPY);
                 }
             }else{
-                console.log("apy onj",apyObj);
+               
                 const tvlString = apyObj?.TVLXAuto;
                 if (tvlString){
                     const finalAPY = tvlString; 
@@ -122,10 +122,12 @@ const Header: React.FC<Props> = ({ connected,chainId }:any) => {
         const initPreData = async () => {
             if(chainId.ChainId){
                 const finalChainId = Number(chainId.ChainId);
+               
                 await buildPreData(finalChainId);
                  
             }else{
-                const finalChainId = Number(chainId);         
+                const finalChainId = Number(chainId);  
+               
                 await buildPreData(finalChainId);
                
             }            
@@ -136,24 +138,7 @@ const Header: React.FC<Props> = ({ connected,chainId }:any) => {
      }, [chainId,lendingProtocol,lendingProtocol.lenderProtocol])
 
      
-    // useEffect(()=>{
-    //     const buildDashboardData = async () => {
-    //         if(chainId.ChainId){
-    //             const finalChainId = Number(chainId.ChainId);
-    //             await getxVaultApy(finalChainId);
-                 
-    //         }else{
-    //             const finalChainId = Number(chainId);         
-    //            await getxVaultApy(finalChainId);
-               
-    //         } 
-    //       };
-        
-    //       buildDashboardData();
-
-      
-       
-    // },)
+    
 
      
     return (
@@ -169,7 +154,7 @@ const Header: React.FC<Props> = ({ connected,chainId }:any) => {
                 </Box>
             </Grid>
             <Grid className={classes.asset} item xs={12} sm={5}>
-                <Box className={classes.assetTitle}>Total Vault Asset</Box>
+                <Box className={classes.assetTitle}>Overall TVL</Box>
                 <Box className={classes.assetValue}>{TVLapy_xvault}</Box>
             </Grid>
         </Grid>

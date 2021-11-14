@@ -6,6 +6,14 @@ import logoIcon from './../../../assets/images/logo2.png';
 import {BrowserView, MobileView} from 'react-device-detect';
 import { useDispatch, useSelector } from 'react-redux';
 
+import USDT from './../../../assets/icons/USDTether.svg';
+import BUSD from './../../../assets/icons/BUSD1.svg';
+
+import USDC from './../../../assets/icons/USDC.svg';
+import BNB from './../../../assets/images/bnb.svg';
+import WBTC from './../../../assets/icons/WBTC.svg';
+import AAVE from './../../../assets/icons/AAVE.svg';
+
 import DepositUSDTMatic from '../../../methods/contracts/xauto/actions/depositUSDTMatic';
 import DepositUSDCMatic from '../../../methods/contracts/xauto/actions/depositUSDCMatic';
 import DepositAAVEMatic from '../../../methods/contracts/xauto/actions/depositAAVEMatic';
@@ -239,6 +247,29 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
 
 
     let finalChainId :any;
+    let assetInvested:any;
+    
+    if(assetName == "USDT"){
+        assetInvested = <img className={classes.logoImage} src={USDT} alt='XEND Finance' />;
+    }
+    if(assetName == "USDC"){
+        assetInvested = <img className={classes.logoImage} src={USDC} alt='XEND Finance' />;
+    }
+    if(assetName == "BUSD"){
+        assetInvested = <img className={classes.logoImage} src={BUSD} alt='XEND Finance' />;
+    }
+    if(assetName == "AAVE"){
+        assetInvested = <img className={classes.logoImage} src={AAVE} alt='XEND Finance' />;
+    }
+    if(assetName == "WBTC"){
+        assetInvested = <img className={classes.logoImage} src={WBTC} alt='XEND Finance' />;
+    }
+    if(assetName == "BNB"){
+        assetInvested = <img className={classes.logoImage} src={BNB} alt='XEND Finance' />;
+    }
+
+
+
     if(wca.chainId){
         finalChainId = Number(wca.chainId);
     }else{
@@ -881,10 +912,21 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                     <img src={closeIcon} alt='XEND Finance' />
                 </Box>
                 <Box className={classes.logo}>
-                    <img className={classes.logoImage} src={logoIcon} alt='XEND Finance' />
+                <>             
+                {assetInvested}
+                </>
+              
                     <Box>
-                        <Box style={{color: '#ffffff', fontSize: 18}}>XEND</Box>
-                        <Box style={{color: '#84858A', fontSize: 14}}>Xend Finance</Box>
+                        <Box style={{color: '#ffffff', fontSize: 18}}>
+                        <>
+                          {assetName}
+                        </>    
+                        </Box>
+                        <Box style={{color: '#84858A', fontSize: 14}}>
+                            <>
+                            {lendingProtocol.lenderProtocol}
+                            </>
+                        </Box>
                     </Box>
                 </Box>
                 <Box className={classes.content}>
@@ -903,7 +945,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, f
                     </Box>
                     <Box className={classes.contentItem}>
                         <Box className={classes.field}>Available to deposit</Box>
-                        <Box className={classes.value}>{balanceStable}</Box>
+                        <Box className={classes.value}>{balanceStable} {assetName}</Box>
                     </Box>
                 </Box>
                 <BrowserView>

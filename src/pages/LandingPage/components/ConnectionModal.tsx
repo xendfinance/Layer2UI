@@ -35,6 +35,9 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
     const highestXAutoBSC = useSelector((store: any) => store.DashboardReducer.highestApyXAutoBsc);
     const highestXVaultBSC = useSelector((store: any) => store.DashboardReducer.highestApyXVaultBsc);
     const highestXAutoMatic = useSelector((store: any) => store.DashboardReducer.highestApyXAutoMatic);
+    const lenderCurrentlySelected = useSelector((store: any) => store.DashboardReducer.lender);
+
+	
     
     
 	let highestAPYXAuto = '0.00';
@@ -46,7 +49,7 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 		 highestAPYXVault = Number(highestXVaultBSC.highestAPYXVaultBSC).toFixed(2);
 		 highestAPYXAutoMatic = Number(highestXAutoMatic.highestAPYXAutoMatic).toFixed(2);
 	}
-	
+
 
     
 	const vaults = [
@@ -221,7 +224,7 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 										}
 										}>
 										<img width={40} src={entry.image} alt={entry.title} />
-										<div className="chain-name">{entry.title}</div>
+										<div style={{ color:'#edecec' }} className="chain-name">{entry.title}</div>
 									</CardWrapper>
 								))
 							}
@@ -273,9 +276,10 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 									setOpen(false);
 								}
 								}>
+								{lenderCurrentlySelected.lenderProtocol == "X Vault"?<img className="check" src={Check} alt="check" />:<div></div>}	
 								<img src={BSC} width={40} alt='polygon' />
 								<div className="chain-name">
-								  <p style={{ color:'#090909' }}>xVault</p>
+								  <p style={{ color:'#edecec' }}>xVault</p>
 								  <p className="apy">{highestAPYXVault}%</p>
 								</div>
 							</CardWrapperNetwork>
@@ -291,9 +295,11 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 									setOpen(false);
 								}
 								}>
+
+								{lenderCurrentlySelected.lenderProtocol == "X Auto"?<img className="check" src={Check} alt="check" />:<div></div>}	
 								<img src={BSC} width={40} alt='polygon' />
 								<div className="chain-name">
-								<p style={{ color:'#090909' }}>xAuto</p>
+								<p style={{ color:'#edecec' }}>xAuto</p>
 								<p className="apy">{highestAPYXAuto}%</p>	
 								</div>
 							</CardWrapperNetwork>
@@ -326,9 +332,9 @@ export default ConnectionModal;
 
 const InfoWrapper = styled.div`
 	padding: 28px;
-	background:beige;
+	background:#27282C;
 	border-radius: 6px;
-	color: ${p => p.theme.fontAlt};
+	color: #edecec;
 	font-size: 20px;
 	font-weight: 600;
 	line-height: 138%;
@@ -346,7 +352,7 @@ const CardWrapperNetwork = styled.button`
   	height: 78px;
 	font-size: 18px;
 	font-weight: 500;
-	background: ${p => p.theme.cardBg};
+	background: #27282C;
 	border: 1px solid ${p => p.theme.border};
 	box-sizing: border-box;
 	box-shadow: 0px 3.51724px 36.0517px rgba(0, 0, 0, 0.06);
@@ -365,7 +371,7 @@ const CardWrapperNetwork = styled.button`
 
 	& .chain-name {
 		margin-left: 16px;
-		color: ${p => p.theme.fontAlt};
+		color: #edecec;
 	}
 
 	& .apy {
@@ -392,7 +398,7 @@ const CardWrapper = styled.button`
   	height: 78px;
 	font-size: 18px;
 	font-weight: 500;
-	background: ${p => p.theme.cardBg};
+	background: #27282C;
 	border: 1px solid ${p => p.theme.border};
 	box-sizing: border-box;
 	box-shadow: 0px 3.51724px 36.0517px rgba(0, 0, 0, 0.06);
