@@ -277,7 +277,7 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 											setOpen(false);
 										}
 										}>
-										{lenderCurrentlySelected.lenderProtocol == "X Vault" ? <img className="check" src={Check} alt="check" /> : <div></div>}
+										{lenderCurrentlySelected == "X Vault" ? <img className="check" src={Check} alt="check" /> : <div></div>}
 										<img src={BSC} width={40} alt='polygon' />
 										<div className="chain-name">
 											<p style={{ color: '#edecec' }}>xVault</p>
@@ -297,7 +297,7 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 										}
 										}>
 
-										{lenderCurrentlySelected.lenderProtocol == "X Auto" ? <img className="check" src={Check} alt="check" /> : <div></div>}
+										{lenderCurrentlySelected == "X Auto" ? <img className="check" src={Check} alt="check" /> : <div></div>}
 										<img src={BSC} width={40} alt='polygon' />
 										<div className="chain-name">
 											<p style={{ color: '#edecec' }}>xAuto</p>

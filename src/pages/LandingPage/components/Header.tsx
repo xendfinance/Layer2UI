@@ -113,7 +113,7 @@ const Header: React.FC<Props> = ({ connected }: any) => {
 
         if (apyObj || apyObjMatic) {
 
-            if (chainId === 56) {
+            if (Number(chainId) === 56) {
                 if (lendingProtocol == "X Vault") {
                     const tvlString = apyObj?.TVL;
                     tvlString && setTVLAPYXVault(tvlString);
@@ -123,10 +123,7 @@ const Header: React.FC<Props> = ({ connected }: any) => {
                 }
             } else {
                 const tvlString = apyObjMatic?.TVL;
-                if (tvlString) {
-                    const finalAPY = tvlString;
-                    setTVLAPYXVault(finalAPY);
-                }
+                tvlString && setTVLAPYXVault(tvlString);
             }
         }
 
