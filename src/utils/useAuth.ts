@@ -19,21 +19,23 @@ export const Login = (connectorID: ConnectorNames, chainId: number, lender: stri
     return async (dispatch: Function) => {
         try {
             let account: any = null;
-           
+
             const connector: any = connectorsByName(connectorID, chainId);
 
-            const dt = { chainId, connectorID, walletName,lender }
+            const dt = { chainId, connectorID, walletName, lender }
+
+            console.log(dt, ' the dt')
 
             localStorage.setItem("CONNECTION_DETAILS", JSON.stringify(dt))
 
             dispatch({
                 type: _const.NETWORK_CONNECT,
-                payload: { ChainId: chainId}
+                payload: { ChainId: chainId }
             })
 
             dispatch({
                 type: _const.LENDER,
-                payload: { lenderProtocol: lender}
+                payload: lender
             });
 
             if (connector) {
@@ -43,7 +45,7 @@ export const Login = (connectorID: ConnectorNames, chainId: number, lender: stri
 
                     let connection = await connector.activate();
 
-                   
+
 
                     connection.provider.on('accountsChanged', (code: number, reason: string) => {
 
@@ -83,14 +85,14 @@ export const Login = (connectorID: ConnectorNames, chainId: number, lender: stri
 
 
                 if (account) {
-                   
-                 
-                    dispatch(getAllBalances(String(account),chainId));
+
+
+                    dispatch(getAllBalances(String(account), chainId));
                     dispatch({
                         type: _const.ADDRESS,
                         payload: { address: account, walletInUse: walletName, chainId }
                     })
-                    
+
                 }
 
             } else {
@@ -112,16 +114,17 @@ export const recreateWeb3 = () => {
         try {
             const connectionDetails = JSON.parse(localStorage.getItem("CONNECTION_DETAILS"));
 
-           
+            console.log(connectionDetails, ' connection details')
 
             if (connectionDetails) {
-                
+
                 let account: any = null;
 
-                let { walletName, chainId } = connectionDetails;
+                let { walletName, chainId, lender } = connectionDetails;
+
                 dispatch({
                     type: _const.ADDRESS,
-                    payload: { address: '', walletInUse: walletName, chainId }
+                    payload: { address: '', walletInUse: walletName, chainId, lender }
                 })
 
 
@@ -175,7 +178,7 @@ export const recreateWeb3 = () => {
 
 
                     if (account) {
-                        dispatch(getAllBalances(String(account),chainId));
+                        dispatch(getAllBalances(String(account), chainId));
                         dispatch({
                             type: _const.ADDRESS,
                             payload: { address: account }
@@ -213,7 +216,7 @@ export const DisconnectFromWallet = async () => {
 
         window.sessionStorage.removeItem(connectorLocalStorageKey);
         window.localStorage.removeItem("CONNECTION_DETAILS");
-       
+
         const DashboardReducerAction: any = await reduxStore();
         DashboardReducerAction.dispatch({
             type: _const.PRISTINE,
@@ -242,7 +245,7 @@ async function switchOrAddNetworkToMetamask(chainId: number) {
 
 
 
-    } catch (e :any) {
+    } catch (e: any) {
 
         if (e.code === 4902) {
 

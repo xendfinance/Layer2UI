@@ -9,65 +9,72 @@ import getAllBalances from '../../methods/contracts/getAllBalances';
 import getHighestAPY from '../../methods/redux/actions/get-highest-apy';
 
 interface Props {
-    connected: any;  
+    connected: any;
 }
 
 const useStyles = makeStyles((theme: any) =>
-  createStyles({
-    root: {
-      
-        minHeight: 'calc(100vh - 203px)'
-    }
-  }),
+    createStyles({
+        root: {
+
+            minHeight: 'calc(100vh - 203px)'
+        }
+    }),
 );
 
-const LandingPage: React.FC<Props> = ({ connected }:any) => {
+const LandingPage: React.FC<Props> = ({ connected }: any) => {
     const classes = useStyles();
-   
- 
-    const currentChainId = useSelector((store: any) => store.DashboardReducer.networkConnect);
+
+
+    const currentChainId = useSelector((store: any) => store.DashboardReducer.chainId);
+    const lender = useSelector((store: any) => store.DashboardReducer.lender);
     const wca = useSelector((store: any) => store.DashboardReducer.wca);
     const dispatch = useDispatch()
 
+    const setLoading = (value: boolean) => {
+        dispatch({
+            type: _const.LOADING,
+            payload: value
+        })
+    }
 
     const buildPreData = async () => {
         //Build Pre Data
-         dispatch(getHighestAPY());
-         
-         const apyObj = await getXVaultAPI(56);
-         dispatch({
-             type: _const.DashboardGrid,
-             payload: { apyObj }
-         });
-         
-         const apyObjMatic = await getXVaultAPI(137);
-         dispatch({
-             type: _const.DashboardGridMatic,
-             payload: { apyObjMatic }
-         });
+        dispatch(getHighestAPY());
 
-         
+        const apyObj = await getXVaultAPI(56, lender, setLoading);
+        dispatch({
+            type: _const.DashboardGrid,
+            payload: { apyObj }
+        });
 
-         if(wca.address){
-            dispatch(getAllBalances(wca.address,currentChainId))
-         }
-     }
- 
-    
-    useEffect(()=>{
+        const apyObjMatic = await getXVaultAPI(137, lender, setLoading);
+        dispatch({
+            type: _const.DashboardGridMatic,
+            payload: { apyObjMatic }
+        });
+
+
+
+        if (wca.address) {
+            dispatch(getAllBalances(wca.address, currentChainId))
+        }
+    }
+
+
+    useEffect(() => {
         const initPreData = async () => {
-             await buildPreData()
-            };
-                
-            initPreData();   
-       
-     }, [currentChainId])
-     
+            await buildPreData()
+        };
+
+        initPreData();
+
+    }, [currentChainId])
+
 
     return (
         <div className={classes.root}>
-            <Header  connected={connected} chainId={currentChainId}/>
-            <Vaultlist connected={connected} chainId={currentChainId}  />
+            <Header connected={connected} chainId={currentChainId} />
+            <Vaultlist connected={connected} chainId={currentChainId} />
         </div>
     );
 }

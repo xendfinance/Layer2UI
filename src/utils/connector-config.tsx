@@ -1,7 +1,7 @@
 import { Config, ConnectorNames } from './types';
-import Metamask from '../assets/icons/metamask-fox.svg';
-import WalletConnect from '../assets/icons/walletconnect.svg'
-import TrustWallet from '../assets/icons/trust-wallet.svg';
+import Metamask from '../assets/Metamask.svg';
+import WalletConnect from '../assets/Walletconnect.svg'
+import TrustWallet from '../assets/TrustWallet.svg';
 
 const connectors: Config[] = [
     {
@@ -21,7 +21,7 @@ const connectors: Config[] = [
         icon: 'trustwallet',
         image: TrustWallet,
         connectorId: ConnectorNames.WalletConnect,
-    },   
+    },
 ];
 
 export default connectors;

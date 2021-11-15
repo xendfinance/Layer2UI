@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect, useRef } from 'react';
 import styled, { css } from 'styled-components';
-import { ReactComponent as Close } from '../../assets/icons/close.svg';
+import { ReactComponent as Close } from '../../assets/Close.svg';
 
 interface Props {
     width?: string
@@ -36,7 +36,7 @@ const Modal: FC<Props> = ({ children, title, desc, visible, modalId, close, widt
 
     const closeModal = (e) => {
         if (show && bodyOfModal.current && !bodyOfModal.current.contains(e.target)) {
-            close();            
+            close();
         }
     };
 
@@ -61,7 +61,7 @@ const Modal: FC<Props> = ({ children, title, desc, visible, modalId, close, widt
                         </button>
                     </div>
                 </ModalControls>}
-              
+
                 <ModalContent contentWidth={contentWidth}>{children}</ModalContent>
             </div>
         </ModalStyles>
@@ -152,7 +152,8 @@ const ModalControls = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
-        background: #ededed !important;
+        background: rgba(237, 237, 237, 0.068) !important;
+        /* background: none; */
         cursor: pointer;
 
     }
