@@ -4,10 +4,10 @@ import { Box } from '@material-ui/core';
 import DepositeModal from './DepositeModal';
 import Button from '../../../components/Button';
 import { useSelector } from 'react-redux';
-import { hydrateTokenBalance, hydrateTvl, hydrateUsersProtocolBalance } from '../../../methods/hydrate';
+import { hydrateApy, hydrateTokenBalance, hydrateTvl, hydrateUsersProtocolBalance } from '../../../methods/hydrate';
 import { shortAmount } from '../../../methods/bignumber-converter';
-import { xVaultUserBalance } from '../../../methods/get-balances';
 import commas from '../../../methods/utils/commas';
+import { LoadingOutlined } from '@ant-design/icons';
 
 interface Props {
     assetIcon: any;
@@ -62,10 +62,8 @@ const Vault: React.FC<Props> = ({
 }) => {
     const classes = useStyles();
     const [isOpenDepositeModal, setOpenDepositeModal] = useState(false);
-    const address = useSelector((store: any) => store.DashboardReducer.address);
+    const { address, hydrateSwitch, chainId } = useSelector((store: any) => store.DashboardReducer);
     const wca = useSelector((store: any) => store.DashboardReducer.wca);
-
-
 
 
 
@@ -123,45 +121,87 @@ const Vault: React.FC<Props> = ({
                 tokenName: assetName,
                 user: address
             })
-            console.log(tokenBalance, ' token balance')
 
-
+            // hydrate apy
+            let apy = await hydrateApy({ network, protocol, tokenName: assetName })
 
             setState({
                 ...state,
                 balance: userBalance,
                 vaultAsset: shortAmount(tvl),
-                availableFunds: tokenBalance
+                availableFunds: tokenBalance,
+                apy
             })
 
 
-
-
-
             setLoading(false)
+
         })();
-    }, [protocol, address])
+
+    }, [protocol, address, hydrateSwitch])
+
 
     return (
         <tr className={classes.root}>
-            {/* <DepositeModal open={isOpenDepositeModal} setOpen={setOpenDepositeModal} assetIcon={assetIcon}
-                assetName={assetName} fees={fees} balance={balance} netAPY={netAPY}
-                vaultasset={vaultasset} availableDeposite={availableDeposite} /> */}
+            <DepositeModal
+                open={isOpenDepositeModal}
+                setOpen={setOpenDepositeModal}
+                assetIcon={assetIcon}
+                assetName={assetName}
+                balance={state.balance}
+                netAPY={state.apy}
+                vaultasset={state.vaultAsset}
+                availableDeposite={state.availableFunds} />
 
             <td className={classes.asset}>
                 <Box>
-                    <img width="55px" height="55px" src={assetIcon} alt='' />
+                    <img
+                        width="55px"
+                        height="55px"
+                        src={assetIcon} alt='' />
                 </Box>
-                <Box style={{ marginLeft: 18 }}>{assetName}</Box>
+                <Box
+                    style={{ marginLeft: 18 }}>{assetName}</Box>
             </td>
+
             <td>{protocol}</td>
+
             <td>{commas(state.balance)}</td>
-            <td className={classes.netAPY}>{state.apy}%</td>
+
+            <td className={classes.netAPY}>{commas(state.apy, 2)}%</td>
+
             <td>${commas(state.vaultAsset)}</td>
-            {auditedState == 'audited' ? <td className={classes.netAPY}> {auditedState} </td> : <td> {auditedState} </td>}
+
+            {
+                auditedState == 'audited' ?
+                    <td className={classes.netAPY}>{auditedState}</td> :
+                    <td> {auditedState} </td>
+            }
 
             <td>{commas(state.availableFunds)} {assetName}</td>
-            {address && wca.chainId ? <td> <Button variant='secondary' fontSize='14' title='Open Vault&nbsp;&nbsp;' onClick={() => { setOpenDepositeModal(!isOpenDepositeModal); }} /> </td> : <td> <Button variant='secondary' fontSize='14' title='Connect Wallet' /> </td>}
+
+            {
+                address && chainId ?
+                    <td>
+                        {
+                            loading ?
+                                <LoadingOutlined /> :
+                                <Button
+                                    variant='secondary'
+                                    fontSize='14'
+                                    title='Open Vault&nbsp;&nbsp;'
+                                    onClick={() => {
+                                        setOpenDepositeModal(!isOpenDepositeModal);
+                                    }} />
+                        }
+                    </td> :
+                    <td>
+                        <Button
+                            variant='secondary'
+                            fontSize='14'
+                            title='Connect Wallet' />
+                    </td>
+            }
 
         </tr>
     );

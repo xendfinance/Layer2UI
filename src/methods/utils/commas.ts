@@ -4,7 +4,10 @@ function commas(x?: any, decimal?: number) {
         return parseFloat(String(x).match(/^-?\d+(?:\.\d{0,2})?/)[0]).toLocaleString('en', { maximumFractionDigits: 2, minimumFractionDigits: 2 });
     } else if (x) {
         return parseFloat(String(x).match(/^-?\d+(?:\.\d{0,4})?/)[0]).toLocaleString('en', { maximumFractionDigits: 4, minimumFractionDigits: 4 });
-    } else return '0.0000';
+    } else {
+        if (decimal) return '0.00'
+        else return '0.0000'
+    }
 
 }
 

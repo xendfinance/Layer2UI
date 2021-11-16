@@ -25,7 +25,7 @@ const Button = <E extends ElementType = 'button'>(props: ButtonProps<E>): JSX.El
     );
 }
 
-const StyledContainer = styled.button<{ variant:string; theme:any; fontSize:any; fontWeight:any; disabled:any; }>`
+const StyledContainer = styled.button<{ variant: string; theme: any; fontSize: any; fontWeight: any; disabled: any; }>`
     display: flex;
     flex-direction: center;
     justify-content: center;
@@ -45,18 +45,18 @@ const StyledContainer = styled.button<{ variant:string; theme:any; fontSize:any;
         font-weight: 700;
     }
     background: ${({ theme, variant, disabled }) => {
-        if(disabled) return theme.palette.button.contrastText;
+        if (disabled) return theme.palette.button.contrastText;
         else {
-            if(variant === 'primary') return theme.palette.button.main;
-            if(variant === 'secondary') return theme.palette.button.light;
+            if (variant === 'primary') return theme.palette.button.main;
+            if (variant === 'secondary') return theme.palette.button.light;
             return 'none';
         }
     }};
     color: ${({ theme, variant, disabled }) => {
-        if(disabled) return theme.palette.button.dark;
+        if (disabled) return theme.palette.button.dark;
         else {
-            if(variant === 'primary') return theme.palette.button.contrastText;
-            if(variant === 'secondary') return '#FF6600';
+            if (variant === 'primary') return theme.palette.button.contrastText;
+            if (variant === 'secondary') return '#FF6600';
         }
     }};
     outline: none;

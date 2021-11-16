@@ -15,6 +15,8 @@ const USDC_MATIC = "0x2791bca1f2de4661ed88a30c99a7a9449aa84174";
 
 
 export default [
+
+	// XVAULT BSC
 	{
 		name: "USDT",
 		logo: assetsLogo.USDT,
@@ -65,7 +67,7 @@ export default [
 	},
 
 
-
+	// XAUTO BSC
 	{
 		name: "USDT",
 		logo: assetsLogo.USDT,
@@ -82,9 +84,105 @@ export default [
 		availableFunds: "0.00",
 		decimals: 18
 	},
+	{
+		name: "BUSD",
+		logo: assetsLogo.BUSD,
+		tokenAddress: BUSD_BSC,
+		tokenAbi: abiManager.BUSD,
+		protocolName: "xAuto",
+		protocolAddress: "0xa25dec88B81a94Ca951f3a4ff4AAbC32B3759E6C",
+		protocolAbi: abiManager.xvAutoBSCBUSD,
+		network: 56,
+		balance: "0.00",
+		apy: "0.00",
+		tvl: "0.00",
+		auditStatus: "audited",
+		availableFunds: "0.00",
+		decimals: 18
+	},
+	{
+		name: "BNB",
+		logo: assetsLogo.BNB,
+		tokenAddress: "",
+		tokenAbi: abiManager.BNB,
+		protocolName: "xAuto",
+		protocolAddress: "0x2dABAeB84cACFEF30e95896301CEF65cb24b3176",
+		protocolAbi: abiManager.xvAutoBSCBNB,
+		network: 56,
+		balance: "0.00",
+		apy: "0.00",
+		tvl: "0.00",
+		auditStatus: "audited",
+		availableFunds: "0.00",
+		decimals: 18
+	},
+	{
+		name: "USDC",
+		logo: assetsLogo.USDC,
+		tokenAddress: USDC_BSC,
+		tokenAbi: abiManager.USDC,
+		protocolName: "xAuto",
+		protocolAddress: "0x3058d344C8F845754F0C356881772788c128eA22",
+		protocolAbi: abiManager.xvAutoBSCUSDC,
+		network: 56,
+		balance: "0.00",
+		apy: "0.00",
+		tvl: "0.00",
+		auditStatus: "audited",
+		availableFunds: "0.00",
+		decimals: 18
+	},
 
 
-
+	// POLYGON
+	{
+		name: "USDT",
+		logo: assetsLogo.USDT,
+		tokenAddress: USDT_MATIC,
+		tokenAbi: abiManager.USDTMatic,
+		protocolName: "xAuto",
+		protocolAddress: "0x6842E453ad9e7847a566876B8A2967FE9d155485",
+		protocolAbi: abiManager.xvAutoUSDT,
+		network: 137,
+		balance: "0.00",
+		apy: "0.00",
+		tvl: "0.00",
+		auditStatus: "audited",
+		availableFunds: "0.00",
+		decimals: 18
+	},
+	{
+		name: "USDC",
+		logo: assetsLogo.USDC,
+		tokenAddress: USDC_MATIC,
+		tokenAbi: abiManager.USDCMatic,
+		protocolName: "xAuto",
+		protocolAddress: "0x418b8D697e72B90cBdF5Cb58015384b9016794F9",
+		protocolAbi: abiManager.xvAutoUSDC,
+		network: 137,
+		balance: "0.00",
+		apy: "0.00",
+		tvl: "0.00",
+		auditStatus: "audited",
+		availableFunds: "0.00",
+		decimals: 18
+	},
+	{
+		name: "AAVE",
+		logo: assetsLogo.AAVE,
+		tokenAddress: AAVE_MATIC,
+		tokenAbi: abiManager.AAVEMatic,
+		protocolName: "xAuto",
+		protocolAddress: "0x0B12E60084816ed83c519a1fFd01022d5A50fcaC",
+		protocolAbi: abiManager.xvAutoAAVE,
+		network: 137,
+		balance: "0.00",
+		apy: "0.00",
+		tvl: "0.00",
+		auditStatus: "audited",
+		availableFunds: "0.00",
+		decimals: 18
+	},
 	{
 		name: "WBTC",
 		logo: assetsLogo.WBTC,

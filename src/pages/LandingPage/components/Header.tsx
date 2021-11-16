@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Box, Grid } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import getXVaultAPI from '../../../methods/redux/actions/get-apy-xvault';
 import _const from '../../../methods/_const';
+import assets from '../../../methods/assets';
+import { hydrateTvl } from '../../../methods/hydrate';
+import commas from '../../../methods/utils/commas';
 
 
 interface Props {
@@ -70,76 +72,45 @@ const Header: React.FC<Props> = ({ connected }: any) => {
 
     const [loading, setloading] = useState(false);
 
-    const [TVLapy_xvault, setTVLAPYXVault] = useState('');
+    const [networkTVL, setTVL] = useState('0');
 
-    const lendingProtocol = useSelector((store: any) => store.DashboardReducer.lender);
     const { chainId, lender } = useSelector((store: any) => store.DashboardReducer);
-
-    const dispatch = useDispatch()
-
-
-    const setGetLoading = (value: boolean) => {
-        dispatch({
-            type: _const.LOADING,
-            payload: value
-        })
-    }
-
-    const buildPreData = async (chainId: any) => {
-        //Build Pre Data
-        setTVLAPYXVault('$0.00');
-
-        setloading(true)
-
-        let apyObj, apyObjMatic = null;
-
-        if (Number(chainId) === 56) {
-            apyObj = await getXVaultAPI(56, lender, setGetLoading);
-            dispatch({
-                type: _const.DashboardGrid,
-                payload: { apyObj }
-            });
-        }
-
-        if (Number(chainId) === 137) {
-            apyObjMatic = await getXVaultAPI(137, lender, setGetLoading);
-            dispatch({
-                type: _const.DashboardGridMatic,
-                payload: { apyObjMatic }
-            });
-        }
-
-
-
-
-
-        if (Number(chainId) === 56) {
-            if (lendingProtocol == "X Vault") {
-                const tvlString = apyObj?.TVL;
-                tvlString && setTVLAPYXVault(tvlString);
-            } else {
-                const tvlString = apyObj?.TVLXAuto;
-                tvlString && setTVLAPYXVault(tvlString);
-            }
-        } else {
-            const tvlString = apyObjMatic?.TVL;
-            tvlString && setTVLAPYXVault(tvlString);
-        }
-
-        setloading(false)
-    }
 
 
     useEffect(() => {
+        getTVL();
+    }, [chainId, lender])
 
-        const initPreData = async () => {
-            let finalChainId = chainId ? Number(chainId) : 56;
-            await buildPreData(finalChainId);
-        };
 
-        initPreData();
+    const getTVL = async () => {
+        try {
+            setloading(true)
+            let tvls: any[] = []
+            const protocolAssets = assets.filter(x => x.network === Number(chainId));
+            for (let i = 0; i < protocolAssets.length; i++) {
+                let asset = protocolAssets[i];
 
-    }, [chainId, lendingProtocol])
+                let tvl = await hydrateTvl({
+                    network: asset.network,
+                    abi: asset.protocolAbi,
+                    address: asset.protocolAddress,
+                    protocol: asset.protocolName,
+                    tokenName: asset.name
+                });
+
+                tvls.push(tvl)
+
+            }
+
+            let totalTvl = tvls.reduce((a, b) => a + Number(b), 0);
+            setTVL(totalTvl)
+
+            setloading(false)
+        } catch (e) {
+            console.error(e);
+            setloading(false)
+        }
+    }
 
 
 
@@ -166,7 +137,7 @@ const Header: React.FC<Props> = ({ connected }: any) => {
             <Grid className={classes.asset} item xs={12} sm={5}>
                 <Box className={classes.assetTitle}>Overall TVL {activeNetwork()} {loading && <i className="fa fa-spinner fa-spin" style={{ color: "#edecec", marginLeft: 10 }}></i>}</Box>
 
-                <Box className={classes.assetValue}>{TVLapy_xvault}</Box>
+                <Box className={classes.assetValue}>${commas(networkTVL)}</Box>
             </Grid>
         </Grid>
     );

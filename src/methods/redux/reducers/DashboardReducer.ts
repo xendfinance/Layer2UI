@@ -40,13 +40,18 @@ const initialState = {
     highestApyXAutoBsc: '',
     highestApyXVaultBsc: '',
     highestApyXAutoMatic: '',
-    loading: false
+    loading: false,
+    hydrateSwitch: false,
 };
 
 const DashboardReducer = (state = initialState, action: Action) => {
     switch (action.type) {
         case _const.LOADING:
             return { ...state, loading: action.payload }
+
+        case _const.REHYDRATE_VAULT:
+            return { ...state, hydrateSwitch: !state.hydrateSwitch }
+
 
         case _const.ADDRESS:
             return { ...state, ...action.payload };

@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const Vaultlist: React.FC<Props> = ({ connected }: any) => {
     const classes = useStyles();
 
-    const { chainId, lender } = useSelector((store: any) => store.DashboardReducer);
+    const { chainId, lender, address } = useSelector((store: any) => store.DashboardReducer);
 
     const [busdapy_xvault, setBusdAPYXVault] = useState('');
     const [USDCapy_xvault, setUSDCAPYXVault] = useState('');
@@ -109,261 +109,7 @@ const Vaultlist: React.FC<Props> = ({ connected }: any) => {
 
     const [load, setLoading] = useState(false);
 
-    const loading = useSelector((store: any) => store.DashboardReducer.loading)
 
-    const usdtBalances = useSelector((store: any) => store.DashboardReducer.usdtBalance);
-    const busdBalances = useSelector((store: any) => store.DashboardReducer.busdBalance);
-    const usdcBalances = useSelector((store: any) => store.DashboardReducer.usdcBalance);
-    const bnbBalances = useSelector((store: any) => store.DashboardReducer.bnbBalance);
-    //bsc
-    const busdDepositUserBalance = useSelector((store: any) => store.DashboardReducer.busdDepositBalance);
-    const usdtDepositUserBalance = useSelector((store: any) => store.DashboardReducer.usdtDepositBalance);
-    const usdcDepositUserBalance = useSelector((store: any) => store.DashboardReducer.usdcDepositBalance);
-
-    // //bsc XAUTO
-    const busdDepositUserBalanceXAuto = useSelector((store: any) => store.DashboardReducer.userBusdDepositBalanceXAuto);
-    const usdtDepositUserBalanceXAuto = useSelector((store: any) => store.DashboardReducer.userUsdtDepositBalanceXAuto);
-    const usdcDepositUserBalanceXAuto = useSelector((store: any) => store.DashboardReducer.userUsdcDepositBalanceXAuto);
-    const bnbDepositUserBalanceXAuto = useSelector((store: any) => store.DashboardReducer.userBnbDepositBalanceXAuto);
-
-    //matic 
-    const usdtBalancesMatic = useSelector((store: any) => store.DashboardReducer.usdtBalanceMatic);
-    const wbtcBalancesMatic = useSelector((store: any) => store.DashboardReducer.wbtcBalanceMatic);
-    const aaveBalancesMatic = useSelector((store: any) => store.DashboardReducer.aaveBalanceMatic);
-    const usdcBalancesMatic = useSelector((store: any) => store.DashboardReducer.usdcBalanceMatic);
-
-    const usdtDepositUserBalanceMatic = useSelector((store: any) => store.DashboardReducer.usdtDepositBalanceMatic);
-    const usdcDepositUserBalanceMatic = useSelector((store: any) => store.DashboardReducer.usdcDepositBalanceMatic);
-    const aaveDepositUserBalance = useSelector((store: any) => store.DashboardReducer.aaveDepositBalanceMatic);
-    const wbtcDepositUserBalance = useSelector((store: any) => store.DashboardReducer.wbtcDepositBalanceMatic);
-
-    const wca = useSelector((store: any) => store.DashboardReducer.wca);
-    const lendingProtocol = useSelector((store: any) => store.DashboardReducer.lender);
-
-
-    const dashboardValues = useSelector((store: any) => store.DashboardReducer.dashboard);
-    const dashboardValuesMatic = useSelector((store: any) => store.DashboardReducer.dashboardMatic);
-
-    const getxVaultApy = (chainId: any) => {
-
-
-
-
-        if (dashboardValues && dashboardValuesMatic) {
-            if (chainId == 56) {
-
-                const busdString = dashboardValues.apyObj?.busd;
-                if (busdString) {
-                    const finalAPY = Number(busdString).toFixed(2);
-                    setBusdAPYXVault(finalAPY);
-                }
-                const usdtString = dashboardValues.apyObj?.usdt;
-                if (usdtString) {
-                    const finalAPY = Number(usdtString).toFixed(2);
-                    setUSDTAPYXVault(finalAPY);
-                }
-
-                const usdcString = dashboardValues.apyObj?.usdc;
-                if (usdcString) {
-                    const finalAPY = Number(usdcString).toFixed(2);
-                    setUSDCAPYXVault(finalAPY);
-                }
-
-                const tvlUSDT = dashboardValues.apyObj?.tvlUSDTBsc;
-                if (tvlUSDT) {
-                    const finalAPY = Number(tvlUSDT).toFixed(2);
-                    setTVLUSDTXVault(finalAPY);
-                }
-
-                const tvlBUSD = dashboardValues.apyObj?.tvlBUSD;
-                if (tvlBUSD) {
-                    const finalAPY = Number(tvlBUSD).toFixed(2);
-                    setTVLBUSDXVault(finalAPY);
-                }
-
-                const tvlUSDC = dashboardValues.apyObj?.tvlUSDCBsc;
-                if (tvlUSDC) {
-                    const finalAPY = Number(tvlUSDC).toFixed(2);
-                    setTVLUSDCXVault(finalAPY);
-                }
-                const lendingProtocol = dashboardValues.apyObj?.lendingProtocol;
-                if (lendingProtocol) {
-                    // setLender(lendingProtocol)
-                }
-
-            } else {
-
-
-                const wbtcAPR = dashboardValuesMatic.apyObjMatic?.wbtcApyMatic;
-                if (wbtcAPR) {
-                    setWBTCAPYXAuto(wbtcAPR);
-                }
-
-                const usdtAPR = dashboardValuesMatic.apyObjMatic?.usdtApyMatic;
-                if (usdtAPR) {
-                    setUSDTAPYXAuto(usdtAPR);
-                }
-
-                const usdcAPR = dashboardValuesMatic.apyObjMatic?.usdcApyMatic;
-                if (usdcAPR) {
-                    setUSDCAPYXAuto(usdcAPR);
-                }
-
-                const aaveAPR = dashboardValuesMatic.apyObjMatic?.aaveApyMatic;
-                if (aaveAPR) {
-                    setAAVEAPYXAuto(aaveAPR);
-                }
-
-
-                const tvlUSDT = dashboardValuesMatic.apyObjMatic?.tvlUSDTMatic;
-                if (tvlUSDT) {
-                    const finalAPY = Number(tvlUSDT).toFixed(2);
-                    setTVLUSDTXAuto(finalAPY);
-                }
-
-                const tvlUSDCMatic = dashboardValuesMatic.apyObjMatic?.tvlUSDCMatic;
-                if (tvlUSDCMatic) {
-                    const finalAPY = Number(tvlUSDCMatic).toFixed(2);
-                    setTVLUSDCXAuto(finalAPY);
-                }
-
-                const tvlAAVE = dashboardValuesMatic.apyObjMatic?.tvlAAVE;
-                if (tvlAAVE) {
-                    const finalAPY = Number(tvlAAVE).toFixed(2);
-                    setTVLAAVEXAuto(finalAPY);
-                }
-
-                const tvlWBTC = dashboardValuesMatic.apyObjMatic?.tvlWBTC;
-                if (tvlWBTC) {
-                    const finalAPY = Number(tvlWBTC).toFixed(2);
-                    setTVLWBTCXAuto(finalAPY);
-                }
-
-                const lendingProtocol = dashboardValuesMatic.apyObj?.lendingProtocol;
-                if (lendingProtocol) {
-                    // setLender(lendingProtocol)
-                }
-            }
-        }
-
-
-
-
-
-
-    }
-
-    const redrawVaultList = (chainId: any) => {
-
-
-        setLoading(true)
-
-        setLoading(false)
-    }
-
-
-
-    useEffect(() => {
-        if (wca.chainId) {
-            redrawVaultList(Number(wca.chainId));
-        } else {
-            const finalChainId = Number(chainId);
-
-            redrawVaultList(finalChainId);
-        }
-
-
-    }, [chainId, dashboardValuesMatic, dashboardValues, lendingProtocol
-        , usdcDepositUserBalanceMatic.usdcDepositBalanceMatic
-        , usdtDepositUserBalanceMatic.usdtDepositBalanceMatic
-        , wbtcDepositUserBalance.wbtcDepositBalanceMatic
-        , aaveDepositUserBalance.aaveDepositBalanceMatic])
-
-    useEffect(() => {
-        if (wca.address && wca.chainId) {
-            // if(wca.chainId){
-            //     redrawVaultList(Number(wca.chainId)); 
-            // }else{
-            //     if(chainId.ChainId){
-            //         const finalChainId = Number(chainId.ChainId);
-
-            //         redrawVaultList(finalChainId); 
-            //     }else{
-            //         const finalChainId = Number(chainId);         
-
-            //         redrawVaultList(finalChainId); 
-            //     } 
-            // }   
-
-            const finalChainId = Number(wca.chainId);
-            redrawVaultList(finalChainId);
-            // if(chainId.ChainId){
-            //     const finalChainId = Number(wca.chainId);
-
-            //     redrawVaultList(finalChainId); 
-            // }else{
-            //     const finalChainId = Number(chainId);         
-
-            //     redrawVaultList(finalChainId); 
-            // } 
-
-        }
-
-
-    }, [usdtBalancesMatic.usdtBalanceMatic
-        , usdcBalancesMatic.usdcBalanceMatic
-        , aaveBalancesMatic.aaveBalanceMatic
-        , wbtcBalancesMatic.wbtcBalanceMatic
-        , usdtDepositUserBalanceMatic.usdtDepositBalanceMatic
-        , usdcDepositUserBalanceMatic.usdcDepositBalanceMatic
-        , wbtcDepositUserBalance.wbtcDepositBalanceMatic
-        , aaveDepositUserBalance.aaveDepositBalanceMatic
-    ])
-
-    useEffect(() => {
-        if (wca.address && wca.chainId.ChainId) {
-            // if(wca.chainId){
-            //     redrawVaultList(Number(wca.chainId)); 
-            // }else{
-            //     if(chainId.ChainId){
-            //         const finalChainId = Number(chainId.ChainId);
-
-            //         redrawVaultList(finalChainId); 
-            //     }else{
-            //         const finalChainId = Number(chainId);         
-
-            //         redrawVaultList(finalChainId); 
-            //     } 
-            // }
-            const finalChainId = Number(wca.chainId.ChainId);
-            redrawVaultList(finalChainId);
-
-        }
-
-
-    }, [aaveDepositUserBalance.aaveDepositBalanceMatic
-        , wbtcDepositUserBalance.wbtcDepositBalanceMatic
-        , usdtDepositUserBalanceMatic.usdtDepositBalanceMatic
-        , usdcDepositUserBalanceMatic.usdcDepositBalanceMatic
-        , busdDepositUserBalance.busdDepositBalance
-        , usdtDepositUserBalance.usdtDepositBalance
-        , usdcDepositUserBalance.usdcDepositBalance
-        , bnbBalances.bnbBalance
-        , usdcDepositUserBalanceMatic.usdcDepositBalanceMatic
-        , wbtcDepositUserBalance.wbtcDepositBalanceMatic
-        , aaveDepositUserBalance.aaveDepositBalanceMatic])
-
-
-
-
-
-
-    useEffect(() => {
-        const finalChainId = Number(chainId);
-        getxVaultApy(finalChainId);
-        redrawVaultList(finalChainId);
-
-    }, [chainId])
 
 
     const openAuditLink = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -449,11 +195,11 @@ const Vaultlist: React.FC<Props> = ({ connected }: any) => {
                                         </div>
                                     </Tooltip>
                                 </th>
-                                <th>{loading && <i className="fa fa-spinner fa-spin" style={{ color: "#edecec" }}></i>}</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            {
+                            {/* {
 
                                 list.map((item, index) => (
 
@@ -474,7 +220,7 @@ const Vaultlist: React.FC<Props> = ({ connected }: any) => {
                                         tokenAbi={item.tokenAbi}
                                     />
                                 ))
-                            }
+                            } */}
                             {
                                 currentAssets.map((item: any, i: number) => (
                                     <Vault

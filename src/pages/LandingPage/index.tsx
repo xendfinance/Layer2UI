@@ -60,9 +60,9 @@ const LandingPage: React.FC<Props> = ({ connected }: any) => {
         }
 
 
-        if (wca.address) {
-            dispatch(getAllBalances(wca.address, currentChainId))
-        }
+        // if (address) {
+        //     dispatch(getAllBalances(address, currentChainId))
+        // }
 
     }
 

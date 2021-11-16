@@ -34,7 +34,7 @@ const CoinGecko = require('coingecko-api');
 
 
 
-const getXVaultAPIUSDT = async () => {
+export const getXVaultAPIUSDT = async () => {
 
     try {
         let extra_profit;
@@ -83,7 +83,7 @@ const getXVaultAPIUSDT = async () => {
 }
 
 
-const getXVaultAPIUSDC = async () => {
+export const getXVaultAPIUSDC = async () => {
 
     try {
         let extra_profit;
@@ -133,7 +133,7 @@ const getXVaultAPIUSDC = async () => {
 
 
 
-const getXVaultAPIBUSD = async () => {
+export const getXVaultAPIBUSD = async () => {
 
     try {
         let extra_profit;
@@ -200,7 +200,7 @@ export function getHighestAPYModal(array: any) {
 }
 
 //BSC BNB APR
-const getAPRBNBXAutoBSC = async () => {
+export const getAPRBNBXAutoBSC = async () => {
 
     try {
 
@@ -235,7 +235,7 @@ const getAPRBNBXAutoBSC = async () => {
 }
 
 //BSC BUSD APR
-const getAPRBUSDXAutoBSC = async () => {
+export const getAPRBUSDXAutoBSC = async () => {
 
     try {
 
@@ -272,7 +272,7 @@ const getAPRBUSDXAutoBSC = async () => {
 }
 
 //BSC USDT APR
-const getAPRUSDTXAutoBSC = async () => {
+export const getAPRUSDTXAutoBSC = async () => {
 
     try {
 
@@ -309,7 +309,7 @@ const getAPRUSDTXAutoBSC = async () => {
 }
 
 //BSC USDC APR
-const getAPRUSDCXAutoBSC = async () => {
+export const getAPRUSDCXAutoBSC = async () => {
 
     try {
 
@@ -347,7 +347,7 @@ const getAPRUSDCXAutoBSC = async () => {
 
 
 //Matic WBTC APR
-const getAPRWBTCMatic = async () => {
+export const getAPRWBTCMatic = async () => {
 
     try {
 
@@ -385,7 +385,7 @@ const getAPRWBTCMatic = async () => {
 
 
 //TVL Matic WBTC APR
-const getAPRUSDTMatic = async () => {
+export const getAPRUSDTMatic = async () => {
 
     try {
 
@@ -423,7 +423,7 @@ const getAPRUSDTMatic = async () => {
 
 
 //TVL Matic WBTC APR
-const getAPRUSDCMatic = async () => {
+export const getAPRUSDCMatic = async () => {
 
     try {
 
@@ -461,7 +461,7 @@ const getAPRUSDCMatic = async () => {
 
 
 //TVL Matic WBTC APR
-const getAPRAAVEMatic = async () => {
+export const getAPRAAVEMatic = async () => {
 
     try {
 
@@ -850,6 +850,7 @@ const getXVaultAPI = async (chainId: any, lender: string, setLoading: Function) 
             const apyUSDT = await getXVaultAPIUSDT();
             const apyUSDC = await getXVaultAPIUSDC();
             const apyArray = [Number(apyBusd), Number(apyUSDT), Number(apyUSDC), Number(apyUSDC)];
+
 
             const highestAPYXVaultBSC = getHighestAPYModal(apyArray);
 

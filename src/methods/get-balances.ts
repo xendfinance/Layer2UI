@@ -13,7 +13,7 @@ export const xVaultUserBalance = async (abi: any, address: string, userAddress: 
 
 		const contract = new web3.eth.Contract(abi, address);
 		const balance = await contract.methods.balanceOf(userAddress).call()
-		console.log(address, ' the price addrss')
+
 		const ppfs = await contract.methods.pricePerShare().call()
 
 		const amount = (Number(ppfs) * Number(balance)) / Number(BigInt(1e36).toLocaleString('fullwide', { useGrouping: false }));
@@ -54,9 +54,8 @@ export const xAutoMATICUserBalance = async (abi: any, address: string, userAddre
 	try {
 
 		const contract = new web3Matic.eth.Contract(abi, address);
-		console.log(address, ' thje')
 		let balance = await contract.methods.balanceOf(userAddress).call()
-		console.log(balance)
+
 		balance = web3Matic.utils.fromWei(balance.toString(), 'ether');
 		return toFixed(balance)
 
@@ -84,12 +83,41 @@ export const bscTokenBalance = async (
 			balance = web3.utils.fromWei(balance.toString(), 'ether')
 			return balance;
 		}
+
+		if (tokenName === 'BNB') {
+			let balance = await web3.eth.getBalance(user);
+			balance = web3.utils.fromWei(balance.toString(), 'ether')
+			return balance;
+		}
+
 	} catch (e) {
 		console.error(e)
 		return '0'
 	}
 }
 
+
+
+export const polygonTokenBalance = async (
+	tokenName: string,
+	abi: any,
+	tokenAddress: string,
+	user: string) => {
+
+	try {
+
+		const token = new web3Matic.eth.Contract(abi, tokenAddress);
+		let balance = await token.methods.balanceOf(user).call();
+		console.log(balance, ' safasdfsdf')
+		balance = web3Matic.utils.fromWei(balance.toString(), 'mwei')
+		console.log(balance, ' aaaaa')
+		return balance;
+
+	} catch (e) {
+		console.error(e)
+		return '0'
+	}
+}
 
 
 
