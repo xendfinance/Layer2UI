@@ -24,19 +24,7 @@ export const Login = (connectorID: ConnectorNames, chainId: number, lender: stri
 
             const dt = { chainId, connectorID, walletName, lender }
 
-            console.log(dt, ' the dt')
 
-            localStorage.setItem("CONNECTION_DETAILS", JSON.stringify(dt))
-
-            dispatch({
-                type: _const.NETWORK_CONNECT,
-                payload: { ChainId: chainId }
-            })
-
-            dispatch({
-                type: _const.LENDER,
-                payload: lender
-            });
 
             if (connector) {
 
@@ -87,10 +75,18 @@ export const Login = (connectorID: ConnectorNames, chainId: number, lender: stri
                 if (account) {
 
 
+                    localStorage.setItem("CONNECTION_DETAILS", JSON.stringify(dt))
+
+                    dispatch({
+                        type: _const.NETWORK_CONNECT,
+                        payload: { ChainId: chainId }
+                    })
+
+
                     dispatch(getAllBalances(String(account), chainId));
                     dispatch({
                         type: _const.ADDRESS,
-                        payload: { address: account, walletInUse: walletName, chainId }
+                        payload: { address: account, walletInUse: walletName, chainId, lender }
                     })
 
                 }
@@ -114,7 +110,6 @@ export const recreateWeb3 = () => {
         try {
             const connectionDetails = JSON.parse(localStorage.getItem("CONNECTION_DETAILS"));
 
-            console.log(connectionDetails, ' connection details')
 
             if (connectionDetails) {
 
@@ -190,6 +185,10 @@ export const recreateWeb3 = () => {
                 }
             } else {
                 console.log("Storage Data Not There Yet Show Modal");
+                dispatch({
+                    type: _const.ADDRESS,
+                    payload: { chainId: 56, lender: 'xVault' }
+                })
             }
 
 

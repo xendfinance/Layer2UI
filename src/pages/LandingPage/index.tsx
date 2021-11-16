@@ -41,23 +41,29 @@ const LandingPage: React.FC<Props> = ({ connected }: any) => {
         //Build Pre Data
         dispatch(getHighestAPY());
 
-        const apyObj = await getXVaultAPI(56, lender, setLoading);
-        dispatch({
-            type: _const.DashboardGrid,
-            payload: { apyObj }
-        });
+        if (Number(currentChainId) === 56) {
 
-        const apyObjMatic = await getXVaultAPI(137, lender, setLoading);
-        dispatch({
-            type: _const.DashboardGridMatic,
-            payload: { apyObjMatic }
-        });
+            const apyObj = await getXVaultAPI(56, lender, setLoading);
+            dispatch({
+                type: _const.DashboardGrid,
+                payload: { apyObj }
+            });
+        }
 
+        if (Number(currentChainId) === 137) {
+
+            const apyObjMatic = await getXVaultAPI(137, lender, setLoading);
+            dispatch({
+                type: _const.DashboardGridMatic,
+                payload: { apyObjMatic }
+            });
+        }
 
 
         if (wca.address) {
             dispatch(getAllBalances(wca.address, currentChainId))
         }
+
     }
 
 

@@ -14,6 +14,7 @@ import vaultWBTC from './../../../assets/icons/WBTC.svg';
 import vaultAAVE from './../../../assets/icons/AAVE.svg';
 import { BrowserView, MobileView } from 'react-device-detect';
 import { useDispatch, useSelector } from 'react-redux';
+import assets from '../../../methods/assets';
 
 interface Props {
     connected: any;
@@ -58,9 +59,10 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-const Vaultlist: React.FC<Props> = ({ connected, chainId }: any) => {
+const Vaultlist: React.FC<Props> = ({ connected }: any) => {
     const classes = useStyles();
 
+    const { chainId, lender } = useSelector((store: any) => store.DashboardReducer);
 
     const [busdapy_xvault, setBusdAPYXVault] = useState('');
     const [USDCapy_xvault, setUSDCAPYXVault] = useState('');
@@ -81,43 +83,31 @@ const Vaultlist: React.FC<Props> = ({ connected, chainId }: any) => {
     const [AAVETVL_xauto, setTVLAAVEXAuto] = useState('');
     const [WBTCTVL_xauto, setTVLWBTCXAuto] = useState('');
 
-    const initalList = [
-        {
-            assetIcon: vault1,
-            assetName: 'USDT',
-            fees: 'xVault',
-            balance: '0.00',
-            netAPY: '0.00',
-            vaultasset: '0.00',
-            auditedState: 'audited',
-            availableDeposit: '0.00'
-        },
-        {
-            assetIcon: vault2,
-            assetName: 'BUSD',
-            fees: 'xVault',
-            balance: '0.00',
-            netAPY: '0.00',
-            vaultasset: '0.00',
-            auditedState: 'audited',
-            availableDeposit: '0.00'
-        },
-        {
-            assetIcon: vault3,
-            assetName: 'USDC',
-            fees: 'xVault',
-            balance: '0.00',
-            netAPY: '0.00',
-            vaultasset: '0.00',
-            auditedState: 'audited',
-            availableDeposit: '0.00'
-        }
-    ]
     const [list, setList] = useState([]);
 
 
-    const [lender, setLender] = useState('');
-    const [apy, setApy] = useState({});
+    const [currentAssets, setcurrentAssets] = useState<Array<any>>([])
+
+
+
+    useEffect(() => {
+
+        console.log(chainId, lender)
+        if (chainId && lender) {
+            const x = assets.filter(item => item.network === Number(chainId) && item.protocolName === lender)
+
+            setcurrentAssets(x);
+        }
+
+
+        // when network or protocolname changes
+    }, [lender, chainId])
+
+
+
+
+
+    const [load, setLoading] = useState(false);
 
     const loading = useSelector((store: any) => store.DashboardReducer.loading)
 
@@ -153,7 +143,6 @@ const Vaultlist: React.FC<Props> = ({ connected, chainId }: any) => {
 
     const dashboardValues = useSelector((store: any) => store.DashboardReducer.dashboard);
     const dashboardValuesMatic = useSelector((store: any) => store.DashboardReducer.dashboardMatic);
-    const dispatch = useDispatch()
 
     const getxVaultApy = (chainId: any) => {
 
@@ -199,7 +188,7 @@ const Vaultlist: React.FC<Props> = ({ connected, chainId }: any) => {
                 }
                 const lendingProtocol = dashboardValues.apyObj?.lendingProtocol;
                 if (lendingProtocol) {
-                    setLender(lendingProtocol)
+                    // setLender(lendingProtocol)
                 }
 
             } else {
@@ -252,7 +241,7 @@ const Vaultlist: React.FC<Props> = ({ connected, chainId }: any) => {
 
                 const lendingProtocol = dashboardValuesMatic.apyObj?.lendingProtocol;
                 if (lendingProtocol) {
-                    setLender(lendingProtocol)
+                    // setLender(lendingProtocol)
                 }
             }
         }
@@ -266,344 +255,10 @@ const Vaultlist: React.FC<Props> = ({ connected, chainId }: any) => {
 
     const redrawVaultList = (chainId: any) => {
 
-        let usdtBalance = '0.00';
-        let busdBalance = '0.00';
-        let usdcBalance = '0.00';
-        let bnbBalance = '0.00';
-        let busdUserDepositValue = '0.00';
-        let usdtUserDepositValue = '0.00';
-        let usdcUserDepositValue = '0.00';
 
-        let busdUserDepositValueXAuto = '0.00';
-        let usdtUserDepositValueXAuto = '0.00';
-        let usdcUserDepositValueXAuto = '0.00';
-        let bnbUserDepositValueXAuto = '0.00';
+        setLoading(true)
 
-
-        //matic
-        let usdtBalanceMatic = '0.00';
-        let usdcBalanceMatic = '0.00';
-        let wbtcBalanceMatic = '0.00';
-        let aaveBalanceMatic = '0.00';
-
-        let aaveUserDepositValue = '0.00';
-        let usdtUserDepositValueMatic = '0.00';
-        let usdcUserDepositValueMatic = '0.00';
-        let wbtcUserDepositValue = '0.00';
-
-        if (wca.address) {
-
-            if (dashboardValues && dashboardValuesMatic) {
-                if (chainId == 56) {
-                    usdtBalance = usdtBalances.usdtBalance;
-
-                    busdBalance = busdBalances.busdBalance;
-
-                    usdcBalance = usdcBalances.usdcBalance;
-                    bnbBalance = bnbBalances.bnbBalance;
-
-                    busdUserDepositValue = busdDepositUserBalance.busdDepositBalance;
-                    usdtUserDepositValue = usdtDepositUserBalance.usdtDepositBalance;
-                    usdcUserDepositValue = usdcDepositUserBalance.usdcDepositBalance;
-
-                    if (lendingProtocol == "X Vault" || lendingProtocol == 'X Vault' || lendingProtocol.lenderProtocol == 'X Vault' || lendingProtocol.lenderProtocol == "X Vault") {
-                        setList([
-                            {
-                                assetIcon: vault1,
-                                assetName: 'USDT',
-                                fees: 'xVault',
-                                balance: usdtUserDepositValue,
-                                netAPY: Number(dashboardValues.apyObj?.usdt).toFixed(2),
-                                vaultasset: dashboardValues.apyObj?.tvlUSDTBsc,
-                                auditedState: 'audited',
-                                availableDeposit: Number(usdtBalance).toFixed(2) + " USDT"
-                            },
-                            {
-                                assetIcon: vault2,
-                                assetName: 'BUSD',
-                                fees: 'xVault',
-                                balance: busdUserDepositValue,
-                                netAPY: Number(dashboardValues.apyObj?.busd).toFixed(2),
-                                vaultasset: dashboardValues.apyObj?.tvlBUSDBsc,
-                                auditedState: 'audited',
-                                availableDeposit: Number(busdBalance).toFixed(2) + " BUSD"
-                            },
-                            {
-                                assetIcon: vault3,
-                                assetName: 'USDC',
-                                fees: 'xVault',
-                                balance: usdcUserDepositValue,
-                                netAPY: Number(dashboardValues.apyObj?.usdc).toFixed(2),
-                                vaultasset: dashboardValues.apyObj?.tvlUSDCBsc,
-                                auditedState: 'audited',
-                                availableDeposit: Number(usdcBalance).toFixed(2) + " USDC"
-                            }
-                        ])
-                    } else {
-
-                        busdUserDepositValueXAuto = busdDepositUserBalanceXAuto.userBusdDepositBalanceXAuto;
-                        usdtUserDepositValueXAuto = usdtDepositUserBalanceXAuto.userUsdtDepositBalanceXAuto;
-
-                        usdcUserDepositValueXAuto = usdcDepositUserBalanceXAuto.userUsdcDepositBalanceXAuto;
-                        bnbUserDepositValueXAuto = bnbDepositUserBalanceXAuto.userBnbDepositBalanceXAuto;
-                        setList([
-                            {
-                                assetIcon: vault1,
-                                assetName: 'USDT',
-                                fees: 'xAuto',
-                                balance: usdtUserDepositValueXAuto,
-                                netAPY: Number(dashboardValues.apyObj?.usdtXauto).toFixed(2),
-                                vaultasset: dashboardValues.apyObj?.tvlUSDTBscXAuto,
-                                auditedState: 'audited',
-                                availableDeposit: Number(usdtBalance).toFixed(2) + " USDT"
-                            },
-                            {
-                                assetIcon: vault2,
-                                assetName: 'BUSD',
-                                fees: 'xAuto',
-                                balance: busdUserDepositValueXAuto,
-                                netAPY: Number(dashboardValues.apyObj?.busdXauto).toFixed(2),
-                                vaultasset: dashboardValues.apyObj?.tvlBUSDBscXAuto,
-                                auditedState: 'audited',
-                                availableDeposit: Number(busdBalance).toFixed(2) + " BUSD"
-                            },
-                            {
-                                assetIcon: vault4,
-                                assetName: 'BNB',
-                                fees: 'xAuto',
-                                balance: bnbUserDepositValueXAuto,
-                                netAPY: Number(dashboardValues.apyObj?.bnbXauto).toFixed(2),
-                                vaultasset: dashboardValues.apyObj?.tvlVBNBBscXAuto,
-                                auditedState: 'audited',
-                                availableDeposit: Number(bnbBalance).toFixed(6) + " BNB"
-                            },
-                            {
-                                assetIcon: vault3,
-                                assetName: 'USDC',
-                                fees: 'xAuto',
-                                balance: usdcUserDepositValueXAuto,
-                                netAPY: Number(dashboardValues.apyObj?.usdcXauto).toFixed(2),
-                                vaultasset: dashboardValues.apyObj?.tvlUSDCBscXAuto,
-                                auditedState: 'audited',
-                                availableDeposit: Number(usdcBalance).toFixed(2) + " USDC"
-                            }
-                        ])
-                    }
-
-                } else {
-
-
-
-                    if (usdtBalancesMatic.usdtBalanceMatic) {
-                        usdtBalanceMatic = usdtBalancesMatic.usdtBalanceMatic;
-                    }
-                    if (usdcBalancesMatic.usdcBalanceMatic) {
-                        usdcBalanceMatic = usdcBalancesMatic.usdcBalanceMatic;
-                    }
-                    if (aaveBalancesMatic.aaveBalanceMatic) {
-                        aaveBalanceMatic = aaveBalancesMatic.aaveBalanceMatic;
-                    }
-                    if (wbtcBalancesMatic.wbtcBalanceMatic) {
-                        wbtcBalanceMatic = wbtcBalancesMatic.wbtcBalanceMatic;
-                    }
-
-
-
-
-
-
-                    if (usdcDepositUserBalanceMatic.usdcDepositBalanceMatic) {
-                        usdcUserDepositValueMatic = usdcDepositUserBalanceMatic.usdcDepositBalanceMatic;
-                    }
-
-                    if (usdtDepositUserBalanceMatic.usdtDepositBalanceMatic) {
-                        usdtUserDepositValueMatic = usdtDepositUserBalanceMatic.usdtDepositBalanceMatic
-                    }
-
-                    if (wbtcDepositUserBalance.wbtcDepositBalanceMatic) {
-                        wbtcUserDepositValue = wbtcDepositUserBalance.wbtcDepositBalanceMatic;
-                    }
-
-                    if (aaveDepositUserBalance.aaveDepositBalanceMatic) {
-                        aaveUserDepositValue = aaveDepositUserBalance.aaveDepositBalanceMatic;
-                    }
-
-
-                    setList([
-                        {
-                            assetIcon: vault1,
-                            assetName: 'USDT',
-                            fees: 'xAuto',
-                            balance: usdtUserDepositValueMatic,
-                            netAPY: Number(dashboardValuesMatic.apyObjMatic?.usdtApyMatic).toFixed(2),
-                            vaultasset: dashboardValuesMatic.apyObjMatic?.tvlUSDTMatic,
-                            auditedState: 'audited',
-                            availableDeposit: usdtBalanceMatic + " USDT"
-                        },
-                        {
-                            assetIcon: vault3,
-                            assetName: 'USDC',
-                            fees: 'xAuto',
-                            balance: usdcUserDepositValueMatic,
-                            netAPY: Number(dashboardValuesMatic.apyObjMatic?.usdcApyMatic).toFixed(2),
-                            vaultasset: dashboardValuesMatic.apyObjMatic?.tvlUSDCMatic,
-                            auditedState: 'audited',
-                            availableDeposit: usdcBalanceMatic + " USDC"
-                        },
-                        {
-                            assetIcon: vaultAAVE,
-                            assetName: 'AAVE',
-                            fees: 'xAuto',
-                            balance: aaveUserDepositValue,
-                            netAPY: Number(dashboardValuesMatic.apyObjMatic?.aaveApyMatic).toFixed(2),
-                            vaultasset: dashboardValuesMatic.apyObjMatic?.tvlAAVE,
-                            auditedState: 'audited',
-                            availableDeposit: aaveBalanceMatic + " AAVE"
-                        },
-                        {
-                            assetIcon: vaultWBTC,
-                            assetName: 'WBTC',
-                            fees: 'xAuto',
-                            balance: wbtcUserDepositValue,
-                            netAPY: Number(dashboardValuesMatic.apyObjMatic?.wbtcApyMatic).toFixed(2),
-                            vaultasset: dashboardValuesMatic.apyObjMatic?.tvlWBTC,
-                            auditedState: 'audited',
-                            availableDeposit: wbtcBalanceMatic + " WBTC"
-                        }
-
-                    ])
-                }
-            }
-        } else {
-            if (dashboardValues && dashboardValuesMatic) {
-                if (chainId == 56) {
-
-                    if (lendingProtocol == 'X Vault' || lendingProtocol.lenderProtocol == 'X Vault') {
-                        setList([
-                            {
-                                assetIcon: vault1,
-                                assetName: 'USDT',
-                                fees: 'xVault',
-                                balance: '0.00',
-                                netAPY: Number(dashboardValues.apyObj?.usdt).toFixed(2),
-                                vaultasset: dashboardValues.apyObj?.tvlUSDTBsc,
-                                auditedState: 'audited',
-                                availableDeposit: '0.00'
-                            },
-                            {
-                                assetIcon: vault2,
-                                assetName: 'BUSD',
-                                fees: 'xVault',
-                                balance: '0.00',
-                                netAPY: Number(dashboardValues.apyObj?.busd).toFixed(2),
-                                vaultasset: dashboardValues.apyObj?.tvlBUSDBsc,
-                                auditedState: 'audited',
-                                availableDeposit: '0.00'
-                            },
-                            {
-                                assetIcon: vault3,
-                                assetName: 'USDC',
-                                fees: 'xVault',
-                                balance: '0.00',
-                                netAPY: Number(dashboardValues.apyObj?.usdc).toFixed(2),
-                                vaultasset: dashboardValues.apyObj?.tvlUSDCBsc,
-                                auditedState: 'audited',
-                                availableDeposit: '0.00'
-                            }
-                        ])
-                    } else {
-                        setList([
-                            {
-                                assetIcon: vault1,
-                                assetName: 'USDT',
-                                fees: 'xAuto',
-                                balance: '0.00',
-                                netAPY: Number(dashboardValues.apyObj?.usdtXauto).toFixed(2),
-                                vaultasset: dashboardValues.apyObj?.tvlUSDTBscXAuto,
-                                auditedState: 'audited',
-                                availableDeposit: '0.00'
-                            },
-                            {
-                                assetIcon: vault2,
-                                assetName: 'BUSD',
-                                fees: 'xAuto',
-                                balance: '0.00',
-                                netAPY: Number(dashboardValues.apyObj?.busdXauto).toFixed(2),
-                                vaultasset: dashboardValues.apyObj?.tvlBUSDBscXAuto,
-                                auditedState: 'audited',
-                                availableDeposit: '0.00'
-                            },
-                            {
-                                assetIcon: vault4,
-                                assetName: 'BNB',
-                                fees: 'xAuto',
-                                balance: '0.00',
-                                netAPY: Number(dashboardValues.apyObj?.bnbXauto).toFixed(2),
-                                vaultasset: dashboardValues.apyObj?.tvlVBNBBscXAuto,
-                                auditedState: 'audited',
-                                availableDeposit: '0.00'
-                            },
-                            {
-                                assetIcon: vault3,
-                                assetName: 'USDC',
-                                fees: 'xAuto',
-                                balance: '0.00',
-                                netAPY: Number(dashboardValues.apyObj?.usdcXauto).toFixed(2),
-                                vaultasset: dashboardValues.apyObj?.tvlUSDCBscXAuto,
-                                auditedState: 'audited',
-                                availableDeposit: '0.00'
-                            }
-                        ])
-                    }
-
-                } else {
-
-                    setList([
-                        {
-                            assetIcon: vault1,
-                            assetName: 'USDT',
-                            fees: 'xAuto',
-                            balance: '0.00',
-                            netAPY: Number(dashboardValuesMatic.apyObjMatic?.usdtApyMatic).toFixed(2),
-                            vaultasset: dashboardValuesMatic.apyObjMatic?.tvlUSDTMatic,
-                            auditedState: 'audited',
-                            availableDeposit: '0.00'
-                        },
-                        {
-                            assetIcon: vault3,
-                            assetName: 'USDC',
-                            fees: 'xAuto',
-                            balance: '0.00',
-                            netAPY: Number(dashboardValuesMatic.apyObjMatic?.usdcApyMatic).toFixed(2),
-                            vaultasset: dashboardValuesMatic.apyObjMatic?.tvlUSDCMatic,
-                            auditedState: 'audited',
-                            availableDeposit: '0.00'
-                        },
-                        {
-                            assetIcon: vaultAAVE,
-                            assetName: 'AAVE',
-                            fees: 'xAuto',
-                            balance: '0.00',
-                            netAPY: Number(dashboardValuesMatic.apyObjMatic?.aaveApyMatic).toFixed(2),
-                            vaultasset: dashboardValuesMatic.apyObjMatic?.tvlAAVE,
-                            auditedState: 'audited',
-                            availableDeposit: '0.00'
-                        },
-                        {
-                            assetIcon: vaultWBTC,
-                            assetName: 'WBTC',
-                            fees: 'xAuto',
-                            balance: '0.00',
-                            netAPY: Number(dashboardValuesMatic.apyObjMatic?.wbtcApyMatic).toFixed(2),
-                            vaultasset: dashboardValuesMatic.apyObjMatic?.tvlWBTC,
-                            auditedState: 'audited',
-                            availableDeposit: '0.00'
-                        }
-
-                    ])
-                }
-            }
-        }
+        setLoading(false)
     }
 
 
@@ -619,7 +274,6 @@ const Vaultlist: React.FC<Props> = ({ connected, chainId }: any) => {
 
 
     }, [chainId, dashboardValuesMatic, dashboardValues, lendingProtocol
-        , lendingProtocol.lenderProtocol
         , usdcDepositUserBalanceMatic.usdcDepositBalanceMatic
         , usdtDepositUserBalanceMatic.usdtDepositBalanceMatic
         , wbtcDepositUserBalance.wbtcDepositBalanceMatic
@@ -805,15 +459,39 @@ const Vaultlist: React.FC<Props> = ({ connected, chainId }: any) => {
 
                                     <Vault
                                         key={index.toString()}
+                                        contract={item.contractAddress}
+                                        network={item.network}
+                                        abi={item.abi}
                                         assetIcon={item.assetIcon}
                                         assetName={item.assetName}
-                                        fees={item.fees}
+                                        protocol={item.fees}
                                         balance={item.balance}
                                         netAPY={item.netAPY}
                                         vaultasset={item.vaultasset}
                                         auditedState={item.auditedState}
                                         availableDeposite={item.availableDeposit}
+                                        tokenAddress={item.tokenAddress}
+                                        tokenAbi={item.tokenAbi}
                                     />
+                                ))
+                            }
+                            {
+                                currentAssets.map((item: any, i: number) => (
+                                    <Vault
+                                        key={i}
+                                        contract={item.protocolAddress}
+                                        network={item.network}
+                                        abi={item.protocolAbi}
+                                        assetIcon={item.logo}
+                                        protocol={item.protocolName}
+                                        balance={item.balance}
+                                        netAPY={item.apy}
+                                        vaultasset={item.tvl}
+                                        auditedState={item.auditStatus}
+                                        availableDeposite={item.availableFunds}
+                                        tokenAddress={item.tokenAddress}
+                                        tokenAbi={item.tokenAbi}
+                                        assetName={item.name} />
                                 ))
                             }
                         </tbody>
@@ -822,7 +500,7 @@ const Vaultlist: React.FC<Props> = ({ connected, chainId }: any) => {
                 </Box>
 
                 {
-                    list.length === 0 &&
+                    load &&
                     <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
                         <i className="fa fa-spinner fa-spin" style={{ color: "#edecec" }}></i>
                     </div>
@@ -847,7 +525,7 @@ const Vaultlist: React.FC<Props> = ({ connected, chainId }: any) => {
                     ))
                 }
                 {
-                    list.length === 0 &&
+                    load &&
                     <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
                         <i className="fa fa-spinner fa-spin" style={{ color: "#edecec" }}></i>
                     </div>

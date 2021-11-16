@@ -7,10 +7,10 @@ type Action = {
 
 const initialState = {
     address: '',
-    chainId: 56,
+    chainId: null,
     nativeBalance: '0.00',
     connectionDetails: [],
-    lender: 'X Vault',
+    lender: null,
     protocols: [],
     wcp: 'injected',
     networkConnect: '56',
@@ -76,7 +76,7 @@ const DashboardReducer = (state = initialState, action: Action) => {
             return { ...state, networkConnect: action.payload }
 
         case _const.CONWALLETADD:
-            return { ...state, wca: action.payload }
+            return { ...state, ...action.payload, wca: action.payload }
 
         //bsc    
         case _const.USDTBALANCE:

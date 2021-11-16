@@ -8,8 +8,7 @@ interface Props {
     light: boolean,
     setTheme: any,
     connected: boolean,
-    onConnect: any,
-    chainId: any,
+    // onConnect: any,
     children: any;
 }
 

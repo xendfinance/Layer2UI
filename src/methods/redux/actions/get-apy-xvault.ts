@@ -844,6 +844,7 @@ const getXVaultAPI = async (chainId: any, lender: string, setLoading: Function) 
 
         setLoading(true)
 
+
         if (chainId == 56) {
             const apyBusd = await getXVaultAPIBUSD();
             const apyUSDT = await getXVaultAPIUSDT();

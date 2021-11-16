@@ -28,21 +28,11 @@ const useStyles = makeStyles((theme: Theme) =>
 const XendFianance = ({ light, setTheme, connected, setConnected, omitted, setOmitted }: any) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [web3, setWeb3]: any = useState(null);
-  const [chainId, setChainId]: any = useState(1);
-  const [address, setAddress]: any = useState('');
-
-  const onConnect = async () => {
-
-
-  };
-
 
   useEffect(() => {
-    (async () => {
-      dispatch(recreateWeb3());
 
-    })()
+    dispatch(recreateWeb3());
+
   }, [])
 
 
@@ -51,7 +41,7 @@ const XendFianance = ({ light, setTheme, connected, setConnected, omitted, setOm
     <Box className={classes.root}>
       <Router>
         <Switch>
-          <Layout light={light} setTheme={setTheme} connected={connected} onConnect={onConnect} chainId={chainId}>
+          <Layout light={light} setTheme={setTheme} connected={connected}>
             <Route exact path='/'>
               <LandingPage connected={connected} />
             </Route>

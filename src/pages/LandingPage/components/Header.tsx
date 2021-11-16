@@ -87,7 +87,7 @@ const Header: React.FC<Props> = ({ connected }: any) => {
 
     const buildPreData = async (chainId: any) => {
         //Build Pre Data
-        setTVLAPYXVault('$0,00');
+        setTVLAPYXVault('$0.00');
 
         setloading(true)
 
@@ -111,20 +111,19 @@ const Header: React.FC<Props> = ({ connected }: any) => {
 
 
 
-        if (apyObj || apyObjMatic) {
 
-            if (Number(chainId) === 56) {
-                if (lendingProtocol == "X Vault") {
-                    const tvlString = apyObj?.TVL;
-                    tvlString && setTVLAPYXVault(tvlString);
-                } else {
-                    const tvlString = apyObj?.TVLXAuto;
-                    tvlString && setTVLAPYXVault(tvlString);
-                }
+
+        if (Number(chainId) === 56) {
+            if (lendingProtocol == "X Vault") {
+                const tvlString = apyObj?.TVL;
+                tvlString && setTVLAPYXVault(tvlString);
             } else {
-                const tvlString = apyObjMatic?.TVL;
+                const tvlString = apyObj?.TVLXAuto;
                 tvlString && setTVLAPYXVault(tvlString);
             }
+        } else {
+            const tvlString = apyObjMatic?.TVL;
+            tvlString && setTVLAPYXVault(tvlString);
         }
 
         setloading(false)

@@ -39,7 +39,6 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 
 
 
-
 	let highestAPYXAuto = '0.00';
 	let highestAPYXVault = '0.00';
 	let highestAPYXAutoMatic = '0.00';
@@ -143,7 +142,7 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 								onClick={() => setConnectInfo({
 									...connectInfo,
 									network: 'polygon',
-									protocol: 'XAuto',
+									protocol: 'xAuto',
 									chainId: 137
 								})}>
 								{
@@ -174,10 +173,10 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 
 												onClick={() => setConnectInfo({
 													...connectInfo,
-													protocol: item.code
+													protocol: item.name
 												})}>
 												{
-													connectInfo.protocol === item.code &&
+													connectInfo.protocol === item.name &&
 													connectInfo.network === 'bsc' &&
 													<img className="check" src={Check} alt="check" />}
 												{
@@ -272,12 +271,16 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 											//Switch Vaults
 											dispatch({
 												type: _const.LENDER,
-												payload: { lenderProtocol: 'X Vault' }
+												payload: 'xVault'
 											});
+
+											const connectionDetails = JSON.parse(localStorage.getItem("CONNECTION_DETAILS"));
+											localStorage.setItem("CONNECTION_DETAILS", JSON.stringify({ ...connectionDetails, lender: 'xVault' }))
+
 											setOpen(false);
 										}
 										}>
-										{lenderCurrentlySelected == "X Vault" ? <img className="check" src={Check} alt="check" /> : <div></div>}
+										{lenderCurrentlySelected == "xVault" ? <img className="check" src={Check} alt="check" /> : <div></div>}
 										<img src={BSC} width={40} alt='polygon' />
 										<div className="chain-name">
 											<p style={{ color: '#edecec' }}>xVault</p>
@@ -291,13 +294,18 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 											//Switch Vaults
 											dispatch({
 												type: _const.LENDER,
-												payload: { lenderProtocol: 'X Auto' }
+												payload: 'xAuto'
 											});
+
+
+											const connectionDetails = JSON.parse(localStorage.getItem("CONNECTION_DETAILS"));
+											localStorage.setItem("CONNECTION_DETAILS", JSON.stringify({ ...connectionDetails, lender: 'xAuto' }))
+
 											setOpen(false);
 										}
 										}>
 
-										{lenderCurrentlySelected == "X Auto" ? <img className="check" src={Check} alt="check" /> : <div></div>}
+										{lenderCurrentlySelected == "xAuto" ? <img className="check" src={Check} alt="check" /> : <div></div>}
 										<img src={BSC} width={40} alt='polygon' />
 										<div className="chain-name">
 											<p style={{ color: '#edecec' }}>xAuto</p>
