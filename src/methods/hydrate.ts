@@ -32,8 +32,7 @@ export const hydrateTvl = async ({
 		}
 
 		if (network === 137) {
-			let tvl = await xAutoMATICTvl(abi, address);
-			console.log(tvl, ' the wasdsdf')
+			let tvl = await xAutoMATICTvl(abi, address, tokenName);
 			if (tvl) return tvl;
 		}
 
@@ -49,24 +48,35 @@ interface IHydrateUsersProtocolBalance {
 	protocol: string
 	protocolAddress: string
 	user: string
+	tokenName: string
 }
 export const hydrateUsersProtocolBalance = async ({
-	network, abi, protocol, user, protocolAddress
+	network,
+	abi,
+	protocol,
+	user,
+	protocolAddress,
+	tokenName
 }: IHydrateUsersProtocolBalance) => {
+
 	try {
 
-		if (network === 56 && protocol === 'xVault') {
+		if (
+			network === 56 &&
+			protocol === 'xVault') {
 			let balance = await xVaultUserBalance(abi, protocolAddress, user)
 			return balance;
 		}
 
-		if (network === 56 && protocol === 'xAuto') {
+		if (
+			network === 56 &&
+			protocol === 'xAuto') {
 			let balance = await xAutoBSCUserBalance(abi, protocolAddress, user)
 			return balance;
 		}
 
 		if (network === 137) {
-			let balance = await xAutoMATICUserBalance(abi, protocolAddress, user);
+			let balance = await xAutoMATICUserBalance(abi, protocolAddress, user, tokenName);
 			return balance;
 		}
 

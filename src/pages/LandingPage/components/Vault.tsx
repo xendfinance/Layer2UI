@@ -57,7 +57,8 @@ const Vault: React.FC<Props> = ({
     network, abi, contract,
     assetIcon, assetName, protocol,
     balance, netAPY, vaultasset,
-    auditedState, availableDeposite, tokenAbi, tokenAddress
+    auditedState, availableDeposite,
+    tokenAbi, tokenAddress
 
 }) => {
     const classes = useStyles();
@@ -108,7 +109,8 @@ const Vault: React.FC<Props> = ({
                 abi,
                 protocol,
                 protocolAddress: contract,
-                user: address
+                user: address,
+                tokenName: assetName
             })
 
 

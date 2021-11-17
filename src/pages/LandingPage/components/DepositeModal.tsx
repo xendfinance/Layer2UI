@@ -203,48 +203,8 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, b
     const dispatch = useDispatch();
     const { address, chainId } = useSelector((store: any) => store.DashboardReducer);
 
-    const usdtBalances = useSelector((store: any) => store.DashboardReducer.usdtBalance);
-    const busdBalances = useSelector((store: any) => store.DashboardReducer.busdBalance);
-    const usdcBalances = useSelector((store: any) => store.DashboardReducer.usdcBalance);
-    const bnbBalances = useSelector((store: any) => store.DashboardReducer.bnbBalance);
-
-    //matic   
-    const usdtBalancesMatic = useSelector((store: any) => store.DashboardReducer.usdtBalanceMatic);
-    const wbtcBalancesMatic = useSelector((store: any) => store.DashboardReducer.wbtcBalanceMatic);
-    const aaveBalancesMatic = useSelector((store: any) => store.DashboardReducer.aaveBalanceMatic);
-    const usdcBalancesMatic = useSelector((store: any) => store.DashboardReducer.usdcBalanceMatic);
-
-
-    const dashboardValues = useSelector((store: any) => store.DashboardReducer.dashboard);
-    const dashboardValuesMatic = useSelector((store: any) => store.DashboardReducer.dashboardMatic);
-
-    //BSC Balances XVault
-    const busdDepositUserBalance = useSelector((store: any) => store.DashboardReducer.busdDepositBalance);
-    const usdtDepositUserBalance = useSelector((store: any) => store.DashboardReducer.usdtDepositBalance);
-    const usdcDepositUserBalance = useSelector((store: any) => store.DashboardReducer.usdcDepositBalance);
-    // //BSC XAuto
-    const busdDepositUserBalanceXAuto = useSelector((store: any) => store.DashboardReducer.userBusdDepositBalanceXAuto);
-    const usdtDepositUserBalanceXAuto = useSelector((store: any) => store.DashboardReducer.userUsdtDepositBalanceXAuto);
-    const usdcDepositUserBalanceXAuto = useSelector((store: any) => store.DashboardReducer.userUsdcDepositBalanceXAuto);
-    const bnbDepositUserBalanceXAuto = useSelector((store: any) => store.DashboardReducer.userBnbDepositBalanceXAuto);
-
-
-
-    //Matic Balances 
-    const usdtDepositUserBalanceMatic = useSelector((store: any) => store.DashboardReducer.usdtDepositBalanceMatic);
-    const usdcDepositUserBalanceMatic = useSelector((store: any) => store.DashboardReducer.usdcDepositBalanceMatic);
-    const aaveDepositUserBalance = useSelector((store: any) => store.DashboardReducer.aaveDepositBalanceMatic);
-    const wbtcDepositUserBalance = useSelector((store: any) => store.DashboardReducer.wbtcDepositBalanceMatic);
-
-
-    const currentChainId = useSelector((store: any) => store.DashboardReducer.networkConnect);
 
     const lendingProtocol = useSelector((store: any) => store.DashboardReducer.lender);
-
-    let balanceStable = '0';
-    let tvl = '0.00';
-    let apy = '0.00';
-    let depositBalance = '0.00';
 
 
     let assetInvested: any;

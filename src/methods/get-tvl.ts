@@ -42,12 +42,19 @@ export const xAutoBSCTvl = async (abi: any, address: string, tokenName: string) 
 
 
 
-export const xAutoMATICTvl = async (abi: any, address: string) => {
+export const xAutoMATICTvl = async (abi: any, address: string, tokenName: string) => {
 	try {
 
 		const contract = new web3Matic.eth.Contract(abi, address);
 		let totalAssets = await contract.methods.calcPoolValueInToken().call();
-		totalAssets = web3Matic.utils.fromWei(totalAssets.toString(), 'mwei');
+
+		if (tokenName === 'AAVE') {
+			totalAssets = web3Matic.utils.fromWei(totalAssets.toString(), 'ether');
+		} else if (tokenName === 'WBTC') {
+			totalAssets = Number(totalAssets) / Number(BigInt(1e8).toLocaleString('fullwide', { useGrouping: false }))
+		} else {
+			totalAssets = web3Matic.utils.fromWei(totalAssets.toString(), 'mwei');
+		}
 
 		return totalAssets;
 

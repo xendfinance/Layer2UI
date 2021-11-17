@@ -1,6 +1,6 @@
 
 import Web3 from 'web3';
-import CoinGecko from 'coingecko-api';
+
 
 const web3 = new Web3('https://bsc-dataseed.binance.org/');
 const web3Matic = new Web3('https://polygon-rpc.com/');
@@ -50,13 +50,22 @@ export const xAutoBSCUserBalance = async (abi: any, address: string, userAddress
 
 
 
-export const xAutoMATICUserBalance = async (abi: any, address: string, userAddress: string) => {
+export const xAutoMATICUserBalance = async (
+	abi: any,
+	address: string,
+	userAddress: string,
+	tokenName: string) => {
 	try {
 
 		const contract = new web3Matic.eth.Contract(abi, address);
 		let balance = await contract.methods.balanceOf(userAddress).call()
-
-		balance = web3Matic.utils.fromWei(balance.toString(), 'ether');
+		if (tokenName === 'AAVE') {
+			balance = web3Matic.utils.fromWei(balance.toString(), 'ether');
+		} else if (tokenName === 'WBTC') {
+			balance = Number(balance) / Number(BigInt(1e8).toLocaleString('fullwide', { useGrouping: false }))
+		} else {
+			balance = web3Matic.utils.fromWei(balance.toString(), 'mwei');
+		}
 		return toFixed(balance)
 
 	} catch (e) {
@@ -108,9 +117,15 @@ export const polygonTokenBalance = async (
 
 		const token = new web3Matic.eth.Contract(abi, tokenAddress);
 		let balance = await token.methods.balanceOf(user).call();
-		console.log(balance, ' safasdfsdf')
-		balance = web3Matic.utils.fromWei(balance.toString(), 'mwei')
-		console.log(balance, ' aaaaa')
+
+		if (tokenName === 'AAVE') {
+			balance = web3Matic.utils.fromWei(balance.toString(), 'ether')
+		} else if (tokenName === 'WBTC') {
+			balance = Number(balance) / Number(BigInt(1e8).toLocaleString('fullwide', { useGrouping: false }))
+		} else {
+			balance = web3Matic.utils.fromWei(balance.toString(), 'mwei')
+		}
+
 		return balance;
 
 	} catch (e) {
