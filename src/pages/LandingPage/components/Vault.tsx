@@ -63,7 +63,6 @@ const Vault: React.FC<Props> = ({
     const classes = useStyles();
     const [isOpenDepositeModal, setOpenDepositeModal] = useState(false);
     const { address, hydrateSwitch, chainId } = useSelector((store: any) => store.DashboardReducer);
-    const wca = useSelector((store: any) => store.DashboardReducer.wca);
 
 
 

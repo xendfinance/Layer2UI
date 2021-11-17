@@ -73,6 +73,7 @@ const Header: React.FC<Props> = ({ connected }: any) => {
     const [loading, setloading] = useState(false);
 
     const [networkTVL, setTVL] = useState('0');
+    // const [protocolTVL, setPTVL] = useState('0');
 
     const { chainId, lender } = useSelector((store: any) => store.DashboardReducer);
 
@@ -86,7 +87,8 @@ const Header: React.FC<Props> = ({ connected }: any) => {
         try {
             setloading(true)
             let tvls: any[] = []
-            const protocolAssets = assets.filter(x => x.network === Number(chainId));
+            // let protocolTvl: any[] = [];
+            const protocolAssets = assets.filter(x => x.network === Number(chainId) && x.protocolName === lender);
             for (let i = 0; i < protocolAssets.length; i++) {
                 let asset = protocolAssets[i];
 
@@ -100,10 +102,16 @@ const Header: React.FC<Props> = ({ connected }: any) => {
 
                 tvls.push(tvl)
 
+                // if (asset.protocolName === lender) {
+                //     protocolTvl.push(tvl)
+                // }
+
             }
 
             let totalTvl = tvls.reduce((a, b) => a + Number(b), 0);
             setTVL(totalTvl)
+            // let totalProtocolTvl = protocolTvl.reduce((a, b) => a + Number(b), 0);
+            // setPTVL(totalProtocolTvl)
 
             setloading(false)
         } catch (e) {
@@ -116,8 +124,8 @@ const Header: React.FC<Props> = ({ connected }: any) => {
 
     const activeNetwork = () => {
 
-        if (chainId == 56) return <>(BSC)</>
-        if (chainId == 137) return <>(Polygon)</>
+        if (chainId == 56) return <>({lender} on BSC)</>
+        if (chainId == 137) return <>({lender} on Polygon)</>
         return null
     }
 
@@ -135,7 +143,8 @@ const Header: React.FC<Props> = ({ connected }: any) => {
                 </Box>
             </Grid>
             <Grid className={classes.asset} item xs={12} sm={5}>
-                <Box className={classes.assetTitle}>Overall TVL {activeNetwork()} {loading && <i className="fa fa-spinner fa-spin" style={{ color: "#edecec", marginLeft: 10 }}></i>}</Box>
+                <Box
+                    className={classes.assetTitle}>TVL {activeNetwork()} {loading && <i className="fa fa-spinner fa-spin" style={{ color: "#edecec", marginLeft: 10 }}></i>}</Box>
 
                 <Box className={classes.assetValue}>${commas(networkTVL)}</Box>
             </Grid>

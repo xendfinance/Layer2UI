@@ -84,7 +84,6 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 
 
 
-	const [currentNetwork, setCurrentNetwork] = useState(getCurrentSelectedNetwork());
 	const { chainId } = useSelector((store: any) => store.DashboardReducer)
 
 	const disconnectWallet = () => {

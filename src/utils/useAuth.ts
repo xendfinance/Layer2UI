@@ -71,11 +71,15 @@ export const Login = (connectorID: ConnectorNames, chainId: number, lender: stri
                     window.APPWEB3 = new web3(connector as any)
                 }
 
+                localStorage.setItem("CONNECTION_DETAILS", JSON.stringify(dt))
+                dispatch({
+                    type: _const.ADDRESS,
+                    payload: { walletInUse: walletName, chainId, lender }
+                })
 
                 if (account) {
 
 
-                    localStorage.setItem("CONNECTION_DETAILS", JSON.stringify(dt))
 
                     dispatch({
                         type: _const.NETWORK_CONNECT,
@@ -83,10 +87,10 @@ export const Login = (connectorID: ConnectorNames, chainId: number, lender: stri
                     })
 
 
-                    dispatch(getAllBalances(String(account), chainId));
+                    // dispatch(getAllBalances(String(account), chainId));
                     dispatch({
                         type: _const.ADDRESS,
-                        payload: { address: account, walletInUse: walletName, chainId, lender }
+                        payload: { address: account }
                     })
 
                 }
@@ -173,7 +177,7 @@ export const recreateWeb3 = () => {
 
 
                     if (account) {
-                        dispatch(getAllBalances(String(account), chainId));
+                        // dispatch(getAllBalances(String(account), chainId));
                         dispatch({
                             type: _const.ADDRESS,
                             payload: { address: account }
