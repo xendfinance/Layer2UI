@@ -30,6 +30,7 @@ export default [
 		apy: "0.00",
 		tvl: "0.00",
 		auditStatus: "audited",
+		smartContract: "https://bscscan.com/address/0xF8604eE08c70389856242dF88b4CCA90a70733a7#code",
 		availableFunds: "0.00",
 		decimals: 18
 	},
@@ -46,6 +47,7 @@ export default [
 		apy: "0.00",
 		tvl: "0.00",
 		auditStatus: "audited",
+		smartContract: "https://bscscan.com/address/0xE7e53128Bf23463F7B0B4F0aec1FCB50988c7E9E#code",
 		availableFunds: "0.00",
 		decimals: 18
 	},
@@ -62,6 +64,7 @@ export default [
 		apy: "0.00",
 		tvl: "0.00",
 		auditStatus: "audited",
+		smartContract: "https://bscscan.com/address/0x48190f88a6d62cF3EEFDe000B8b8D1B99951b07a#code",
 		availableFunds: "0.00",
 		decimals: 18
 	},
@@ -81,6 +84,7 @@ export default [
 		apy: "0.00",
 		tvl: "0.00",
 		auditStatus: "audited",
+		smartContract: "https://bscscan.com/address/0x525A55eBd9464c1081077BCc1d7a53C1c431BD26#code",
 		availableFunds: "0.00",
 		decimals: 18
 	},
@@ -97,6 +101,7 @@ export default [
 		apy: "0.00",
 		tvl: "0.00",
 		auditStatus: "audited",
+		smartContract: "https://bscscan.com/address/0xa25dec88B81a94Ca951f3a4ff4AAbC32B3759E6C#code",
 		availableFunds: "0.00",
 		decimals: 18
 	},
@@ -113,6 +118,7 @@ export default [
 		apy: "0.00",
 		tvl: "0.00",
 		auditStatus: "audited",
+		smartContract: "https://bscscan.com/address/0x2dABAeB84cACFEF30e95896301CEF65cb24b3176#code",
 		availableFunds: "0.00",
 		decimals: 18
 	},
@@ -129,6 +135,7 @@ export default [
 		apy: "0.00",
 		tvl: "0.00",
 		auditStatus: "audited",
+		smartContract: "https://bscscan.com/address/0x3058d344C8F845754F0C356881772788c128eA22#code",
 		availableFunds: "0.00",
 		decimals: 18
 	},
@@ -148,6 +155,7 @@ export default [
 		apy: "0.00",
 		tvl: "0.00",
 		auditStatus: "audited",
+		smartContract: "https://polygonscan.com/address/0x6842E453ad9e7847a566876B8A2967FE9d155485#code",
 		availableFunds: "0.00",
 		decimals: 18
 	},
@@ -164,6 +172,7 @@ export default [
 		apy: "0.00",
 		tvl: "0.00",
 		auditStatus: "audited",
+		smartContract: "https://polygonscan.com/address/0x418b8D697e72B90cBdF5Cb58015384b9016794F9#code",
 		availableFunds: "0.00",
 		decimals: 18
 	},
@@ -180,6 +189,7 @@ export default [
 		apy: "0.00",
 		tvl: "0.00",
 		auditStatus: "audited",
+		smartContract: "https://polygonscan.com/address/0x0B12E60084816ed83c519a1fFd01022d5A50fcaC#code",
 		availableFunds: "0.00",
 		decimals: 18
 	},
@@ -196,6 +206,7 @@ export default [
 		apy: "0.00",
 		tvl: "0.00",
 		auditStatus: "audited",
+		smartContract: "https://polygonscan.com/address/0x5b208c6Ed9c95907DC7E1Ef34F0Cac52dd22b9dc#code",
 		availableFunds: "0.00",
 		decimals: 18
 	}
