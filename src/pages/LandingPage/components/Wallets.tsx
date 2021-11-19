@@ -31,7 +31,7 @@ const Wallets: FC<WalletProps> = ({ setOpen }) => {
 	const dispatch = useDispatch();
 	const { account } = useWeb3React();
 
-	const { address, walletInUse,nativeBalance,chainId} = useSelector((store: any) => store.DashboardReducer)
+	const { address, walletInUse, nativeBalance, chainId } = useSelector((store: any) => store.DashboardReducer)
 
 	const [width, setWidth] = useState<number>(window.innerWidth);
 
@@ -43,15 +43,15 @@ const Wallets: FC<WalletProps> = ({ setOpen }) => {
 
 	function addressWork() {
 		const localAddress = retrieveAddress();
-		if(localAddress){
-		dispatch({
+		if (localAddress) {
+			dispatch({
 				type: _const.ADDRESS,
 				payload: {
 					address: localAddress,
 				},
 			});
 		}
-	
+
 	}
 
 
@@ -66,17 +66,17 @@ const Wallets: FC<WalletProps> = ({ setOpen }) => {
 		});
 
 		const connectionDetails = JSON.parse(localStorage.getItem("CONNECTION_DETAILS"));
-		if(connectionDetails){
-			dispatch(getNativeBalance(address,connectionDetails.chainId));
-			dispatch(getAllBalances(account,connectionDetails.chainId));
+		if (connectionDetails) {
+			dispatch(getNativeBalance(address, connectionDetails.chainId));
+			dispatch(getAllBalances(account, connectionDetails.chainId));
 
 			let path = window.location.pathname;
-		    path = path.length > 1 ? path.substring(1) : path;
-		    reacquireEmit(path);
-		}else{
+			path = path.length > 1 ? path.substring(1) : path;
+			reacquireEmit(path);
+		} else {
 
-			dispatch(getNativeBalance(address,chainId));
-			dispatch(getAllBalances(account,chainId));
+			dispatch(getNativeBalance(address, chainId));
+			dispatch(getAllBalances(account, chainId));
 			// dispatch({ type: _const.PRISTINE });
 			let path = window.location.pathname;
 			path = path.length > 1 ? path.substring(1) : path;
@@ -140,7 +140,7 @@ const Wallets: FC<WalletProps> = ({ setOpen }) => {
 	useEffect(() => {
 		if (typeof window.ethereum !== 'undefined') {
 			window.ethereum.on('disconnect', () => {
-				
+
 			});
 		}
 		// eslint-disable-next-line
@@ -162,7 +162,7 @@ const Wallets: FC<WalletProps> = ({ setOpen }) => {
 		setWidth(window.innerWidth);
 	}
 	function handleRejectedCall() {
-		
+
 	}
 
 	useEffect(() => {
@@ -197,24 +197,24 @@ const Wallets: FC<WalletProps> = ({ setOpen }) => {
 
 
 	useEffect(() => {
-	
+
 		const connectedWallet = connectors.filter(x => x.title === walletInUse);
 		connectedWallet[0] && setWalletLogo(connectedWallet[0].image);
-        
+
 		const connectionDetails = JSON.parse(localStorage.getItem("CONNECTION_DETAILS"));
-		if(connectionDetails){
-			if(connectionDetails.chainId == 56){
+		if (connectionDetails) {
+			if (connectionDetails.chainId == 56) {
 				setNetworkLogo(BSC);
-			}else{
-				setNetworkLogo(Polygon);
-			}			
-		}else{
-			if(chainId == 56){
-				setNetworkLogo(BSC);
-			}else{
+			} else {
 				setNetworkLogo(Polygon);
 			}
-		}		
+		} else {
+			if (chainId == 56) {
+				setNetworkLogo(BSC);
+			} else {
+				setNetworkLogo(Polygon);
+			}
+		}
 
 	}, [address, walletInUse])
 
@@ -225,9 +225,9 @@ const Wallets: FC<WalletProps> = ({ setOpen }) => {
 		<>
 
 			<ConnectWalletStyle onClick={() => setOpen(true)}>
-                  
+
 				{!address ?
-					(<div>
+					(<div className="not-connected">
 						<figure>
 							<Wallet />
 						</figure>
@@ -235,15 +235,23 @@ const Wallets: FC<WalletProps> = ({ setOpen }) => {
 					</div>
 					) : (
 						<div>
-							<span>{nativeBalance}</span>
-							<figure className="connectedNetwork">								    
-							    <img src={networkLogo} width={35} alt="" />
+							<span
+								className="balance">{nativeBalance}</span>
+							<figure
+								className="connectedNetwork">
+								<img
+									src={networkLogo}
+									alt="" />
+							</figure>
+							<div
+								className="wallet">
+								<figure
+									className="connected">
+									<img
+										src={walletLogo} width={20} alt="" />
 								</figure>
-							<div className="wallet">							    
-								<figure className="connected">								    
-									<img src={walletLogo} width={20} alt="" />
-								</figure>
-								<span>{truncateAddress(address)}</span>
+								<span
+									className='address'>{truncateAddress(address)}</span>
 							</div>
 						</div>
 					)
@@ -259,7 +267,6 @@ export default Wallets;
 
 const ConnectWalletStyle = styled.button`
 	border: none;
-	margin-left: 15px;
 	display: flex;
 	align-items: center;
 	background: linear-gradient(100.89deg, #9C3F00 3.11%, #FF6600 122.62%);;
@@ -267,7 +274,7 @@ const ConnectWalletStyle = styled.button`
 	max-height: 46px;
 	border-radius: 38px;
 	color: white;
-	padding: 10px;
+	padding: 0;
 	font-weight: 600;
 	font-size: 12px;
 	cursor: pointer;
@@ -277,17 +284,23 @@ const ConnectWalletStyle = styled.button`
 		align-items: center;
 	}
 
+
 	& .wallet {
 		background-color: rgba(255, 255, 255, 0.2);
 		display: flex;
 		align-items: center;
-		padding: 0px;
+		padding: 10px;
 		border-radius: 52px;
 		margin-left: 10px;
+
 	}
 
+		& span.balance {
+			padding: 2px 10px;
+		}
+
 	& figure {
-		margin-right: 7px;
+		margin: 0;
 		background: transparent;
 		width: 24px;
 		height: 24px;
@@ -295,10 +308,6 @@ const ConnectWalletStyle = styled.button`
 		align-items: center;
 		justify-content: center;
 		border-radius: 50%;
-
-		& svg {
-			width: 18px;
-		}
 	}
 
 	& figure.connected {
@@ -309,34 +318,44 @@ const ConnectWalletStyle = styled.button`
 
 	& figure.connectedNetwork {
 		background: white;
-		width: 40px;
-        height:40px;
+		border-radius: 50%;
+		height: 28px;
+		width: 28px;
+
+		& img {
+			width: 24px;
+		}
+	}
+
+	& .address {
+		display: none;
+	}
+
+
+	& .not-connected {
+		margin-left: 10px;
+		margin-right: 10px;
+
+		& figure + p {
+			margin-left: 5px !important;
+		}
 	}
 
 	@media (min-width: 900px) {
-		padding: 10px;
 		background: linear-gradient(
 			100.89deg, rgb(32, 66, 184) 3.11%, rgb(255, 102, 0) 122.62%);
 		font-size: 14px;
 
-		& .wallet figure {
-			& img {
-				width: 18px;
-			}
+		& .address {
+			display: block;
+			margin-left: 7px;
 		}
 	}
 
 	@media (min-width: 300px) {
-		padding: 10px;
 		background: linear-gradient(
 			100.89deg, rgb(32, 66, 184) 3.11%, rgb(255, 102, 0) 122.62%);
 		font-size: 14px;
-
-		& .wallet figure {
-			& img {
-				width: 18px;
-			}
-		}
 	}
 `;
 

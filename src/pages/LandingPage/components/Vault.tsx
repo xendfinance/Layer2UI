@@ -7,7 +7,8 @@ import { useSelector } from 'react-redux';
 import { hydrateApy, hydrateTokenBalance, hydrateTvl, hydrateUsersProtocolBalance } from '../../../methods/hydrate';
 import { shortAmount } from '../../../methods/bignumber-converter';
 import commas from '../../../methods/utils/commas';
-import { LoadingOutlined } from '@ant-design/icons';
+import { LinkOutlined, LoadingOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 
 interface Props {
     assetIcon: any;
@@ -23,6 +24,7 @@ interface Props {
     contract: string
     tokenAbi: any
     tokenAddress: string
+    link: string
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -58,7 +60,7 @@ const Vault: React.FC<Props> = ({
     assetIcon, assetName, protocol,
     balance, netAPY, vaultasset,
     auditedState, availableDeposite,
-    tokenAbi, tokenAddress
+    tokenAbi, tokenAddress, link
 
 }) => {
     const classes = useStyles();
@@ -175,7 +177,7 @@ const Vault: React.FC<Props> = ({
 
             {
                 auditedState == 'audited' ?
-                    <td className={classes.netAPY}>{auditedState}</td> :
+                    <td className={classes.netAPY}><a target="_blank" className={classes.netAPY} href="https://docs.xend.finance/contracts/audit">{auditedState} <LinkOutlined /></a></td> :
                     <td> {auditedState} </td>
             }
 

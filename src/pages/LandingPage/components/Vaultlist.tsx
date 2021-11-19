@@ -237,6 +237,7 @@ const Vaultlist: React.FC<Props> = ({ connected }: any) => {
                                         availableDeposite={item.availableFunds}
                                         tokenAddress={item.tokenAddress}
                                         tokenAbi={item.tokenAbi}
+                                        link={item.smartContract}
                                         assetName={item.name} />
                                 ))
                             }
@@ -255,6 +256,26 @@ const Vaultlist: React.FC<Props> = ({ connected }: any) => {
             </BrowserView>
             <MobileView>
                 {
+                    currentAssets.map((item, index) => (
+                        <VaultMobile
+                            key={index}
+                            protocol={item.protocolName}
+                            network={item.network}
+                            abi={item.protocolAbi}
+                            contract={item.protocolAddress}
+                            tokenAbi={item.tokenAbi}
+                            tokenAddress={item.tokenAddress}
+                            assetIcon={item.logo}
+                            assetName={item.name}
+                            balance={item.balance}
+                            netAPY={item.apy}
+                            vaultasset={item.tvl}
+                            availableDeposite={item.availableFunds}
+                            className={classes.valutMobile} />
+                    ))
+                }
+
+                {/* {
                     list.map((item, index) => (
                         <VaultMobile
                             className={classes.valutMobile}
@@ -269,7 +290,7 @@ const Vaultlist: React.FC<Props> = ({ connected }: any) => {
                             availableDeposite={item.availableDeposit}
                         />
                     ))
-                }
+                } */}
                 {
                     load &&
                     <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>

@@ -1,20 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 import DepositeModal from './DepositeModal';
 import Button from '../../../components/Button';
 import { useSelector } from 'react-redux';
+import commas from '../../../methods/utils/commas';
+import { hydrateApy, hydrateTokenBalance, hydrateTvl, hydrateUsersProtocolBalance } from '../../../methods/hydrate';
+import { shortAmount } from '../../../methods/bignumber-converter';
+import { LinkOutlined, LoadingOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 
 interface Props {
     className?: string;
     assetIcon: string;
     assetName: string;
-    fees: string;
     balance: string;
     netAPY: string;
     vaultasset: string;
     availableDeposite: string;
-    auditedState: string;
+    network: number
+    protocol: string
+    abi: any
+    contract: string
+    tokenAbi: any
+    tokenAddress: string
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -55,15 +64,100 @@ const useStyles = makeStyles((theme: Theme) =>
             marginTop: 20,
             display: 'flex',
             justifyContent: 'center'
+        },
+        link: {
+            color: '#00D395 !important'
         }
     }),
 );
 
-const VaultMobile: React.FC<Props> = ({ className, assetIcon, assetName, fees, balance, netAPY, vaultasset, auditedState, availableDeposite }: any) => {
+const VaultMobile: React.FC<Props> = ({
+    network, abi, contract, tokenAbi, tokenAddress,
+    className, assetIcon, assetName, protocol,
+    balance, netAPY, vaultasset,
+    availableDeposite }) => {
+
     const classes = useStyles();
     const [isOpenDepositeModal, setOpenDepositeModal] = useState(false);
-    const { address, chainId } = useSelector((store: any) => store.DashboardReducer);
-    const wca = useSelector((store: any) => store.DashboardReducer.wca);
+    const { address, chainId, hydrateSwitch } = useSelector((store: any) => store.DashboardReducer);
+
+
+
+    const [loading, setLoading] = useState(false);
+    const [state, setState] = useState({
+        balance: "0.00",
+        apy: "0.00",
+        vaultAsset: "0.00",
+        availableFunds: "0.00"
+    })
+
+
+
+    useEffect(() => {
+        (async () => {
+
+
+            if (!address || address.length === 0) return;
+
+            setLoading(true)
+
+            setState({
+                ...state,
+                balance,
+                apy: netAPY,
+                vaultAsset: vaultasset,
+                availableFunds: availableDeposite
+            })
+
+            // hydrate tvl
+            let tvl = await hydrateTvl({
+                network,
+                abi,
+                address: contract,
+                protocol,
+                tokenName: assetName
+            });
+
+
+            // hydrate user's balance
+            let userBalance = await hydrateUsersProtocolBalance({
+                network,
+                abi,
+                protocol,
+                protocolAddress: contract,
+                user: address,
+                tokenName: assetName
+            })
+
+
+            // hydrate user's token balance
+            let tokenBalance = await hydrateTokenBalance({
+                network,
+                abi: tokenAbi,
+                tokenAddress,
+                tokenName: assetName,
+                user: address
+            })
+
+            // hydrate apy
+            let apy = await hydrateApy({ network, protocol, tokenName: assetName })
+
+            setState({
+                ...state,
+                balance: userBalance,
+                vaultAsset: shortAmount(tvl),
+                availableFunds: tokenBalance,
+                apy
+            })
+
+
+            setLoading(false)
+
+        })();
+
+    }, [protocol, address, hydrateSwitch])
+
+
 
     return (
         <Box className={`${classes.root} ${className}`}>
@@ -72,35 +166,61 @@ const VaultMobile: React.FC<Props> = ({ className, assetIcon, assetName, fees, b
                 setOpen={setOpenDepositeModal}
                 assetIcon={assetIcon}
                 assetName={assetName}
-                balance={balance}
-                netAPY={netAPY}
-                vaultasset={vaultasset}
-                availableDeposite={availableDeposite} />
+                balance={state.balance}
+                netAPY={state.apy}
+                vaultasset={state.vaultAsset}
+                availableDeposite={state.availableFunds} />
 
             <Box className={classes.asset}>
-                <img className={classes.assetImage} src={assetIcon} alt='XEND Finance' />
+                <img
+                    className={classes.assetImage}
+                    src={assetIcon} alt='XEND Finance' />
                 <Box>{assetName}</Box>
             </Box>
             <Box className={classes.content}>
                 <Box>
                     <Box className={classes.field}>APY</Box>
-                    <Box className={classes.value} style={{ color: '#00D395' }}>{netAPY}</Box>
+                    <Box
+                        className={classes.value}
+                        style={{ color: '#00D395' }}>{commas(state.apy, 2)}%</Box>
                 </Box>
                 <Box>
                     <Box className={classes.field}>Balance</Box>
-                    <Box className={classes.value}>{balance}</Box>
+                    <Box className={classes.value}>{commas(state.balance)}</Box>
                 </Box>
                 <Box>
                     <Box className={classes.field}>Total Value Locked</Box>
-                    <Box className={classes.value}>{vaultasset}</Box>
+                    <Box className={classes.value}>${commas(state.vaultAsset)}</Box>
                 </Box>
             </Box>
             <Box style={{ marginTop: 20 }}>
                 <Box className={classes.field}>Available to deposit</Box>
-                <Box className={classes.value}>{availableDeposite}</Box>
+                <Box className={classes.value}>{commas(state.availableFunds)} {assetName}</Box>
+            </Box>
+            <Box style={{ marginTop: 20 }}>
+                <Box className={classes.field}>Audit</Box>
+                <Box className={classes.value}><a className={classes.link} href="https://docs.xend.finance/contracts/audit" target="_blank"><LinkOutlined /></a></Box>
             </Box>
             <Box className={classes.openVaultButton}>
-                {address && chainId ? <Button variant='secondary' fontSize='14' title='Open Vault&nbsp;&nbsp;' onClick={() => { setOpenDepositeModal(!isOpenDepositeModal); }} /> : <Button variant='secondary' fontSize='14' title='Connect Wallet' />}
+                {
+                    address && chainId ?
+                        <>
+                            {
+                                loading ?
+                                    <LoadingOutlined /> :
+                                    <Button
+                                        variant='secondary'
+                                        fontSize='14'
+                                        title='Open Vault&nbsp;&nbsp;'
+                                        onClick={() => {
+                                            setOpenDepositeModal(!isOpenDepositeModal);
+                                        }} />
+                            }
+                        </> :
+                        <Button
+                            variant='secondary'
+                            fontSize='14'
+                            title='Connect Wallet' />}
             </Box>
         </Box>
     );
