@@ -35,6 +35,7 @@ export interface Asset {
 	ppfsMethod: string
 	previousProtocol?: string
 	strategy?: Strategy
+	deprecated?: boolean
 }
 
 const assets: Asset[] = [
@@ -109,6 +110,79 @@ const assets: Asset[] = [
 		previousProtocol: "0x48190f88a6d62cF3EEFDe000B8b8D1B99951b07a",
 		strategy: {
 			name: "Strategy UgoHawkVenusUSDCFarm v3",
+			code: "https://bscscan.com/address/0x998d139B7e9Ce5e98741aD75305fE6f2D81Aa2D9#code"
+		}
+	},
+	{
+		deprecated: true,
+		name: "USDT",
+		logo: assetsLogo.USDT,
+		tokenAddress: USDT_BSC,
+		tokenAbi: abiManager.USDT,
+		protocolName: "xVault",
+		protocolAddress: "0xF8604eE08c70389856242dF88b4CCA90a70733a7",
+		protocolAbi: abiManager.xvVaultUSDT,
+		network: 56,
+		balance: "0.00",
+		apy: "0.00",
+		tvl: "0.00",
+		auditStatus: "audited",
+		smartContract: "https://bscscan.com/address/0xF8604eE08c70389856242dF88b4CCA90a70733a7#code",
+		availableFunds: "0.00",
+		decimals: 18,
+		widthdrawDecimals: 36,
+		ppfsMethod: 'pricePerShare',
+		strategy: {
+			name: "Strategy UgoHawkVenusUSDTFarm v3",
+			code: "https://bscscan.com/address/0x9Ba4A8C5CE226A1daC42B9D2ba5bFe62eF545Fc9#code"
+		}
+	},
+	{
+		deprecated: true,
+		name: "BUSD",
+		logo: assetsLogo.BUSD,
+		tokenAddress: BUSD_BSC,
+		tokenAbi: abiManager.BUSD,
+		protocolName: "xVault",
+		protocolAddress: "0xE7e53128Bf23463F7B0B4F0aec1FCB50988c7E9E",
+		protocolAbi: abiManager.xvVaultBUSD,
+		network: 56,
+		balance: "0.00",
+		apy: "0.00",
+		tvl: "0.00",
+		auditStatus: "audited",
+		smartContract: "https://bscscan.com/address/0xE7e53128Bf23463F7B0B4F0aec1FCB50988c7E9E#code",
+		availableFunds: "0.00",
+		decimals: 18,
+		widthdrawDecimals: 36,
+		ppfsMethod: 'pricePerShare',
+		previousProtocol: "",
+		strategy: {
+			name: "Strategy UgoHawkVenusBUSDFarm v2",
+			code: "https://bscscan.com/address/0x7D6E27AbAd389F09535ba4c15719f5f16DBDc3Fc#code"
+		}
+	},
+	{
+		deprecated: true,
+		name: "USDC",
+		logo: assetsLogo.USDC,
+		tokenAddress: USDC_BSC,
+		tokenAbi: abiManager.USDC,
+		protocolName: "xVault",
+		protocolAddress: "0x48190f88a6d62cF3EEFDe000B8b8D1B99951b07a",
+		protocolAbi: abiManager.xvVaultUSDC,
+		network: 56,
+		balance: "0.00",
+		apy: "0.00",
+		tvl: "0.00",
+		auditStatus: "audited",
+		smartContract: "https://bscscan.com/address/0x48190f88a6d62cF3EEFDe000B8b8D1B99951b07a#code",
+		availableFunds: "0.00",
+		decimals: 18,
+		widthdrawDecimals: 36,
+		ppfsMethod: 'pricePerShare',
+		strategy: {
+			name: "Strategy UgoHawkVenusUSDCFarm v2",
 			code: "https://bscscan.com/address/0x998d139B7e9Ce5e98741aD75305fE6f2D81Aa2D9#code"
 		}
 	},

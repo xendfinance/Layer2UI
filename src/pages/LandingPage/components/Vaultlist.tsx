@@ -102,7 +102,7 @@ const Vaultlist = () => {
                                         </div>
                                     </Tooltip>
                                 </th>
-                                {lender === 'xVault' && <th style={{ width: "10%" }}>
+                                {/* {lender === 'xVault' && <th style={{ width: "10%" }}>
                                     <Tooltip
                                         title='This is the strategy used to invest your funds'
                                         placement="top"
@@ -111,7 +111,7 @@ const Vaultlist = () => {
                                             <span>Strategy</span><QuestionCircleOutlined style={{ color: '#FF6600', paddingLeft: '3px' }} />
                                         </div>
                                     </Tooltip>
-                                </th>}
+                                </th>} */}
                                 <th style={{ width: "10%" }}>
                                     <Tooltip
                                         title='This is overall user balance plus interest in the protocol'
