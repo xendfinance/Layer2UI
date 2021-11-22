@@ -1,50 +1,26 @@
-import React, { useEffect, useState, MouseEvent } from 'react';
+import React, { useState } from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Modal, Box, Grid } from '@material-ui/core';
 import closeIcon from './../../../assets/images/layout/close.png';
-import logoIcon from './../../../assets/images/logo2.png';
 import { BrowserView, MobileView } from 'react-device-detect';
 import { useDispatch, useSelector } from 'react-redux';
 
-import USDT from './../../../assets/icons/USDTether.svg';
-import BUSD from './../../../assets/icons/BUSD1.svg';
-
-import USDC from './../../../assets/icons/USDC.svg';
-import BNB from './../../../assets/images/bnb.svg';
-import WBTC from './../../../assets/icons/WBTC.svg';
-import AAVE from './../../../assets/icons/AAVE.svg';
-
-import DepositUSDTMatic from '../../../methods/contracts/xauto/actions/depositUSDTMatic';
-import DepositUSDCMatic from '../../../methods/contracts/xauto/actions/depositUSDCMatic';
-import DepositAAVEMatic from '../../../methods/contracts/xauto/actions/depositAAVEMatic';
-import DepositWBTCMatic from '../../../methods/contracts/xauto/actions/depositWBTCMatic';
-import WithdrawWBTCMatic from '../../../methods/contracts/xauto/actions/withdrawWBTCMatic';
-import WithdrawUSDTMatic from '../../../methods/contracts/xauto/actions/withdrawUSDTMatic';
-import WithdrawUSDCMatic from '../../../methods/contracts/xauto/actions/withdrawUSDCMatic';
-import WithdrawAAVEMatic from '../../../methods/contracts/xauto/actions/withdrawAAVEMatic';
-import WithdrawUSDTBsc from '../../../methods/contracts/xvault/actions/withdrawUSDTBSC';
-import WithdrawBUSDBsc from '../../../methods/contracts/xvault/actions/withdrawBUSDBSC';
-import WithdrawUSDCBsc from '../../../methods/contracts/xvault/actions/withdrawUSDCBSC';
-import WithdrawUSDTBSCXAuto from '../../../methods/contracts/xauto/actions/withdrawUSDTBSC';
-import WithdrawBUSDBSCXAuto from '../../../methods/contracts/xauto/actions/withdrawBUSDBSC';
-import WithdrawUSDCBSCXAuto from '../../../methods/contracts/xauto/actions/withdrawUSDCBSC';
-import WithdrawBNBBSCXAuto from '../../../methods/contracts/xauto/actions/withdrawBNBBSC';
 import commas from '../../../methods/utils/commas';
 import InputNumber from './NumberInput';
 import { depositAction } from '../../../methods/deposit';
 import { Asset } from '../../../methods/assets';
 import { withdrawAction } from '../../../methods/withdraw';
+import { InfoCircleFilled } from '@ant-design/icons';
 
 interface Props {
     asset: Asset
     open: any;
     setOpen: any;
-    assetIcon: string;
-    assetName: string;
     balance: string;
     netAPY: string;
     vaultasset: string;
     availableDeposite: string;
+    notice?: string
 }
 
 const useStyles = makeStyles((theme: any) =>
@@ -189,16 +165,15 @@ const useStyles = makeStyles((theme: any) =>
 );
 
 
-const DepositeModal: React.FC<Props> = ({ open, setOpen, assetName, balance, netAPY, vaultasset, availableDeposite, asset }) => {
+const DepositeModal: React.FC<Props> = ({ open, setOpen, balance, netAPY, vaultasset, availableDeposite, asset, notice }) => {
     const classes = useStyles();
     const [activeTab, selectTab] = useState('deposit');
     const [depositAmount, setDeposit] = useState('0');
     const [withdrawalAmount, setWithdrawal] = useState('0');
-    const [userBalance, setBalance] = useState('0');
 
 
     const dispatch = useDispatch();
-    const { address, chainId } = useSelector((store: any) => store.DashboardReducer);
+    const { address } = useSelector((store: any) => store.DashboardReducer);
 
 
     const lendingProtocol = useSelector((store: any) => store.DashboardReducer.lender);
@@ -238,7 +213,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetName, balance, net
                     <Box>
                         <Box style={{ color: '#ffffff', fontSize: 18 }}>
                             <>
-                                {assetName}
+                                {asset.name}
                             </>
                         </Box>
                         <Box style={{ color: '#84858A', fontSize: 14 }}>
@@ -248,11 +223,14 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetName, balance, net
                         </Box>
                     </Box>
                 </Box>
+
+                {notice && <p style={{ color: "#FF6600", fontWeight: 400 }}><InfoCircleFilled /> {notice}</p>}
+
                 <Box className={classes.content}>
 
                     <Box className={classes.contentItem}>
                         <Box className={classes.field}> Balance</Box>
-                        <Box className={classes.value}>{commas(balance)} {assetName}</Box>
+                        <Box className={classes.value}>{commas(balance)} {asset.name}</Box>
                     </Box>
                     <Box className={classes.contentItem}>
                         <Box className={classes.field}>Net APY</Box>
@@ -264,7 +242,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetName, balance, net
                     </Box>
                     <Box className={classes.contentItem}>
                         <Box className={classes.field}>Available to deposit</Box>
-                        <Box className={classes.value}>{commas(availableDeposite)} {assetName}</Box>
+                        <Box className={classes.value}>{commas(availableDeposite)} {asset.name}</Box>
                     </Box>
                 </Box>
                 <BrowserView>

@@ -13,7 +13,6 @@ export const xVaultUserBalance = async (abi: any, address: string, userAddress: 
 
 		const contract = new web3.eth.Contract(abi, address);
 		const balance = await contract.methods.balanceOf(userAddress).call()
-
 		const ppfs = await contract.methods.pricePerShare().call()
 
 		const amount = (Number(ppfs) * Number(balance)) / Number(BigInt(1e36).toLocaleString('fullwide', { useGrouping: false }));

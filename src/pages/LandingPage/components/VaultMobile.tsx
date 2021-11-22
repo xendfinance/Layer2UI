@@ -10,6 +10,7 @@ import { shortAmount } from '../../../methods/bignumber-converter';
 import { LinkOutlined, LoadingOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { Asset } from '../../../methods/assets';
+import PreviousVersion from './PreviousProtocol';
 
 interface Props {
     asset: Asset
@@ -167,8 +168,6 @@ const VaultMobile: React.FC<Props> = ({ asset,
                 asset={asset}
                 open={isOpenDepositeModal}
                 setOpen={setOpenDepositeModal}
-                assetIcon={assetIcon}
-                assetName={assetName}
                 balance={state.balance}
                 netAPY={state.apy}
                 vaultasset={state.vaultAsset}
@@ -189,7 +188,7 @@ const VaultMobile: React.FC<Props> = ({ asset,
                 </Box>
                 <Box>
                     <Box className={classes.field}>Balance</Box>
-                    <Box className={classes.value}>{commas(state.balance)}</Box>
+                    <Box className={classes.value}>{commas(state.balance)} <PreviousVersion asset={asset} state={state} /></Box>
                 </Box>
                 <Box>
                     <Box className={classes.field}>Total Value Locked</Box>

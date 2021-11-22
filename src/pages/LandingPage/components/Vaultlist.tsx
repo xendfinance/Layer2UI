@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { QuestionCircleOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 import Tooltip from "@material-ui/core/Tooltip";
@@ -102,6 +102,16 @@ const Vaultlist = () => {
                                         </div>
                                     </Tooltip>
                                 </th>
+                                {lender === 'xVault' && <th style={{ width: "10%" }}>
+                                    <Tooltip
+                                        title='This is the strategy used to invest your funds'
+                                        placement="top"
+                                    >
+                                        <div>
+                                            <span>Strategy</span><QuestionCircleOutlined style={{ color: '#FF6600', paddingLeft: '3px' }} />
+                                        </div>
+                                    </Tooltip>
+                                </th>}
                                 <th style={{ width: "10%" }}>
                                     <Tooltip
                                         title='This is overall user balance plus interest in the protocol'
@@ -205,6 +215,10 @@ const Vaultlist = () => {
                     ))
                 }
             </MobileView>
+
+
+            {lender === 'xVault' && <p style={{ color: "#FF6600" }}><InfoCircleOutlined /> You can withdraw your funds from xVault deprecated contract</p>}
+
         </Box>
     );
 
