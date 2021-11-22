@@ -163,7 +163,7 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 
 							{
 								vaults.map((item, i) => (
-									<div key={i}>
+									<>
 										{
 											connectInfo.network == item.network &&
 											<CardWrapperNetwork
@@ -190,7 +190,7 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 
 										}
 
-									</div>
+									</>
 								))
 							}
 
