@@ -9,8 +9,10 @@ import { shortAmount } from '../../../methods/bignumber-converter';
 import commas from '../../../methods/utils/commas';
 import { LinkOutlined, LoadingOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import { Asset } from '../../../methods/assets';
 
 interface Props {
+    asset: Asset,
     assetIcon: any;
     assetName: string;
     protocol: string;
@@ -55,7 +57,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Vault: React.FC<Props> = ({
-
+    asset,
     network, abi, contract,
     assetIcon, assetName, protocol,
     balance, netAPY, vaultasset,
@@ -147,6 +149,7 @@ const Vault: React.FC<Props> = ({
     return (
         <tr className={classes.root}>
             <DepositeModal
+                asset={asset}
                 open={isOpenDepositeModal}
                 setOpen={setOpenDepositeModal}
                 assetIcon={assetIcon}

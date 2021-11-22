@@ -27,7 +27,6 @@ const LandingPage: React.FC<Props> = ({ connected }: any) => {
 
     const currentChainId = useSelector((store: any) => store.DashboardReducer.chainId);
     const lender = useSelector((store: any) => store.DashboardReducer.lender);
-    const wca = useSelector((store: any) => store.DashboardReducer.wca);
     const dispatch = useDispatch()
 
     const setLoading = (value: boolean) => {
@@ -80,7 +79,7 @@ const LandingPage: React.FC<Props> = ({ connected }: any) => {
     return (
         <div className={classes.root}>
             <Header connected={connected} chainId={currentChainId} />
-            <Vaultlist connected={connected} chainId={currentChainId} />
+            <Vaultlist />
         </div>
     );
 }

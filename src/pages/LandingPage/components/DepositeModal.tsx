@@ -22,24 +22,21 @@ import WithdrawWBTCMatic from '../../../methods/contracts/xauto/actions/withdraw
 import WithdrawUSDTMatic from '../../../methods/contracts/xauto/actions/withdrawUSDTMatic';
 import WithdrawUSDCMatic from '../../../methods/contracts/xauto/actions/withdrawUSDCMatic';
 import WithdrawAAVEMatic from '../../../methods/contracts/xauto/actions/withdrawAAVEMatic';
-import DepositUSDTBsc from '../../../methods/contracts/xvault/actions/depositUSDTBSC';
-import DepositBUSDBsc from '../../../methods/contracts/xvault/actions/depositBUSDBSC';
-import DepositUSDCBsc from '../../../methods/contracts/xvault/actions/depositUSDCBSC';
 import WithdrawUSDTBsc from '../../../methods/contracts/xvault/actions/withdrawUSDTBSC';
 import WithdrawBUSDBsc from '../../../methods/contracts/xvault/actions/withdrawBUSDBSC';
 import WithdrawUSDCBsc from '../../../methods/contracts/xvault/actions/withdrawUSDCBSC';
-import DepositUSDTBSCXAuto from '../../../methods/contracts/xauto/actions/depositUSDTBSC';
-import DepositBUSDBSCXAuto from '../../../methods/contracts/xauto/actions/depositBUSDBSC';
-import DepositBNBBSCXAuto from '../../../methods/contracts/xauto/actions/depositBNBBSC';
 import WithdrawUSDTBSCXAuto from '../../../methods/contracts/xauto/actions/withdrawUSDTBSC';
 import WithdrawBUSDBSCXAuto from '../../../methods/contracts/xauto/actions/withdrawBUSDBSC';
 import WithdrawUSDCBSCXAuto from '../../../methods/contracts/xauto/actions/withdrawUSDCBSC';
 import WithdrawBNBBSCXAuto from '../../../methods/contracts/xauto/actions/withdrawBNBBSC';
-import DepositUSDCBSCXAuto from '../../../methods/contracts/xauto/actions/depositUSDCBSC';
 import commas from '../../../methods/utils/commas';
 import InputNumber from './NumberInput';
+import { depositAction } from '../../../methods/deposit';
+import { Asset } from '../../../methods/assets';
+import { withdrawAction } from '../../../methods/withdraw';
 
 interface Props {
+    asset: Asset
     open: any;
     setOpen: any;
     assetIcon: string;
@@ -192,7 +189,7 @@ const useStyles = makeStyles((theme: any) =>
 );
 
 
-const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, balance, netAPY, vaultasset, availableDeposite }: any) => {
+const DepositeModal: React.FC<Props> = ({ open, setOpen, assetName, balance, netAPY, vaultasset, availableDeposite, asset }) => {
     const classes = useStyles();
     const [activeTab, selectTab] = useState('deposit');
     const [depositAmount, setDeposit] = useState('0');
@@ -207,196 +204,23 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, b
     const lendingProtocol = useSelector((store: any) => store.DashboardReducer.lender);
 
 
-    let assetInvested: any;
-
-    if (assetName == "USDT") {
-        assetInvested = <img className={classes.logoImage} src={USDT} alt='XEND Finance' />;
-    }
-    if (assetName == "USDC") {
-        assetInvested = <img className={classes.logoImage} src={USDC} alt='XEND Finance' />;
-    }
-    if (assetName == "BUSD") {
-        assetInvested = <img className={classes.logoImage} src={BUSD} alt='XEND Finance' />;
-    }
-    if (assetName == "AAVE") {
-        assetInvested = <img className={classes.logoImage} src={AAVE} alt='XEND Finance' />;
-    }
-    if (assetName == "WBTC") {
-        assetInvested = <img className={classes.logoImage} src={WBTC} alt='XEND Finance' />;
-    }
-    if (assetName == "BNB") {
-        assetInvested = <img className={classes.logoImage} src={BNB} alt='XEND Finance' />;
-    }
-
-
-
-
-
-
 
     const buttonHandlerDeposit = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        if (chainId == 56) {
-            if (lendingProtocol == "xVault") {
-                if (assetName == 'USDT') {
-                    dispatch(DepositUSDTBsc(depositAmount, address, chainId));
 
-                    setOpen(false)
-
-                }
-                if (assetName == 'BUSD') {
-                    dispatch(DepositBUSDBsc(depositAmount, address, chainId));
-
-                    setOpen(false)
-                }
-                if (assetName == 'USDC') {
-                    dispatch(DepositUSDCBsc(depositAmount, address, chainId));
-
-
-                    setOpen(false)
-                }
-            } else {
-                if (assetName == 'USDT') {
-                    dispatch(DepositUSDTBSCXAuto(depositAmount, address, chainId));
-
-                    setOpen(false)
-
-                }
-                if (assetName == 'BUSD') {
-                    dispatch(DepositBUSDBSCXAuto(depositAmount, address, chainId));
-
-                    setOpen(false)
-                }
-                if (assetName == 'USDC') {
-                    dispatch(DepositUSDCBSCXAuto(depositAmount, address, chainId));
-
-
-                    setOpen(false)
-                }
-                if (assetName == 'BNB') {
-                    dispatch(DepositBNBBSCXAuto(depositAmount, address, chainId));
-
-
-                    setOpen(false)
-                }
-            }
-        } else {
-            if (assetName == 'USDT') {
-                dispatch(DepositUSDTMatic(depositAmount, address, chainId));
-
-
-                setOpen(false)
-
-            }
-            if (assetName == 'USDC') {
-                dispatch(DepositUSDCMatic(depositAmount, address, chainId));
-
-
-                setOpen(false)
-
-            }
-            if (assetName == 'AAVE') {
-                dispatch(DepositAAVEMatic(depositAmount, address, chainId))
-
-
-
-                setOpen(false)
-
-            }
-            if (assetName == 'WBTC') {
-                dispatch(DepositWBTCMatic(depositAmount, address, chainId));
-
-
-
-                setOpen(false)
-
-            }
-
-
-
-
-        }
-
-
-
+        dispatch(depositAction({ amount: depositAmount, asset, client: address }))
+        setOpen(false);
+        setDeposit('0');
     }
 
 
     const buttonHandlerWithdraw = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        if (chainId == 56) {
-            if (lendingProtocol == "xVault") {
-                if (assetName == 'USDT') {
-                    dispatch(WithdrawUSDTBsc(withdrawalAmount, address, chainId));
 
-                    setOpen(false)
+        dispatch(withdrawAction({ amount: withdrawalAmount, asset, client: address }))
 
-                }
-                if (assetName == 'BUSD') {
-                    dispatch(WithdrawBUSDBsc(withdrawalAmount, address, chainId));
-
-                    setOpen(false)
-                }
-                if (assetName == 'USDC') {
-                    dispatch(WithdrawUSDCBsc(withdrawalAmount, address, chainId));
-
-                    setOpen(false)
-                }
-            } else {
-                if (assetName == 'USDT') {
-                    dispatch(WithdrawUSDTBSCXAuto(withdrawalAmount, address, chainId));
-
-                    setOpen(false)
-
-                }
-                if (assetName == 'BUSD') {
-                    dispatch(WithdrawBUSDBSCXAuto(withdrawalAmount, address, chainId));
-
-                    setOpen(false)
-                }
-                if (assetName == 'USDC') {
-                    dispatch(WithdrawUSDCBSCXAuto(withdrawalAmount, address, chainId));
-
-                    setOpen(false)
-                }
-                if (assetName == 'BNB') {
-                    dispatch(WithdrawBNBBSCXAuto(withdrawalAmount, address, chainId));
-
-                    setOpen(false)
-                }
-            }
-        } else {
-            if (assetName == 'USDT') {
-                dispatch(WithdrawUSDTMatic(withdrawalAmount, address, chainId));
-
-                setOpen(false)
-
-            }
-
-            if (assetName == 'USDC') {
-                dispatch(WithdrawUSDCMatic(withdrawalAmount, address, chainId));
-
-
-                setOpen(false)
-
-            }
-
-            if (assetName == 'AAVE') {
-                dispatch(WithdrawAAVEMatic(withdrawalAmount, address, chainId));
-
-                setOpen(false)
-
-            }
-            if (assetName == 'WBTC') {
-                dispatch(WithdrawWBTCMatic(withdrawalAmount, address, chainId))
-
-
-                setOpen(false)
-
-            }
-
-        }
-
+        setOpen(false);
+        setWithdrawal('0')
     }
 
 
@@ -408,7 +232,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, assetIcon, assetName, b
                 </Box>
                 <Box className={classes.logo}>
                     <>
-                        {assetInvested}
+                        {<img className={classes.logoImage} src={asset.logo} alt='XEND Finance' />}
                     </>
 
                     <Box>

@@ -12,9 +12,27 @@ const WBTC_MATIC = "0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6";
 const USDT_MATIC = "0xc2132D05D31c914a87C6611C10748AEb04B58e8F";
 const USDC_MATIC = "0x2791bca1f2de4661ed88a30c99a7a9449aa84174";
 
+export interface Asset {
+	name: string
+	logo: any
+	tokenAddress: string
+	tokenAbi: any
+	protocolName: string
+	protocolAddress: string
+	protocolAbi: any
+	network: number
+	balance: string
+	apy: string
+	tvl: string
+	auditStatus: string
+	smartContract: string
+	availableFunds: string
+	decimals: number
+	widthdrawDecimals: number
+	ppfsMethod: string
+}
 
-
-export default [
+const assets: Asset[] = [
 
 	// XVAULT BSC
 	{
@@ -32,7 +50,9 @@ export default [
 		auditStatus: "audited",
 		smartContract: "https://bscscan.com/address/0x40f3f93795dA825c5DD353e3850685ed8fFe3b55#code",
 		availableFunds: "0.00",
-		decimals: 18
+		decimals: 18,
+		widthdrawDecimals: 36,
+		ppfsMethod: 'pricePerShare'
 	},
 	{
 		name: "BUSD",
@@ -49,7 +69,9 @@ export default [
 		auditStatus: "audited",
 		smartContract: "https://bscscan.com/address/0xEef340100b77b1574147A30D11B2bD76b26eD19C#code",
 		availableFunds: "0.00",
-		decimals: 18
+		decimals: 18,
+		widthdrawDecimals: 36,
+		ppfsMethod: 'pricePerShare'
 	},
 	{
 		name: "USDC",
@@ -66,7 +88,9 @@ export default [
 		auditStatus: "audited",
 		smartContract: "https://bscscan.com/address/0xe9629a6dcaaB278aAFDEf20cd85e94B7Bb93990c#code",
 		availableFunds: "0.00",
-		decimals: 18
+		decimals: 18,
+		widthdrawDecimals: 36,
+		ppfsMethod: 'pricePerShare'
 	},
 
 
@@ -86,7 +110,9 @@ export default [
 		auditStatus: "audited",
 		smartContract: "https://bscscan.com/address/0x525A55eBd9464c1081077BCc1d7a53C1c431BD26#code",
 		availableFunds: "0.00",
-		decimals: 18
+		decimals: 18,
+		widthdrawDecimals: 36,
+		ppfsMethod: 'getPricePerFullShare'
 	},
 	{
 		name: "BUSD",
@@ -103,7 +129,9 @@ export default [
 		auditStatus: "audited",
 		smartContract: "https://bscscan.com/address/0xa25dec88B81a94Ca951f3a4ff4AAbC32B3759E6C#code",
 		availableFunds: "0.00",
-		decimals: 18
+		decimals: 18,
+		widthdrawDecimals: 36,
+		ppfsMethod: 'getPricePerFullShare'
 	},
 	{
 		name: "BNB",
@@ -120,7 +148,9 @@ export default [
 		auditStatus: "audited",
 		smartContract: "https://bscscan.com/address/0x2dABAeB84cACFEF30e95896301CEF65cb24b3176#code",
 		availableFunds: "0.00",
-		decimals: 18
+		decimals: 18,
+		widthdrawDecimals: 36,
+		ppfsMethod: 'getPricePerFullShare'
 	},
 	{
 		name: "USDC",
@@ -137,7 +167,9 @@ export default [
 		auditStatus: "audited",
 		smartContract: "https://bscscan.com/address/0x3058d344C8F845754F0C356881772788c128eA22#code",
 		availableFunds: "0.00",
-		decimals: 18
+		decimals: 18,
+		widthdrawDecimals: 36,
+		ppfsMethod: 'getPricePerFullShare'
 	},
 
 
@@ -157,7 +189,9 @@ export default [
 		auditStatus: "audited",
 		smartContract: "https://polygonscan.com/address/0x6842E453ad9e7847a566876B8A2967FE9d155485#code",
 		availableFunds: "0.00",
-		decimals: 18
+		decimals: 18,
+		widthdrawDecimals: 24,
+		ppfsMethod: 'getPricePerFullShare'
 	},
 	{
 		name: "USDC",
@@ -174,7 +208,9 @@ export default [
 		auditStatus: "audited",
 		smartContract: "https://polygonscan.com/address/0x418b8D697e72B90cBdF5Cb58015384b9016794F9#code",
 		availableFunds: "0.00",
-		decimals: 18
+		decimals: 18,
+		widthdrawDecimals: 24,
+		ppfsMethod: 'getPricePerFullShare'
 	},
 	{
 		name: "AAVE",
@@ -191,7 +227,9 @@ export default [
 		auditStatus: "audited",
 		smartContract: "https://polygonscan.com/address/0x0B12E60084816ed83c519a1fFd01022d5A50fcaC#code",
 		availableFunds: "0.00",
-		decimals: 18
+		decimals: 18,
+		widthdrawDecimals: 36,
+		ppfsMethod: 'getPricePerFullShare'
 	},
 	{
 		name: "WBTC",
@@ -208,6 +246,11 @@ export default [
 		auditStatus: "audited",
 		smartContract: "https://polygonscan.com/address/0x5b208c6Ed9c95907DC7E1Ef34F0Cac52dd22b9dc#code",
 		availableFunds: "0.00",
-		decimals: 18
+		decimals: 8,
+		widthdrawDecimals: 26,
+		ppfsMethod: 'getPricePerFullShare'
 	}
 ]
+
+
+export default assets;
