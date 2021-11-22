@@ -10,6 +10,7 @@ import commas from '../../../methods/utils/commas';
 import { LinkOutlined, LoadingOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { Asset } from '../../../methods/assets';
+import PreviousVersion from './PreviousProtocol';
 
 interface Props {
     asset: Asset,
@@ -62,7 +63,7 @@ const Vault: React.FC<Props> = ({
     assetIcon, assetName, protocol,
     balance, netAPY, vaultasset,
     auditedState, availableDeposite,
-    tokenAbi, tokenAddress, link
+    tokenAbi, tokenAddress
 
 }) => {
     const classes = useStyles();
@@ -116,6 +117,7 @@ const Vault: React.FC<Props> = ({
                 user: address,
                 tokenName: assetName
             })
+            console.log(userBalance, ' users balance')
 
 
             // hydrate user's token balance
@@ -152,8 +154,6 @@ const Vault: React.FC<Props> = ({
                 asset={asset}
                 open={isOpenDepositeModal}
                 setOpen={setOpenDepositeModal}
-                assetIcon={assetIcon}
-                assetName={assetName}
                 balance={state.balance}
                 netAPY={state.apy}
                 vaultasset={state.vaultAsset}
@@ -172,7 +172,11 @@ const Vault: React.FC<Props> = ({
 
             <td>{protocol}</td>
 
-            <td>{commas(state.balance)}</td>
+            {asset.protocolName === 'xVault' && <td>
+                <a style={{ fontSize: 13, textDecoration: 'underline', color: 'white' }} target="_blank" href={asset.strategy?.code}>{asset.strategy?.name}</a>
+            </td>}
+
+            <td>{commas(state.balance)} <PreviousVersion asset={asset} state={state} /></td>
 
             <td className={classes.netAPY}>{commas(state.apy, 2)}%</td>
 

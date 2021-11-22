@@ -5,13 +5,16 @@ import assetsLogo from "../assets/assetsLogo";
 const BUSD_BSC = "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56";
 const USDC_BSC = "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d";
 const USDT_BSC = "0x55d398326f99059fF775485246999027B3197955";
-const BNB_BSC = "";
 
 const AAVE_MATIC = "0xd6df932a45c0f255f85145f286ea0b292b21c90b";
 const WBTC_MATIC = "0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6";
 const USDT_MATIC = "0xc2132D05D31c914a87C6611C10748AEb04B58e8F";
 const USDC_MATIC = "0x2791bca1f2de4661ed88a30c99a7a9449aa84174";
 
+interface Strategy {
+	name: string
+	code: string
+}
 export interface Asset {
 	name: string
 	logo: any
@@ -30,6 +33,8 @@ export interface Asset {
 	decimals: number
 	widthdrawDecimals: number
 	ppfsMethod: string
+	previousProtocol?: string
+	strategy?: Strategy
 }
 
 const assets: Asset[] = [
@@ -52,7 +57,12 @@ const assets: Asset[] = [
 		availableFunds: "0.00",
 		decimals: 18,
 		widthdrawDecimals: 36,
-		ppfsMethod: 'pricePerShare'
+		ppfsMethod: 'pricePerShare',
+		previousProtocol: "0xF8604eE08c70389856242dF88b4CCA90a70733a7",
+		strategy: {
+			name: "Strategy UgoHawkVenusUSDTFarm v3",
+			code: "https://bscscan.com/address/0x9Ba4A8C5CE226A1daC42B9D2ba5bFe62eF545Fc9#code"
+		}
 	},
 	{
 		name: "BUSD",
@@ -71,7 +81,12 @@ const assets: Asset[] = [
 		availableFunds: "0.00",
 		decimals: 18,
 		widthdrawDecimals: 36,
-		ppfsMethod: 'pricePerShare'
+		ppfsMethod: 'pricePerShare',
+		previousProtocol: "0xE7e53128Bf23463F7B0B4F0aec1FCB50988c7E9E",
+		strategy: {
+			name: "Strategy UgoHawkVenusBUSDFarm v3",
+			code: "https://bscscan.com/address/0x7D6E27AbAd389F09535ba4c15719f5f16DBDc3Fc#code"
+		}
 	},
 	{
 		name: "USDC",
@@ -90,7 +105,12 @@ const assets: Asset[] = [
 		availableFunds: "0.00",
 		decimals: 18,
 		widthdrawDecimals: 36,
-		ppfsMethod: 'pricePerShare'
+		ppfsMethod: 'pricePerShare',
+		previousProtocol: "0x48190f88a6d62cF3EEFDe000B8b8D1B99951b07a",
+		strategy: {
+			name: "Strategy UgoHawkVenusUSDCFarm v3",
+			code: "https://bscscan.com/address/0x998d139B7e9Ce5e98741aD75305fE6f2D81Aa2D9#code"
+		}
 	},
 
 

@@ -11,7 +11,6 @@ import Check from '../../../assets/icons/check.svg';
 import Copy from '../../../assets/copy.svg';
 import Disconnect from '../../../assets/Disconnect.svg';
 import Transaction from '../../../assets/icons/transaction.svg';
-import { getVaults } from '../../../methods/utils/get-all-vaults';
 import { Login } from '../../../utils/useAuth';
 import { connectorLocalStorageKey } from '../../../utils/config';
 import { getCurrentSelectedNetwork } from '../../../methods/utils/get-current-network-selected';
@@ -164,7 +163,7 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 
 							{
 								vaults.map((item, i) => (
-									<>
+									<div key={i}>
 										{
 											connectInfo.network == item.network &&
 											<CardWrapperNetwork
@@ -191,7 +190,7 @@ const ConnectionModal: FC<ConnectionModalProps> = ({ open, setOpen }) => {
 
 										}
 
-									</>
+									</div>
 								))
 							}
 
