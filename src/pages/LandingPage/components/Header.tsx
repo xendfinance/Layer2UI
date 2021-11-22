@@ -67,20 +67,19 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-const Header: React.FC<Props> = ({ connected }: any) => {
+const Header: React.FC<Props> = () => {
     const classes = useStyles();
 
     const [loading, setloading] = useState(false);
 
     const [networkTVL, setTVL] = useState('0');
-    // const [protocolTVL, setPTVL] = useState('0');
 
-    const { chainId, lender } = useSelector((store: any) => store.DashboardReducer);
+    const { chainId, lender, hydrateSwitch } = useSelector((store: any) => store.DashboardReducer);
 
 
     useEffect(() => {
         getTVL();
-    }, [chainId, lender])
+    }, [chainId, lender, hydrateSwitch])
 
 
     const getTVL = async () => {
@@ -102,18 +101,14 @@ const Header: React.FC<Props> = ({ connected }: any) => {
 
                 tvls.push(tvl)
 
-                // if (asset.protocolName === lender) {
-                //     protocolTvl.push(tvl)
-                // }
 
             }
 
             let totalTvl = tvls.reduce((a, b) => a + Number(b), 0);
             setTVL(totalTvl)
-            // let totalProtocolTvl = protocolTvl.reduce((a, b) => a + Number(b), 0);
-            // setPTVL(totalProtocolTvl)
 
             setloading(false)
+
         } catch (e) {
             console.error(e);
             setloading(false)

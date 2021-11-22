@@ -9,8 +9,10 @@ import { hydrateApy, hydrateTokenBalance, hydrateTvl, hydrateUsersProtocolBalanc
 import { shortAmount } from '../../../methods/bignumber-converter';
 import { LinkOutlined, LoadingOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import { Asset } from '../../../methods/assets';
 
 interface Props {
+    asset: Asset
     className?: string;
     assetIcon: string;
     assetName: string;
@@ -71,7 +73,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-const VaultMobile: React.FC<Props> = ({
+const VaultMobile: React.FC<Props> = ({ asset,
     network, abi, contract, tokenAbi, tokenAddress,
     className, assetIcon, assetName, protocol,
     balance, netAPY, vaultasset,
@@ -162,6 +164,7 @@ const VaultMobile: React.FC<Props> = ({
     return (
         <Box className={`${classes.root} ${className}`}>
             <DepositeModal
+                asset={asset}
                 open={isOpenDepositeModal}
                 setOpen={setOpenDepositeModal}
                 assetIcon={assetIcon}
