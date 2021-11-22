@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { Box } from '@material-ui/core';
+import { Box, Tooltip } from '@material-ui/core';
 import DepositeModal from './DepositeModal';
 import Button from '../../../components/Button';
 import { useSelector } from 'react-redux';
 import { hydrateApy, hydrateTokenBalance, hydrateTvl, hydrateUsersProtocolBalance } from '../../../methods/hydrate';
 import { shortAmount } from '../../../methods/bignumber-converter';
 import commas from '../../../methods/utils/commas';
-import { LinkOutlined, LoadingOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { InfoCircleOutlined, LinkOutlined, LoadingOutlined } from '@ant-design/icons';
+// import { Link } from 'react-router-dom';
 import { Asset } from '../../../methods/assets';
-import PreviousVersion from './PreviousProtocol';
+// import PreviousVersion from './PreviousProtocol';
 
 interface Props {
     asset: Asset,
@@ -172,11 +172,28 @@ const Vault: React.FC<Props> = ({
 
             <td>{protocol}</td>
 
-            {asset.protocolName === 'xVault' && <td>
+            {/* {asset.protocolName === 'xVault' && <td>
                 <a style={{ fontSize: 13, textDecoration: 'underline', color: 'white' }} target="_blank" href={asset.strategy?.code}>{asset.strategy?.name}</a>
-            </td>}
+            </td>} */}
 
-            <td>{commas(state.balance)} <PreviousVersion asset={asset} state={state} /></td>
+            {/* <td>{commas(state.balance)} <PreviousVersion asset={asset} state={state} /></td> */}
+
+            <td style={{
+                color: asset.deprecated ? "#FF6600" : ''
+            }}>
+                {
+                    asset.deprecated ?
+                        <>
+                            <Tooltip title="Withdraw balance from deprecated contract" placement="top">
+                                <div>
+                                    <InfoCircleOutlined style={{ marginRight: 10 }} />
+                                    <span>{commas(state.balance)}</span>
+                                </div>
+                            </Tooltip>
+                        </> :
+                        <span>{commas(state.balance)}</span>
+                }
+            </td>
 
             <td className={classes.netAPY}>{commas(state.apy, 2)}%</td>
 

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { Box } from '@material-ui/core';
+import { Box, Tooltip } from '@material-ui/core';
 import DepositeModal from './DepositeModal';
 import Button from '../../../components/Button';
 import { useSelector } from 'react-redux';
 import commas from '../../../methods/utils/commas';
 import { hydrateApy, hydrateTokenBalance, hydrateTvl, hydrateUsersProtocolBalance } from '../../../methods/hydrate';
 import { shortAmount } from '../../../methods/bignumber-converter';
-import { LinkOutlined, LoadingOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined, LinkOutlined, LoadingOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { Asset } from '../../../methods/assets';
 import PreviousVersion from './PreviousProtocol';
@@ -188,7 +188,25 @@ const VaultMobile: React.FC<Props> = ({ asset,
                 </Box>
                 <Box>
                     <Box className={classes.field}>Balance</Box>
-                    <Box className={classes.value}>{commas(state.balance)} <PreviousVersion asset={asset} state={state} /></Box>
+                    {/* <Box className={classes.value}>{commas(state.balance)} <PreviousVersion asset={asset} state={state} /></Box> */}
+                    <Box
+                        style={{
+                            color: asset.deprecated ? "#FF6600" : ''
+                        }}
+                        className={classes.value}>
+                        {
+                            asset.deprecated ?
+                                <>
+                                    <Tooltip title="Withdraw balance from deprecated contract" placement="top">
+                                        <div>
+                                            <InfoCircleOutlined style={{ marginRight: 10 }} />
+                                            <span>{commas(state.balance)}</span>
+                                        </div>
+                                    </Tooltip>
+                                </> :
+                                <span>{commas(state.balance)}</span>
+                        }
+                    </Box>
                 </Box>
                 <Box>
                     <Box className={classes.field}>Total Value Locked</Box>

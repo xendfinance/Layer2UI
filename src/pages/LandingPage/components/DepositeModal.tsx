@@ -224,7 +224,7 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, balance, netAPY, vaulta
                     </Box>
                 </Box>
 
-                {notice && <p style={{ color: "#FF6600", fontWeight: 400 }}><InfoCircleFilled /> {notice}</p>}
+                {asset.deprecated && <p style={{ color: "#FF6600", fontWeight: 400 }}><InfoCircleFilled />You should only withdraw your funds from this vault as it is deprecated.</p>}
 
                 <Box className={classes.content}>
 
