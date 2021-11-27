@@ -117,7 +117,6 @@ const Vault: React.FC<Props> = ({
                 user: address,
                 tokenName: assetName
             })
-            console.log(userBalance, ' users balance')
 
 
             // hydrate user's token balance
