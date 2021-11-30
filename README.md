@@ -38,7 +38,7 @@ APRWithPoolOracle | https://bscscan.com/address/0xB08018D77D4ec4087AA0A807967eb1
 EarnAPRWithPool | https://bscscan.com/address/0x21026da06d8979982D325Fd3321bdcf439cC3bD8#code
 XBUSD | https://bscscan.com/address/0xa25dec88B81a94Ca951f3a4ff4AAbC32B3759E6C#code
 XUSDC | https://bscscan.com/address/0x3058d344C8F845754F0C356881772788c128eA22#code
-XUSDT | https://bscscan.com/address/0x525A55eBd9464c1081077BCc1d7a53C1c431BD26#code
+XUSDT | https://bscscan.com/address/0xCfD45F5Fc42aFc63Fa9fcBfc21E640A00c5B7Ba3#code
 XBNB | https://bscscan.com/address/0x2dABAeB84cACFEF30e95896301CEF65cb24b3176#code
 
 
