@@ -257,8 +257,8 @@ const DepositeModal: React.FC<Props> = ({ open, setOpen, balance, netAPY, vaulta
 
                             </Box>
                             {
-                                asset.protocolName.toLowerCase() !== 'xvault' &&
-                                    !asset.deprecated &&
+                                // asset.protocolName.toLowerCase() !== 'xvault' &&
+                                !asset.deprecated &&
                                     Number(availableDeposite) > 0 &&
                                     Number(depositAmount) > 0 &&
                                     Number(depositAmount) <= Number(availableDeposite) ?

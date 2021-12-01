@@ -47,22 +47,22 @@ const assets: Asset[] = [
 		tokenAddress: USDT_BSC,
 		tokenAbi: abiManager.USDT,
 		protocolName: "xVault",
-		protocolAddress: "0x40f3f93795dA825c5DD353e3850685ed8fFe3b55",
+		protocolAddress: "0xcF2E6928EeD4399Ac6664b84D068050cBF24B475",
 		protocolAbi: abiManager.xvVaultUSDT,
 		network: 56,
 		balance: "0.00",
 		apy: "0.00",
 		tvl: "0.00",
 		auditStatus: "audited",
-		smartContract: "https://bscscan.com/address/0x40f3f93795dA825c5DD353e3850685ed8fFe3b55#code",
+		smartContract: "https://bscscan.com/address/0xcF2E6928EeD4399Ac6664b84D068050cBF24B475#code",
 		availableFunds: "0.00",
 		decimals: 18,
 		widthdrawDecimals: 36,
 		ppfsMethod: 'pricePerShare',
 		previousProtocol: "0xF8604eE08c70389856242dF88b4CCA90a70733a7",
 		strategy: {
-			name: "Strategy UgoHawkVenusUSDTFarm v3",
-			code: "https://bscscan.com/address/0x9Ba4A8C5CE226A1daC42B9D2ba5bFe62eF545Fc9#code"
+			name: "Strategy UgoHawkVenusUSDTFarm v4",
+			code: "https://bscscan.com/address/0x4bA58C32b994164218BC6a8A76107dcE6d374e07#code"
 		}
 	},
 	{
@@ -71,22 +71,22 @@ const assets: Asset[] = [
 		tokenAddress: BUSD_BSC,
 		tokenAbi: abiManager.BUSD,
 		protocolName: "xVault",
-		protocolAddress: "0xEef340100b77b1574147A30D11B2bD76b26eD19C",
+		protocolAddress: "0x0b20d359204221DC850f2Af7fc88A38812eA8Fd5",
 		protocolAbi: abiManager.xvVaultBUSD,
 		network: 56,
 		balance: "0.00",
 		apy: "0.00",
 		tvl: "0.00",
 		auditStatus: "audited",
-		smartContract: "https://bscscan.com/address/0xEef340100b77b1574147A30D11B2bD76b26eD19C#code",
+		smartContract: "https://bscscan.com/address/0x0b20d359204221DC850f2Af7fc88A38812eA8Fd5#code",
 		availableFunds: "0.00",
 		decimals: 18,
 		widthdrawDecimals: 36,
 		ppfsMethod: 'pricePerShare',
 		previousProtocol: "0xE7e53128Bf23463F7B0B4F0aec1FCB50988c7E9E",
 		strategy: {
-			name: "Strategy UgoHawkVenusBUSDFarm v3",
-			code: "https://bscscan.com/address/0x7D6E27AbAd389F09535ba4c15719f5f16DBDc3Fc#code"
+			name: "Strategy UgoHawkVenusBUSDFarm v4",
+			code: "https://bscscan.com/address/0x964407337aA2b8D2aB96B596651Ba9F5F53c4035#code"
 		}
 	},
 	{
@@ -95,22 +95,22 @@ const assets: Asset[] = [
 		tokenAddress: USDC_BSC,
 		tokenAbi: abiManager.USDC,
 		protocolName: "xVault",
-		protocolAddress: "0xe9629a6dcaaB278aAFDEf20cd85e94B7Bb93990c",
+		protocolAddress: "0x1973C8D13B02934c13593590940F9BEDbbECc41f",
 		protocolAbi: abiManager.xvVaultUSDC,
 		network: 56,
 		balance: "0.00",
 		apy: "0.00",
 		tvl: "0.00",
 		auditStatus: "audited",
-		smartContract: "https://bscscan.com/address/0xe9629a6dcaaB278aAFDEf20cd85e94B7Bb93990c#code",
+		smartContract: "https://bscscan.com/address/0x1973C8D13B02934c13593590940F9BEDbbECc41f#code",
 		availableFunds: "0.00",
 		decimals: 18,
 		widthdrawDecimals: 36,
 		ppfsMethod: 'pricePerShare',
 		previousProtocol: "0x48190f88a6d62cF3EEFDe000B8b8D1B99951b07a",
 		strategy: {
-			name: "Strategy UgoHawkVenusUSDCFarm v3",
-			code: "https://bscscan.com/address/0x998d139B7e9Ce5e98741aD75305fE6f2D81Aa2D9#code"
+			name: "Strategy UgoHawkVenusUSDCFarm v4",
+			code: "https://bscscan.com/address/0x16911E3d5354725349C355EA0d24Fc6845Aa13Eb#code"
 		}
 	},
 	{
