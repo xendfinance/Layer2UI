@@ -48,12 +48,12 @@ XBNB | https://bscscan.com/address/0x2dABAeB84cACFEF30e95896301CEF65cb24b3176#co
 
 Name | Contract
 --- | ---
-xvUSDT | https://bscscan.com/address/0x40f3f93795dA825c5DD353e3850685ed8fFe3b55#code 
-xvUSDC | https://bscscan.com/address/0xe9629a6dcaaB278aAFDEf20cd85e94B7Bb93990c#code
-xvBUSD | https://bscscan.com/address/0xEef340100b77b1574147A30D11B2bD76b26eD19C#code
-StrategyUgoHawkVenusUSDTFarm | https://bscscan.com/address/0x9Ba4A8C5CE226A1daC42B9D2ba5bFe62eF545Fc9#code
-StrategyUgoHawkVenusUSDCFarm | https://bscscan.com/address/0x998d139B7e9Ce5e98741aD75305fE6f2D81Aa2D9#code
-StrategyUgoHawkVenusBUSDFarm | https://bscscan.com/address/0x7D6E27AbAd389F09535ba4c15719f5f16DBDc3Fc#code
+xvUSDT | https://bscscan.com/address/0xcF2E6928EeD4399Ac6664b84D068050cBF24B475#code 
+xvUSDC | https://bscscan.com/address/0x1973C8D13B02934c13593590940F9BEDbbECc41f#code
+xvBUSD | https://bscscan.com/address/0x0b20d359204221DC850f2Af7fc88A38812eA8Fd5#code
+StrategyUgoHawkVenusUSDTFarm | https://bscscan.com/address/0x4bA58C32b994164218BC6a8A76107dcE6d374e07#code
+StrategyUgoHawkVenusUSDCFarm | https://bscscan.com/address/0x16911E3d5354725349C355EA0d24Fc6845Aa13Eb#code
+StrategyUgoHawkVenusBUSDFarm | https://bscscan.com/address/0x964407337aA2b8D2aB96B596651Ba9F5F53c4035#code
 
 
 

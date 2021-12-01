@@ -67,10 +67,7 @@ export const withdraw = async ({
 
 		let divisor = Math.pow(10, asset.widthdrawDecimals);
 		const totalDeposit = (Number(share) * Number(ppfs)) / Number(BigInt(divisor).toLocaleString('fullwide', { useGrouping: false }))
-
 		let withdrawAmount: any = (Number(share) * Number(amount)) / totalDeposit;
-
-
 
 		if (asset.protocolName === 'xVault') {
 
