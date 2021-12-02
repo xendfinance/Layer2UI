@@ -140,7 +140,7 @@ export const polygonTokenBalance = async (
 
 
 
-function toFixed(x) {
+export const toFixed = (x) => {
 	if (Math.abs(x) < 1.0) {
 		var e = parseInt(x.toString().split('e-')[1]);
 		if (e) {
@@ -156,4 +156,9 @@ function toFixed(x) {
 		}
 	}
 	return x;
+}
+
+
+export const removeDecimals = (x: any) => {
+	return String(x).split('.')[0]
 }
