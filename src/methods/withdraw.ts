@@ -6,6 +6,7 @@ import { rehydrateVault } from "./hydrate";
 import { notify } from "../components/core/Notifier";
 import { getDappId } from "./deposit";
 import { shortAmount } from "./bignumber-converter";
+import { removeDecimals, toFixed } from "./get-balances";
 
 
 
@@ -68,10 +69,11 @@ export const withdraw = async ({
 		let divisor = Math.pow(10, asset.widthdrawDecimals);
 		const totalDeposit = (Number(share) * Number(ppfs)) / Number(BigInt(divisor).toLocaleString('fullwide', { useGrouping: false }))
 		let withdrawAmount: any = (Number(share) * Number(amount)) / totalDeposit;
+		withdrawAmount = toFixed(withdrawAmount)
 
 		if (asset.protocolName === 'xVault') {
 
-			withdrawAmount = Math.trunc(withdrawAmount);
+			withdrawAmount = removeDecimals(withdrawAmount);
 
 			return await contract.methods['withdraw'](String(withdrawAmount), client, 0)
 				.send({ from: client })
@@ -82,7 +84,7 @@ export const withdraw = async ({
 
 		if (asset.protocolName === 'xAuto') {
 
-			withdrawAmount = Math.trunc(withdrawAmount);
+			withdrawAmount = removeDecimals(withdrawAmount);
 
 			return await contract.methods['withdraw'](String(withdrawAmount))
 				.send({ from: client })
