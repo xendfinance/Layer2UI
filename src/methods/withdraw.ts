@@ -71,6 +71,8 @@ export const withdraw = async ({
 
 		if (asset.protocolName === 'xVault') {
 
+			withdrawAmount = Math.trunc(withdrawAmount);
+
 			return await contract.methods['withdraw'](String(withdrawAmount), client, 0)
 				.send({ from: client })
 				.on('transactionHash', hash => {
