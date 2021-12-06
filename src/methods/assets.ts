@@ -5,7 +5,7 @@ import assetsLogo from "../assets/assetsLogo";
 const BUSD_BSC = "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56";
 const USDC_BSC = "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d";
 const USDT_BSC = "0x55d398326f99059fF775485246999027B3197955";
-
+const BNB = "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c"
 const AAVE_MATIC = "0xd6df932a45c0f255f85145f286ea0b292b21c90b";
 const WBTC_MATIC = "0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6";
 const USDT_MATIC = "0xc2132D05D31c914a87C6611C10748AEb04B58e8F";
@@ -230,7 +230,7 @@ const assets: Asset[] = [
 	{
 		name: "BNB",
 		logo: assetsLogo.BNB,
-		tokenAddress: "",
+		tokenAddress: BNB,
 		tokenAbi: abiManager.BNB,
 		protocolName: "xAuto",
 		protocolAddress: "0x2dABAeB84cACFEF30e95896301CEF65cb24b3176",

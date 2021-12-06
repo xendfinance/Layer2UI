@@ -143,7 +143,7 @@ const VaultMobile: React.FC<Props> = ({ asset,
             })
 
             // hydrate apy
-            let apy = await hydrateApy({ network, protocol, tokenName: assetName })
+            let apy = await hydrateApy({ network, protocol, tokenName: assetName, tokenAddress })
 
             setState({
                 ...state,

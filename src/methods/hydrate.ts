@@ -1,7 +1,8 @@
 import { ConsoleSqlOutlined } from "@ant-design/icons";
+import { getBSCXAutoAssetApy } from "./get-apys";
 import { bscTokenBalance, polygonTokenBalance, xAutoBSCUserBalance, xAutoMATICUserBalance, xVaultUserBalance } from "./get-balances";
 import { xAutoBSCTvl, xAutoMATICTvl, xVaultBSCTvl } from "./get-tvl";
-import { getAPRAAVEMatic, getAPRBNBXAutoBSC, getAPRBUSDXAutoBSC, getAPRUSDCMatic, getAPRUSDCXAutoBSC, getAPRUSDTMatic, getAPRUSDTXAutoBSC, getAPRWBTCMatic, getXVaultAPIBUSD, getXVaultAPIUSDC, getXVaultAPIUSDT } from "./redux/actions/get-apy-xvault";
+import { getAPRAAVEMatic, getAPRUSDCMatic, getAPRUSDTMatic, getAPRWBTCMatic, getXVaultAPIBUSD, getXVaultAPIUSDC, getXVaultAPIUSDT } from "./redux/actions/get-apy-xvault";
 import _const from "./_const";
 
 
@@ -128,9 +129,17 @@ interface IHydrateApy {
 	network: number
 	protocol: string
 	tokenName: string
+	tokenAddress: string
 }
-export const hydrateApy = async ({ network, protocol, tokenName }: IHydrateApy) => {
+export const hydrateApy = async ({ network, protocol, tokenName, tokenAddress }: IHydrateApy) => {
 	try {
+
+		if (network === 56 && protocol.toUpperCase() === 'XAUTO') {
+			let apy = await getBSCXAutoAssetApy(tokenAddress)
+			if (apy) {
+				return apy;
+			} else return;
+		}
 
 		const id = `${network}-${protocol}-${tokenName}`.toUpperCase();
 		let apy = null
@@ -150,32 +159,6 @@ export const hydrateApy = async ({ network, protocol, tokenName }: IHydrateApy) 
 
 			case "56-XVAULT-BUSD":
 				apy = await getXVaultAPIBUSD();
-				if (apy) {
-					return apy;
-				} else break;
-
-
-			// BSC xAUTO
-			case "56-XAUTO-BUSD":
-				apy = await getAPRBUSDXAutoBSC();
-				if (apy) {
-					return apy;
-				} else break;
-
-			case "56-XAUTO-BNB":
-				apy = await getAPRBNBXAutoBSC();
-				if (apy) {
-					return apy;
-				} else break;
-
-			case "56-XAUTO-USDC":
-				apy = await getAPRUSDCXAutoBSC();
-				if (apy) {
-					return apy;
-				} else break;
-
-			case "56-XAUTO-USDT":
-				apy = await getAPRUSDTXAutoBSC();
 				if (apy) {
 					return apy;
 				} else break;

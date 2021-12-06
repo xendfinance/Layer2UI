@@ -5,7 +5,6 @@ import createContract from "./contracts/contract-creator";
 import { rehydrateVault } from "./hydrate";
 import { notify } from "../components/core/Notifier";
 import { getDappId } from "./deposit";
-import { shortAmount } from "./bignumber-converter";
 import { removeDecimals, toFixed } from "./get-balances";
 
 

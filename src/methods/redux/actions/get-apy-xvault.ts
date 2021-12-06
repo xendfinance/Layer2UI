@@ -199,151 +199,9 @@ export function getHighestAPYModal(array: any) {
     return Math.max.apply(null, array);
 }
 
-//BSC BNB APR
-export const getAPRBNBXAutoBSC = async () => {
 
-    try {
 
 
-        const web3Instance = new web3.eth.Contract(abiManager.APYPoolBSC, '0x21026da06d8979982D325Fd3321bdcf439cC3bD8');
-
-        if (web3Instance) {
-
-            const BNBApy = await web3Instance.methods.recommend('0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c').call();
-
-            const alpcaAPRNumber = Number(BNBApy._alpaca);
-
-            const fortubeAPR = Number(BNBApy._fortube);
-            //const fulcrumAPR = Number(BNBApy._fulcrum); 
-            const venusAPR = Number(BNBApy._venus);
-
-            const apyArray = [alpcaAPRNumber, fortubeAPR, venusAPR];
-
-            const finalBNBApy = getHighestAPYMatic(apyArray);
-
-            const finalBNBAPYConverted = finalBNBApy * Math.pow(10, -18);
-
-            return finalBNBAPYConverted;
-        }
-
-
-
-    } catch (e) {
-        console.log(e)
-    }
-
-}
-
-//BSC BUSD APR
-export const getAPRBUSDXAutoBSC = async () => {
-
-    try {
-
-
-        const web3Instance = new web3.eth.Contract(abiManager.APYPoolBSC, '0x21026da06d8979982D325Fd3321bdcf439cC3bD8');
-
-        if (web3Instance) {
-
-            const BNBApy = await web3Instance.methods.recommend('0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56').call();
-            const alpcaAPRNumber = Number(BNBApy._alpaca);
-
-            const fortubeAPR = Number(BNBApy._fortube);
-            //const fulcrumAPR = Number(BNBApy._fulcrum); 
-            const venusAPR = Number(BNBApy._venus);
-
-            const apyArray = [alpcaAPRNumber, fortubeAPR, venusAPR];
-
-            const finalBNBApy = getHighestAPYMatic(apyArray);
-
-            const finalBNBAPYConverted = finalBNBApy * Math.pow(10, -18);
-
-
-            return finalBNBAPYConverted;
-
-
-        }
-
-
-
-    } catch (e) {
-        console.log(e)
-    }
-
-}
-
-//BSC USDT APR
-export const getAPRUSDTXAutoBSC = async () => {
-
-    try {
-
-
-        const web3Instance = new web3.eth.Contract(abiManager.APYPoolBSC, '0x21026da06d8979982D325Fd3321bdcf439cC3bD8');
-
-        if (web3Instance) {
-
-            const BNBApy = await web3Instance.methods.recommend('0x55d398326f99059fF775485246999027B3197955').call();
-            const alpcaAPRNumber = Number(BNBApy._alpaca);
-
-            const fortubeAPR = Number(BNBApy._fortube);
-            //const fulcrumAPR = Number(BNBApy._fulcrum); 
-            const venusAPR = Number(BNBApy._venus);
-
-            const apyArray = [alpcaAPRNumber, fortubeAPR, venusAPR];
-
-            const finalBNBApy = getHighestAPYMatic(apyArray);
-
-            const finalBNBAPYConverted = finalBNBApy * Math.pow(10, -18);
-
-
-            return finalBNBAPYConverted;
-
-
-        }
-
-
-
-    } catch (e) {
-        console.log(e)
-    }
-
-}
-
-//BSC USDC APR
-export const getAPRUSDCXAutoBSC = async () => {
-
-    try {
-
-
-        const web3Instance = new web3.eth.Contract(abiManager.APYPoolBSC, '0x21026da06d8979982D325Fd3321bdcf439cC3bD8');
-
-        if (web3Instance) {
-
-            const BNBApy = await web3Instance.methods.recommend('0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d').call();
-            const alpcaAPRNumber = Number(BNBApy._alpaca);
-
-            const fortubeAPR = Number(BNBApy._fortube);
-            //const fulcrumAPR = Number(BNBApy._fulcrum); 
-            const venusAPR = Number(BNBApy._venus);
-
-            const apyArray = [alpcaAPRNumber, fortubeAPR, venusAPR];
-
-            const finalBNBApy = getHighestAPYMatic(apyArray);
-
-            const finalBNBAPYConverted = finalBNBApy * Math.pow(10, -18);
-
-
-            return finalBNBAPYConverted;
-
-
-        }
-
-
-
-    } catch (e) {
-        console.log(e)
-    }
-
-}
 
 
 //Matic WBTC APR
@@ -868,14 +726,14 @@ const getXVaultAPI = async (chainId: any, lender: string, setLoading: Function) 
 
 
 
-            const apyXAutoBNB = await getAPRBNBXAutoBSC();
-            const apyXAutoBUSD = await getAPRBUSDXAutoBSC();
-            const apyXAutoUSDT = await getAPRUSDTXAutoBSC();
-            const apyXAutoUSDC = await getAPRUSDCXAutoBSC();
+            // const apyXAutoBNB = await getAPRBNBXAutoBSC();
+            // const apyXAutoBUSD = await getAPRBUSDXAutoBSC();
+            // const apyXAutoUSDT = await getAPRUSDTXAutoBSC();
+            // const apyXAutoUSDC = await getAPRUSDCXAutoBSC();
 
-            const apyArrayXAuto = [Number(apyXAutoBNB), Number(apyXAutoBUSD), Number(apyXAutoUSDT), Number(apyXAutoUSDC)];
+            // const apyArrayXAuto = [Number(apyXAutoBNB), Number(apyXAutoBUSD), Number(apyXAutoUSDT), Number(apyXAutoUSDC)];
 
-            const highestAPYXAutoBSC = getHighestAPYModal(apyArrayXAuto);
+            // const highestAPYXAutoBSC = getHighestAPYModal(apyArrayXAuto);
 
 
             const tvlXAutoUSDTBSC = await getTVLBalanceUSDTBSCXAuto();
@@ -897,10 +755,10 @@ const getXVaultAPI = async (chainId: any, lender: string, setLoading: Function) 
                 busd: apyBusd,
                 usdt: apyUSDT,
                 usdc: apyUSDC,
-                usdtXauto: apyXAutoUSDT,
-                bnbXauto: apyXAutoBNB,
-                busdXauto: apyXAutoBUSD,
-                usdcXauto: apyXAutoUSDC,
+                // usdtXauto: apyXAutoUSDT,
+                // bnbXauto: apyXAutoBNB,
+                // busdXauto: apyXAutoBUSD,
+                // usdcXauto: apyXAutoUSDC,
                 tvlUSDTBsc: TVLUsdtBalanceFinal,
                 tvlBUSDBsc: TVLBusdBalanceFinal,
                 tvlUSDCBsc: TVLUsdcBalanceFinal,
@@ -912,7 +770,7 @@ const getXVaultAPI = async (chainId: any, lender: string, setLoading: Function) 
                 TVLXAuto: finalTvlXautoFinal,
                 lendingProtocol: lender,
                 HighestXVaultAPY: highestAPYXVaultBSC,
-                HighestXAutoAPY: highestAPYXAutoBSC,
+                // HighestXAutoAPY: highestAPYXAutoBSC,
             };
             setLoading(false)
             return data
