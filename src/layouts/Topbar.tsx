@@ -36,23 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'none'
         }
     },
-    buyInsuranceButton: {
-        background: '#FFFFFF',
-        borderRadius: '28.6875px',
-        width: '10vw',
-        marginRight: '1vw',
-        cursor:'pointer'
-    },
-
-    buyInsuranceButtonText: {
-        fontFamily: 'Fira Sans',
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        fontSize: '15.75px',
-        lineHeight: '70%',
-        color:'rgba(255, 102, 0, 1)',
-        textAlign: 'center'
-    },
+ 
 
 
    
@@ -75,9 +59,14 @@ const Topbar: React.FC<Props> = ({ connected, setConnected, onConnect, chainId }
         <Box className={classes.root}>
             <img src={LogoIcon} alt='XEND Finance' />
             <Box className={classes.menuGroup}>
-                <button onClick={() => goToTidalFinance() } className={classes.buyInsuranceButton}>
-                 <p className={classes.buyInsuranceButtonText}>BUY Insurance</p>
-                </button>
+                <Button             marginRight='3px'
+                                    variant='secondary'
+                                    fontSize='14'
+                                    title='BUY Insurance'
+                                    onClick={() => {
+                                        goToTidalFinance();
+                                    }} />
+               
               <Wallets setOpen={setConnectModal} />
 
               <ConnectionModal
