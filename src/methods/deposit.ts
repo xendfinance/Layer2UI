@@ -57,19 +57,34 @@ export const depositAsset = async ({
 		const token = await createContract(asset.tokenAbi, asset.tokenAddress);
 		const contract = await createContract(asset.protocolAbi, asset.protocolAddress);
 
-		// approve
-		await token.methods['approve'](asset.protocolAddress, formatAmount(amount, asset.network, asset.name))
+		if(asset.name !== 'BNB'){
+			await token.methods['approve'](asset.protocolAddress, formatAmount(amount, asset.network, asset.name))
 			.send({ from: client })
 			.on('transactionHash', hash => {
 				notifyBNC.hash(hash)
 			})
 
-		// deposit
-		return await contract.methods['deposit'](formatAmount(amount, asset.network, asset.name))
+				// deposit
+			return await contract.methods['deposit'](formatAmount(amount, asset.network, asset.name))
 			.send({ from: client })
 			.on('transactionHash', hash => {
 				notifyBNC.hash(hash)
 			})
+		}else{
+			return await contract.methods['deposit']()
+            .send({ from: client,
+                    value:formatAmount(amount, asset.network, asset.name) })
+            .on('transactionHash', (hash: string) => {
+                console.log(hash, ' the transaction hash')
+                notifyBNC.hash(hash);
+            })
+		}
+
+	
+		// approve
+	
+
+	
 
 
 	} catch (e: any) {
