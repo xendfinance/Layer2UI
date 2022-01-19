@@ -5,7 +5,7 @@ import { useTheme } from '@material-ui/core/styles';
 import { ButtonProps } from './types';
 
 const Button = <E extends ElementType = 'button'>(props: ButtonProps<E>): JSX.Element => {
-    const { title, variant, fontSize, fontWeight, disabled, btnIcon, downArrow, onClick, className } = props;
+    const { title, variant, fontSize, fontWeight, disabled, btnIcon, downArrow, onClick, className ,marginRight } = props;
     const theme = useTheme();
     return (
         <Box className={className}>
@@ -14,6 +14,7 @@ const Button = <E extends ElementType = 'button'>(props: ButtonProps<E>): JSX.El
                 fontSize={fontSize}
                 fontWeight={fontWeight}
                 theme={theme}
+                marginRight={marginRight}
                 disabled={disabled}
                 onClick={() => onClick && onClick()}
             >
@@ -25,7 +26,7 @@ const Button = <E extends ElementType = 'button'>(props: ButtonProps<E>): JSX.El
     );
 }
 
-const StyledContainer = styled.button<{ variant: string; theme: any; fontSize: any; fontWeight: any; disabled: any; }>`
+const StyledContainer = styled.button<{ variant: string; theme: any; fontSize: any; fontWeight: any; disabled: any; marginRight:any; }>`
     display: flex;
     flex-direction: center;
     justify-content: center;
@@ -34,6 +35,7 @@ const StyledContainer = styled.button<{ variant: string; theme: any; fontSize: a
     font-size: ${({ fontSize }) => fontSize ? fontSize : '12px'};
     font-weight: ${({ fontWeight }) => fontWeight ? fontWeight : '100'};
     letter-spacing: 0.6px;
+    margin-right:${({ marginRight }) => marginRight ? marginRight : '3px'};
     border-radius: 54px;
     padding: 10px 25px;
     border: transparent;

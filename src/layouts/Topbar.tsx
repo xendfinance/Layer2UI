@@ -4,6 +4,7 @@ import { Box } from '@material-ui/core';
 import LogoIcon from '../assets/icons/XendFinanceLogo.svg';
 import Wallets from '../pages/LandingPage/components/Wallets';
 import ConnectionModal from '../pages/LandingPage/components/ConnectionModal';
+import Button from '../components/Button';
 
 interface Props {
     connected:any;
@@ -34,7 +35,12 @@ const useStyles = makeStyles((theme: Theme) =>
         [theme.breakpoints.down("xs")]: {
             display: 'none'
         }
-    }
+    },
+ 
+
+
+   
+  
   }),
 );
 
@@ -43,13 +49,24 @@ const useStyles = makeStyles((theme: Theme) =>
 const Topbar: React.FC<Props> = ({ connected, setConnected, onConnect, chainId }:any) => {
     const classes = useStyles();   
     const [connectModal, setConnectModal] = useState(false);
-
+    const goToTidalFinance = () => {
+        
+        window.open('http://xend.tidal.finance', "_blank");  
+        return;
+    }
 
     return (
         <Box className={classes.root}>
             <img src={LogoIcon} alt='XEND Finance' />
             <Box className={classes.menuGroup}>
-            
+                <Button             marginRight='3px'
+                                    variant='secondary'
+                                    fontSize='14'
+                                    title='BUY Insurance'
+                                    onClick={() => {
+                                        goToTidalFinance();
+                                    }} />
+               
               <Wallets setOpen={setConnectModal} />
 
               <ConnectionModal
