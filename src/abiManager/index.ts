@@ -29,11 +29,14 @@ import USDCMatic from './POSUsdcAbi.json';
 import AAVEMatic from './POSAAVEAbi.json';
 import WBTCMatic from './POSWBTCAbi.json';
 import APYPoolMatic from './POSEarnPoolAPYABI.json';
+import APYPoolMaticV2 from './V2XAutoMatic/APYPoolMaticV2.json';
 import APYPoolBSC from './BSCEarnPoolXAutoAPYABI.json';
+import APYPoolBSCV2 from './V2XAuto/ApyPoolBSCV2.json';
 import xvAutoBSCBUSD from './xAutoBSCBusdAbi.json';
 import xvAutoBSCUSDC from './xAutoBSCUsdcAbi.json';
 import xvAutoBSCUSDT from './xAutoBSCUsdtAbi.json';
 import xvAutoBSCBNB from './xAutoBSCBnbAbi.json';
+import xvVaultStategy from './V2XVault/XVaultStrategyABI.json'
 
 const abiManager = {
 	UgoHawk,
@@ -60,6 +63,7 @@ const abiManager = {
 	xvAutoWBTC,
 	xvAutoWBTCV2,
 	APYPoolMatic,
+	APYPoolMaticV2,
 	xvAutoBSCBUSD,
 	xvAutoBSCBUSDV2,
 	xvAutoBSCUSDC,
@@ -69,7 +73,9 @@ const abiManager = {
 	xvAutoBSCBNB,
 	xvAutoBSCBNBV2,
 	BNB,
-	APYPoolBSC	
+	APYPoolBSC,
+	APYPoolBSCV2,
+	xvVaultStategy	
 }
 
 
