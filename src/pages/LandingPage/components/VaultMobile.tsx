@@ -178,6 +178,16 @@ const VaultMobile: React.FC<Props> = ({ asset,
                     className={classes.assetImage}
                     src={assetIcon} alt='XEND Finance' />
                 <Box>{assetName}</Box>
+                <Box
+                        style={{
+                            marginLeft:'5px',
+                            color: asset.version=='V2' ? "#00D395" : ''
+                        }}
+                        className={classes.value}>
+                        {
+                         asset.version
+                        }
+                    </Box>
             </Box>
             <Box className={classes.content}>
                 <Box>
@@ -188,7 +198,9 @@ const VaultMobile: React.FC<Props> = ({ asset,
                 </Box>
                 <Box>
                     <Box className={classes.field}>Balance</Box>
+                  
                     {/* <Box className={classes.value}>{commas(state.balance)} <PreviousVersion asset={asset} state={state} /></Box> */}
+           
                     <Box
                         style={{
                             color: asset.deprecated ? "#FF6600" : ''

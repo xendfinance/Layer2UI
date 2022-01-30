@@ -258,7 +258,7 @@ const getAPRUSDTMatic = async () => {
     try {
 
 
-        const web3Instance = new web3Matic.eth.Contract(abiManager.APYPoolMatic, '0xecD982D0bc4eF14684FB7Ece34a8543D8329bF47');
+        const web3Instance = new web3Matic.eth.Contract(abiManager.APYPoolMaticV2, '0xb9e2346462553e8Ab2Ef5c298b20E0Ef1C7A05b5');
 
         if (web3Instance) {
 
@@ -296,7 +296,7 @@ const getAPRUSDCMatic = async () => {
     try {
 
 
-        const web3Instance = new web3Matic.eth.Contract(abiManager.APYPoolMatic, '0xecD982D0bc4eF14684FB7Ece34a8543D8329bF47');
+        const web3Instance = new web3Matic.eth.Contract(abiManager.APYPoolMaticV2, '0xb9e2346462553e8Ab2Ef5c298b20E0Ef1C7A05b5');
 
         if (web3Instance) {
 
@@ -334,7 +334,7 @@ const getAPRAAVEMatic = async () => {
     try {
 
 
-        const web3Instance = new web3Matic.eth.Contract(abiManager.APYPoolMatic, '0xecD982D0bc4eF14684FB7Ece34a8543D8329bF47');
+        const web3Instance = new web3Matic.eth.Contract(abiManager.APYPoolMaticV2, '0xb9e2346462553e8Ab2Ef5c298b20E0Ef1C7A05b5');
 
         if (web3Instance) {
 
@@ -372,7 +372,7 @@ const getAPRWBTCMatic = async () => {
     try {
 
 
-        const web3Instance = new web3Matic.eth.Contract(abiManager.APYPoolMatic, '0xecD982D0bc4eF14684FB7Ece34a8543D8329bF47');
+        const web3Instance = new web3Matic.eth.Contract(abiManager.APYPoolMaticV2, '0xb9e2346462553e8Ab2Ef5c298b20E0Ef1C7A05b5');
 
         if (web3Instance) {
 
@@ -410,7 +410,7 @@ const getAPRUSDCXAutoBSC = async () => {
     try {
 
 
-        const web3Instance = new web3.eth.Contract(abiManager.APYPoolBSC, '0x21026da06d8979982D325Fd3321bdcf439cC3bD8');
+        const web3Instance = new web3.eth.Contract(abiManager.APYPoolBSCV2, '0x262AFa4F360f1432FB98a0579dc266e3FaDab1D1');
 
         if (web3Instance) {
 
@@ -449,7 +449,7 @@ const getAPRBUSDXAutoBSC = async () => {
     try {
 
 
-        const web3Instance = new web3.eth.Contract(abiManager.APYPoolBSC, '0x21026da06d8979982D325Fd3321bdcf439cC3bD8');
+        const web3Instance = new web3.eth.Contract(abiManager.APYPoolBSCV2, '0x262AFa4F360f1432FB98a0579dc266e3FaDab1D1');
 
         if (web3Instance) {
 
@@ -486,7 +486,7 @@ const getAPRUSDTXAutoBSC = async () => {
     try {
 
 
-        const web3Instance = new web3.eth.Contract(abiManager.APYPoolBSC, '0x21026da06d8979982D325Fd3321bdcf439cC3bD8');
+       const web3Instance = new web3.eth.Contract(abiManager.APYPoolBSCV2, '0x262AFa4F360f1432FB98a0579dc266e3FaDab1D1');
 
         if (web3Instance) {
 
@@ -526,7 +526,7 @@ const getAPRBNBXAutoBSC = async () => {
     try {
 
 
-        const web3Instance = new web3.eth.Contract(abiManager.APYPoolBSC, '0x21026da06d8979982D325Fd3321bdcf439cC3bD8');
+        const web3Instance = new web3.eth.Contract(abiManager.APYPoolBSCV2, '0x262AFa4F360f1432FB98a0579dc266e3FaDab1D1');
 
         if (web3Instance) {
 

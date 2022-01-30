@@ -102,6 +102,16 @@ const Vaultlist = () => {
                                         </div>
                                     </Tooltip>
                                 </th>
+                                <th style={{ width: "10%" }}>
+                                    <Tooltip
+                                        title='This is the Xend Finance Layer 2 DeFi protocol version'
+                                        placement="top"
+                                    >
+                                        <div>
+                                            <span>Version</span><QuestionCircleOutlined style={{ color: '#FF6600', paddingLeft: '3px' }} />
+                                        </div>
+                                    </Tooltip>
+                                </th>
                                 {/* {lender === 'xVault' && <th style={{ width: "10%" }}>
                                     <Tooltip
                                         title='This is the strategy used to invest your funds'

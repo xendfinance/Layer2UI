@@ -170,6 +170,12 @@ const Vault: React.FC<Props> = ({
             </td>
 
             <td>{protocol}</td>
+            <td style={{
+                color: asset.version=='V2' ? "#00D395" : ''
+            }}>{
+                asset.version
+            
+            }</td>
 
             {/* {asset.protocolName === 'xVault' && <td>
                 <a style={{ fontSize: 13, textDecoration: 'underline', color: 'white' }} target="_blank" href={asset.strategy?.code}>{asset.strategy?.name}</a>

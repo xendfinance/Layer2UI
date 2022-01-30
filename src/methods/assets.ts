@@ -36,12 +36,89 @@ export interface Asset {
 	previousProtocol?: string
 	strategy?: Strategy
 	deprecated?: boolean
+	version?: string
 }
 
 const assets: Asset[] = [
 
 	// XVAULT BSC
 	{
+		version:"V2",
+		name: "USDT",
+		logo: assetsLogo.USDT,
+		tokenAddress: USDT_BSC,
+		tokenAbi: abiManager.USDT,
+		protocolName: "xVault",
+		protocolAddress: "0x454d6F10B18f391adD499cE39aCD5bFCD424B601",
+		protocolAbi: abiManager.xvVaultUSDTV2,
+		network: 56,
+		balance: "0.00",
+		apy: "0.00",
+		tvl: "0.00",
+		auditStatus: "audited",
+		smartContract: "https://bscscan.com/address/0x454d6F10B18f391adD499cE39aCD5bFCD424B601#code",
+		availableFunds: "0.00",
+		decimals: 18,
+		widthdrawDecimals: 36,
+		ppfsMethod: 'pricePerShare',
+		previousProtocol: "0xcF2E6928EeD4399Ac6664b84D068050cBF24B475",
+		strategy: {
+			name: "Strategy UgoHawkVenusUSDTFarm v4",
+			code: "https://bscscan.com/address/0x0D87591801E26F516000a659aCc5417D6772a85D#code"
+		}
+	},
+	{
+		version:"V2",
+		name: "BUSD",
+		logo: assetsLogo.BUSD,
+		tokenAddress: BUSD_BSC,
+		tokenAbi: abiManager.BUSD,
+		protocolName: "xVault",
+		protocolAddress: "0x3de1Fe0039EC99773DBEE5608823FECDeFB8D9D0",
+		protocolAbi: abiManager.xvVaultBUSDV2,
+		network: 56,
+		balance: "0.00",
+		apy: "0.00",
+		tvl: "0.00",
+		auditStatus: "audited",
+		smartContract: "https://bscscan.com/address/0x3de1Fe0039EC99773DBEE5608823FECDeFB8D9D0#code",
+		availableFunds: "0.00",
+		decimals: 18,
+		widthdrawDecimals: 36,
+		ppfsMethod: 'pricePerShare',
+		previousProtocol: "0x0b20d359204221DC850f2Af7fc88A38812eA8Fd5",
+		strategy: {
+			name: "Strategy UgoHawkVenusBUSDFarm v4",
+			code: "https://bscscan.com/address/0x6B6209192443221FE137Fb30E4363FC737D3C4d6#code"
+		}
+	},
+	{
+		version:"V2",
+		name: "USDC",
+		logo: assetsLogo.USDC,
+		tokenAddress: USDC_BSC,
+		tokenAbi: abiManager.USDC,
+		protocolName: "xVault",
+		protocolAddress: "0x50c9fBf77CBC8FF1b23a8ED61725C325bedC3C86",
+		protocolAbi: abiManager.xvVaultUSDCV2,
+		network: 56,
+		balance: "0.00",
+		apy: "0.00",
+		tvl: "0.00",
+		auditStatus: "audited",
+		smartContract: "https://bscscan.com/address/0x50c9fBf77CBC8FF1b23a8ED61725C325bedC3C86#code",
+		availableFunds: "0.00",
+		decimals: 18,
+		widthdrawDecimals: 36,
+		ppfsMethod: 'pricePerShare',
+		previousProtocol: "0x1973C8D13B02934c13593590940F9BEDbbECc41f",
+		strategy: {
+			name: "Strategy UgoHawkVenusUSDCFarm v4",
+			code: "https://bscscan.com/address/0xDA2969621B5c8bcEa32712455051AEf4f066F6a1#code"
+		}
+	},
+	{
+		version:"V1",
 		name: "USDT",
 		logo: assetsLogo.USDT,
 		tokenAddress: USDT_BSC,
@@ -64,8 +141,9 @@ const assets: Asset[] = [
 			name: "Strategy UgoHawkVenusUSDTFarm v4",
 			code: "https://bscscan.com/address/0x4bA58C32b994164218BC6a8A76107dcE6d374e07#code"
 		}
-	},
+	},	
 	{
+		version:"V1",
 		name: "BUSD",
 		logo: assetsLogo.BUSD,
 		tokenAddress: BUSD_BSC,
@@ -88,8 +166,9 @@ const assets: Asset[] = [
 			name: "Strategy UgoHawkVenusBUSDFarm v4",
 			code: "https://bscscan.com/address/0x964407337aA2b8D2aB96B596651Ba9F5F53c4035#code"
 		}
-	},
+	},	
 	{
+		version:"V1",
 		name: "USDC",
 		logo: assetsLogo.USDC,
 		tokenAddress: USDC_BSC,
@@ -114,6 +193,7 @@ const assets: Asset[] = [
 		}
 	},
 	{
+		version:"V1",
 		deprecated: true,
 		name: "USDT",
 		logo: assetsLogo.USDT,
@@ -138,6 +218,7 @@ const assets: Asset[] = [
 		}
 	},
 	{
+		version:"V1",
 		deprecated: true,
 		name: "BUSD",
 		logo: assetsLogo.BUSD,
@@ -163,6 +244,7 @@ const assets: Asset[] = [
 		}
 	},
 	{
+		version:"V1",
 		deprecated: true,
 		name: "USDC",
 		logo: assetsLogo.USDC,
@@ -190,6 +272,87 @@ const assets: Asset[] = [
 
 	// XAUTO BSC
 	{
+		version:"V2",
+		name: "USDT",
+		logo: assetsLogo.USDT,
+		tokenAddress: USDT_BSC,
+		tokenAbi: abiManager.USDT,
+		protocolName: "xAuto",
+		protocolAddress: "0x9607be08acFeB47Ea7e66b494Dd5dAb88Dda59cf",
+		protocolAbi: abiManager.xvAutoBSCUSDTV2,
+		network: 56,
+		balance: "0.00",
+		apy: "0.00",
+		tvl: "0.00",
+		auditStatus: "audited",
+		smartContract: "https://bscscan.com/address/0x9607be08acFeB47Ea7e66b494Dd5dAb88Dda59cf#code",
+		availableFunds: "0.00",
+		decimals: 18,
+		widthdrawDecimals: 36,
+		ppfsMethod: 'getPricePerFullShare'
+	},
+	{
+		version:"V2",
+		name: "BUSD",
+		logo: assetsLogo.BUSD,
+		tokenAddress: BUSD_BSC,
+		tokenAbi: abiManager.BUSD,
+		protocolName: "xAuto",
+		protocolAddress: "0x0f28698FD6A0771CB099482305BeEd0EeCB458D5",
+		protocolAbi: abiManager.xvAutoBSCBUSDV2,
+		network: 56,
+		balance: "0.00",
+		apy: "0.00",
+		tvl: "0.00",
+		auditStatus: "audited",
+		smartContract: "https://bscscan.com/address/0x0f28698FD6A0771CB099482305BeEd0EeCB458D5#code",
+		availableFunds: "0.00",
+		decimals: 18,
+		widthdrawDecimals: 36,
+		ppfsMethod: 'getPricePerFullShare'
+	},
+	{
+		version:"V2",
+		name: "BNB",
+		logo: assetsLogo.BNB,
+		tokenAddress: "",
+		tokenAbi: abiManager.BNB,
+		protocolName: "xAuto",
+		protocolAddress: "0x8C709c792700d73e37D8B0A4CD3bcc995d03f084",
+		protocolAbi: abiManager.xvAutoBSCBNBV2,
+		network: 56,
+		balance: "0.00",
+		apy: "0.00",
+		tvl: "0.00",
+		auditStatus: "audited",
+		smartContract: "https://bscscan.com/address/0x8C709c792700d73e37D8B0A4CD3bcc995d03f084#code",
+		availableFunds: "0.00",
+		decimals: 18,
+		widthdrawDecimals: 36,
+		ppfsMethod: 'getPricePerFullShare'
+	},
+	{
+		version:"V2",
+		name: "USDC",
+		logo: assetsLogo.USDC,
+		tokenAddress: USDC_BSC,
+		tokenAbi: abiManager.USDC,
+		protocolName: "xAuto",
+		protocolAddress: "0xa3003c67C0C8fF2280b282F0A821e95fEBA47293",
+		protocolAbi: abiManager.xvAutoBSCUSDCV2,
+		network: 56,
+		balance: "0.00",
+		apy: "0.00",
+		tvl: "0.00",
+		auditStatus: "audited",
+		smartContract: "https://bscscan.com/address/0xa3003c67C0C8fF2280b282F0A821e95fEBA47293#code",
+		availableFunds: "0.00",
+		decimals: 18,
+		widthdrawDecimals: 36,
+		ppfsMethod: 'getPricePerFullShare'
+	},
+	{
+		version:"V1",
 		name: "USDT",
 		logo: assetsLogo.USDT,
 		tokenAddress: USDT_BSC,
@@ -207,8 +370,9 @@ const assets: Asset[] = [
 		decimals: 18,
 		widthdrawDecimals: 36,
 		ppfsMethod: 'getPricePerFullShare'
-	},
+	},	
 	{
+		version:"V1",
 		name: "BUSD",
 		logo: assetsLogo.BUSD,
 		tokenAddress: BUSD_BSC,
@@ -226,8 +390,9 @@ const assets: Asset[] = [
 		decimals: 18,
 		widthdrawDecimals: 36,
 		ppfsMethod: 'getPricePerFullShare'
-	},
+	},	
 	{
+		version:"V1",
 		name: "BNB",
 		logo: assetsLogo.BNB,
 		tokenAddress: "",
@@ -245,8 +410,9 @@ const assets: Asset[] = [
 		decimals: 18,
 		widthdrawDecimals: 36,
 		ppfsMethod: 'getPricePerFullShare'
-	},
+	},	
 	{
+		version:"V1",
 		name: "USDC",
 		logo: assetsLogo.USDC,
 		tokenAddress: USDC_BSC,
@@ -266,6 +432,7 @@ const assets: Asset[] = [
 		ppfsMethod: 'getPricePerFullShare'
 	},
 	{
+		version:"V1",
 		deprecated: true,
 		name: "USDT",
 		logo: assetsLogo.USDT,
@@ -289,6 +456,87 @@ const assets: Asset[] = [
 
 	// POLYGON
 	{
+		version:"V2",
+		name: "USDT",
+		logo: assetsLogo.USDT,
+		tokenAddress: USDT_MATIC,
+		tokenAbi: abiManager.USDTMatic,
+		protocolName: "xAuto",
+		protocolAddress: "0x143afc138978Ad681f7C7571858FAAA9D426CecE",
+		protocolAbi: abiManager.xvAutoUSDTV2,
+		network: 137,
+		balance: "0.00",
+		apy: "0.00",
+		tvl: "0.00",
+		auditStatus: "audited",
+		smartContract: "https://polygonscan.com/address/0x143afc138978Ad681f7C7571858FAAA9D426CecE#code",
+		availableFunds: "0.00",
+		decimals: 18,
+		widthdrawDecimals: 24,
+		ppfsMethod: 'getPricePerFullShare'
+	},
+	{
+		version:"V2",
+		name: "USDC",
+		logo: assetsLogo.USDC,
+		tokenAddress: USDC_MATIC,
+		tokenAbi: abiManager.USDCMatic,
+		protocolName: "xAuto",
+		protocolAddress: "0xd01a0971F03D0ddC8D621048d92A1632b2dB7356",
+		protocolAbi: abiManager.xvAutoUSDCV2,
+		network: 137,
+		balance: "0.00",
+		apy: "0.00",
+		tvl: "0.00",
+		auditStatus: "audited",
+		smartContract: "https://polygonscan.com/address/0xd01a0971F03D0ddC8D621048d92A1632b2dB7356#code",
+		availableFunds: "0.00",
+		decimals: 18,
+		widthdrawDecimals: 24,
+		ppfsMethod: 'getPricePerFullShare'
+	},
+	{
+		version:"V2",
+		name: "AAVE",
+		logo: assetsLogo.AAVE,
+		tokenAddress: AAVE_MATIC,
+		tokenAbi: abiManager.AAVEMatic,
+		protocolName: "xAuto",
+		protocolAddress: "0xDD3afc5D5476FC327812B84ae2ccf66C011e6d67",
+		protocolAbi: abiManager.xvAutoAAVEV2,
+		network: 137,
+		balance: "0.00",
+		apy: "0.00",
+		tvl: "0.00",
+		auditStatus: "audited",
+		smartContract: "https://polygonscan.com/address/0xDD3afc5D5476FC327812B84ae2ccf66C011e6d67#code",
+		availableFunds: "0.00",
+		decimals: 18,
+		widthdrawDecimals: 36,
+		ppfsMethod: 'getPricePerFullShare'
+	},
+	{
+		version:"V2",
+		name: "WBTC",
+		logo: assetsLogo.WBTC,
+		tokenAddress: WBTC_MATIC,
+		tokenAbi: abiManager.WBTCMatic,
+		protocolName: "xAuto",
+		protocolAddress: "0x0b26E76D8617b20Ec9fe0811BE2dCbF3438cc27F",
+		protocolAbi: abiManager.xvAutoWBTCV2,
+		network: 137,
+		balance: "0.00",
+		apy: "0.00",
+		tvl: "0.00",
+		auditStatus: "audited",
+		smartContract: "https://polygonscan.com/address/0x0b26E76D8617b20Ec9fe0811BE2dCbF3438cc27F#code",
+		availableFunds: "0.00",
+		decimals: 8,
+		widthdrawDecimals: 26,
+		ppfsMethod: 'getPricePerFullShare'
+	},
+	{
+		version:"V1",
 		name: "USDT",
 		logo: assetsLogo.USDT,
 		tokenAddress: USDT_MATIC,
@@ -306,8 +554,9 @@ const assets: Asset[] = [
 		decimals: 18,
 		widthdrawDecimals: 24,
 		ppfsMethod: 'getPricePerFullShare'
-	},
+	},	
 	{
+		version:"V1",
 		name: "USDC",
 		logo: assetsLogo.USDC,
 		tokenAddress: USDC_MATIC,
@@ -325,8 +574,9 @@ const assets: Asset[] = [
 		decimals: 18,
 		widthdrawDecimals: 24,
 		ppfsMethod: 'getPricePerFullShare'
-	},
+	},	
 	{
+		version:"V1",
 		name: "AAVE",
 		logo: assetsLogo.AAVE,
 		tokenAddress: AAVE_MATIC,
@@ -344,12 +594,13 @@ const assets: Asset[] = [
 		decimals: 18,
 		widthdrawDecimals: 36,
 		ppfsMethod: 'getPricePerFullShare'
-	},
+	},	
 	{
+		version:"V1",
 		name: "WBTC",
 		logo: assetsLogo.WBTC,
 		tokenAddress: WBTC_MATIC,
-		tokenAbi: abiManager.xvAutoWBTC,
+		tokenAbi: abiManager.WBTCMatic,
 		protocolName: "xAuto",
 		protocolAddress: "0x5b208c6Ed9c95907DC7E1Ef34F0Cac52dd22b9dc",
 		protocolAbi: abiManager.xvAutoWBTC,
