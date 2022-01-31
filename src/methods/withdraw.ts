@@ -86,11 +86,22 @@ export const withdraw = async ({
 
 			withdrawAmount = removeDecimals(withdrawAmount);
 
-			return await contract.methods['withdraw'](String(withdrawAmount))
+			if(asset.network == 137){
+				const WithdrawGas = await getFastGasFeeMatic();
+				return await contract.methods['withdraw'](String(withdrawAmount))
+				.send({ from: client,gasPrice:WithdrawGas })
+				.on('transactionHash', hash => {
+					notifyBNC.hash(hash)
+				})
+			}else{
+				return await contract.methods['withdraw'](String(withdrawAmount))
 				.send({ from: client })
 				.on('transactionHash', hash => {
 					notifyBNC.hash(hash)
 				})
+			}
+
+			
 
 		}
 
@@ -100,3 +111,16 @@ export const withdraw = async ({
 		return { status: false, message: e.message }
 	}
 }
+
+async function getFastGasFeeMatic() {
+	try {
+	  const currentGasResult = await fetch('https://gasstation-mainnet.matic.network/v2')
+	  const currentGasResultJson = await currentGasResult.json();
+	  const res =  Web3.utils.toBN(parseInt(currentGasResultJson.fast.maxFee))
+	  const currentGasInWei = Web3.utils.toWei((res),'gwei')
+	  return currentGasInWei;
+	  
+	} catch (err) {
+	  console.log(err);
+	}
+  }
