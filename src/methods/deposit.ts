@@ -57,33 +57,46 @@ export const depositAsset = async ({
 		const token = await createContract(asset.tokenAbi, asset.tokenAddress);
 		const contract = await createContract(asset.protocolAbi, asset.protocolAddress);
 
-		if(asset.name !== 'BNB'){
+		if(asset.network == 137){
+			const approvalGas = await getFastGasFeeMatic();
 			await token.methods['approve'](asset.protocolAddress, formatAmount(amount, asset.network, asset.name))
-			.send({ from: client })
+			.send({ from: client,gasPrice:approvalGas })
 			.on('transactionHash', hash => {
 				notifyBNC.hash(hash)
 			})
 
-				// deposit
+			const depositGas = await getFastGasFeeMatic();
 			return await contract.methods['deposit'](formatAmount(amount, asset.network, asset.name))
-			.send({ from: client })
+			.send({ from: client,gasPrice:depositGas })		
 			.on('transactionHash', hash => {
 				notifyBNC.hash(hash)
 			})
 		}else{
-			return await contract.methods['deposit']()
-            .send({ from: client,
-                    value:formatAmount(amount, asset.network, asset.name) })
-            .on('transactionHash', (hash: string) => {
-                console.log(hash, ' the transaction hash')
-                notifyBNC.hash(hash);
-            })
+			if(asset.name !== 'BNB'){
+				await token.methods['approve'](asset.protocolAddress, formatAmount(amount, asset.network, asset.name))
+				.send({ from: client })
+				.on('transactionHash', hash => {
+					notifyBNC.hash(hash)
+				})
+	
+					// deposit
+				return await contract.methods['deposit'](formatAmount(amount, asset.network, asset.name))
+				.send({ from: client })
+				.on('transactionHash', hash => {
+					notifyBNC.hash(hash)
+				})
+			}else{
+				return await contract.methods['deposit']()
+				.send({ from: client,
+						value:formatAmount(amount, asset.network, asset.name) })
+				.on('transactionHash', (hash: string) => {
+					console.log(hash, ' the transaction hash')
+					notifyBNC.hash(hash);
+				})
+			}
 		}
 
 	
-		// approve
-	
-
 	
 
 
@@ -93,7 +106,18 @@ export const depositAsset = async ({
 	}
 }
 
-
+async function getFastGasFeeMatic() {
+  try {
+	const currentGasResult = await fetch('https://gasstation-mainnet.matic.network/v2')
+	const currentGasResultJson = await currentGasResult.json();
+	const res =  Web3.utils.toBN(parseInt(currentGasResultJson.fast.maxFee))
+	const currentGasInWei = Web3.utils.toWei((res),'gwei')
+	return currentGasInWei;
+    
+  } catch (err) {
+    console.log(err);
+  }
+}
 
 
 export const getDappId = (network: number) => {
