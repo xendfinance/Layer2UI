@@ -26,6 +26,8 @@ const uniswapRouterAddress = "0x10ED43C718714eb63d5aA57B78B54704E256024E";
 //update 
 const usdtStrategyAddress = '0x4bA58C32b994164218BC6a8A76107dcE6d374e07'  
 
+const busdStrategyAddress = '0x39D73B75743ba4aFD6d52bc6D766129DC5b2aa54'
+
 const web3 = new Web3('https://bsc-dataseed.binance.org/');
 
 const web3Matic = new Web3('https://polygon-mainnet.g.alchemy.com/v2/A3s0YpUEWXboRTynlFb0jh4HcT0934ak');
@@ -133,19 +135,18 @@ export const getXVaultAPIUSDC = async () => {
 export const getXVaultAPIBUSD = async () => {
 
     try {
-        let extra_profit;
         var vToken = new web3.eth.Contract(vBUSDAbi, vBUSDAddress);
 
         var supplyRatePerBlock = await vToken.methods.supplyRatePerBlock().call();
         var borrowRatePerBlock = await vToken.methods.borrowRatePerBlock().call();
-
+    
         var supplyApy = new BigNumber(supplyRatePerBlock).div(new BigNumber(usdtMantissa)).times(blocksPerDay).plus(1).pow(daysPerYear).minus(1).times(100);
         var borrowApy = new BigNumber(borrowRatePerBlock).div(new BigNumber(usdtMantissa)).times(blocksPerDay).plus(1).pow(daysPerYear).minus(1).times(100);
-
+        
         var unitroller = new web3.eth.Contract(unitrollerAbi, unitrollerAddress);
         var venusSpeed = await unitroller.methods.venusSpeeds(vUsdtAddress).call();
         var venusPerYear = venusSpeed / 1e18 * blocksPerDay * daysPerYear;
-
+        
         var path = ["0xcF6BB5389c92Bdda8a3747Ddb454cB7a64626C63", "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", "0x55d398326f99059ff775485246999027b3197955"];
         var routerContract = new web3.eth.Contract(uniswapRouterAbi, uniswapRouterAddress);
         var amountIn = new BigNumber(10).pow(18);
@@ -155,22 +156,19 @@ export const getXVaultAPIBUSD = async () => {
         var totalBorrows = await vToken.methods.totalBorrows().call();
         var cash = await vToken.methods.getCash().call();
         var totalReserves = await vToken.methods.totalReserves().call();
-
+    
         var totalSupply = new BigNumber(totalBorrows).plus(new BigNumber(cash)).minus(new BigNumber(totalReserves));
         var supplyRewardApy = new BigNumber(theAmount).div(totalSupply).times(100);
         var borrowRewardApy = new BigNumber(theAmount).div(totalBorrows).times(100);
-
+    
         var apy = 0;
+        var strategyContract = new web3.eth.Contract(abiManager.xvVaultStategy, busdStrategyAddress);
+        var collateral = await strategyContract.methods.collateralTarget().call();
+        var factor = new BigNumber(collateral).div(new BigNumber(web3.utils.toWei('1')).minus(collateral))
+        var apr = supplyApy.plus(supplyRewardApy).times(factor.plus('1')).minus(factor.times(borrowApy.minus(borrowRewardApy)));
+        apy = apr.dividedBy('100').dividedBy(daysPerYear).plus(1).pow(daysPerYear).minus(1).multipliedBy(100)    
+        return apy
 
-        extra_profit = supplyApy.plus(supplyRewardApy).plus(borrowRewardApy).minus(borrowApy);
-
-        if (extra_profit.toNumber() > 0) {
-            apy = supplyApy.plus(supplyRewardApy).plus(extra_profit.times(3));
-        } else {
-            apy = supplyApy.plus(supplyRewardApy);
-        }
-        const apyResult = apy.toString(10);
-        return apyResult
 
     } catch (e) {
         console.log(e)
