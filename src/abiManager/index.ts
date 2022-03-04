@@ -36,11 +36,19 @@ import xvAutoBSCBUSD from './xAutoBSCBusdAbi.json';
 import xvAutoBSCUSDC from './xAutoBSCUsdcAbi.json';
 import xvAutoBSCUSDT from './xAutoBSCUsdtAbi.json';
 import xvAutoBSCBNB from './xAutoBSCBnbAbi.json';
-import xvVaultStategy from './V2XVault/XVaultStrategyABI.json'
+import xvVaultStategy from './V2XVault/XVaultStrategyABI.json';
+import IBusdt from './V2XVault/IbUsdtABI.json';
+import AlpacaConfig from './V2XVault/AlpacaConfigABI.json';
+import FairLaunch from './V2XVault/FairLaunchABI.json';
+import UniswapRouter from './V2XVault/UniswapV2RouterABI.json';
 
 const abiManager = {
 	UgoHawk,
 	XVault,
+	IBusdt,
+	AlpacaConfig,
+	FairLaunch,
+	UniswapRouter,
 	USDT,
 	BUSD,
 	USDC,

@@ -20,12 +20,14 @@ Xend Finance has composed multiple Layer 1 DeFi protocols across different block
 #### XAuto Polygon
 Name | Contract
 --- | ---
-APRWithPoolOracle | https://polygonscan.com/address/0xc07d830229C34a3BD97dd95C9BB079117197B548#code
-EarnAPRWithPool | https://polygonscan.com/address/0xd991924b2b01f07c2e2491d7a61e0d1e9633d852#code
-XUSDT | https://polygonscan.com/address/0x6842E453ad9e7847a566876B8A2967FE9d155485#code
-XUSDC | https://polygonscan.com/address/0x418b8D697e72B90cBdF5Cb58015384b9016794F9#code
-XAAVE | https://polygonscan.com/address/0x0B12E60084816ed83c519a1fFd01022d5A50fcaC#readContract
-XWBTC | https://polygonscan.com/address/0x5b208c6Ed9c95907DC7E1Ef34F0Cac52dd22b9dc#code
+APRWithPoolOracle | https://polygonscan.com/address/0x1cc04ad08b6f2600d235cd17c32411871756e1a7#code
+EarnAPRWithPool | https://polygonscan.com/address/0xb9e2346462553e8ab2ef5c298b20e0ef1c7a05b5#code
+XUSDT | https://polygonscan.com/address/0x143afc138978Ad681f7C7571858FAAA9D426CecE#code
+XUSDC | https://polygonscan.com/address/0xd01a0971F03D0ddC8D621048d92A1632b2dB7356#code
+XAAVE | https://polygonscan.com/address/0xDD3afc5D5476FC327812B84ae2ccf66C011e6d67#code
+XWBTC | https://polygonscan.com/address/0x0b26E76D8617b20Ec9fe0811BE2dCbF3438cc27F#code
+
+
 
 
 
@@ -34,12 +36,12 @@ XWBTC | https://polygonscan.com/address/0x5b208c6Ed9c95907DC7E1Ef34F0Cac52dd22b9
 
 Name | Contract
 --- | ---
-APRWithPoolOracle | https://bscscan.com/address/0xB08018D77D4ec4087AA0A807967eb19dDb649429#code
-EarnAPRWithPool | https://bscscan.com/address/0x21026da06d8979982D325Fd3321bdcf439cC3bD8#code
-XBUSD | https://bscscan.com/address/0xa25dec88B81a94Ca951f3a4ff4AAbC32B3759E6C#code
-XUSDC | https://bscscan.com/address/0x3058d344C8F845754F0C356881772788c128eA22#code
-XUSDT | https://bscscan.com/address/0xCfD45F5Fc42aFc63Fa9fcBfc21E640A00c5B7Ba3#code
-XBNB | https://bscscan.com/address/0x2dABAeB84cACFEF30e95896301CEF65cb24b3176#code
+APRWithPoolOracle | https://bscscan.com/address/0xecA930d61675E59Dd7B7650C608F1723Bd30A29E#code
+EarnAPRWithPool | https://bscscan.com/address/0x262AFa4F360f1432FB98a0579dc266e3FaDab1D1#code
+XBUSD | https://bscscan.com/address/0x0f28698FD6A0771CB099482305BeEd0EeCB458D5#code
+XUSDC | https://bscscan.com/address/0xa3003c67C0C8fF2280b282F0A821e95fEBA47293#code
+XUSDT | https://bscscan.com/address/0x9607be08acFeB47Ea7e66b494Dd5dAb88Dda59cf#code
+XBNB | https://bscscan.com/address/0x8C709c792700d73e37D8B0A4CD3bcc995d03f084#code
 
 
 
@@ -48,12 +50,12 @@ XBNB | https://bscscan.com/address/0x2dABAeB84cACFEF30e95896301CEF65cb24b3176#co
 
 Name | Contract
 --- | ---
-xvUSDT | https://bscscan.com/address/0xcF2E6928EeD4399Ac6664b84D068050cBF24B475#code 
-xvUSDC | https://bscscan.com/address/0x1973C8D13B02934c13593590940F9BEDbbECc41f#code
-xvBUSD | https://bscscan.com/address/0x0b20d359204221DC850f2Af7fc88A38812eA8Fd5#code
-StrategyUgoHawkVenusUSDTFarm | https://bscscan.com/address/0x4bA58C32b994164218BC6a8A76107dcE6d374e07#code
-StrategyUgoHawkVenusUSDCFarm | https://bscscan.com/address/0x16911E3d5354725349C355EA0d24Fc6845Aa13Eb#code
-StrategyUgoHawkVenusBUSDFarm | https://bscscan.com/address/0x964407337aA2b8D2aB96B596651Ba9F5F53c4035#code
+xvUSDT | https://bscscan.com/address/0x454d6F10B18f391adD499cE39aCD5bFCD424B601#code 
+xvUSDC | https://bscscan.com/address/0x50c9fBf77CBC8FF1b23a8ED61725C325bedC3C86#code
+xvBUSD | https://bscscan.com/address/0x3de1Fe0039EC99773DBEE5608823FECDeFB8D9D0#code
+StrategyUgoHawkVenusUSDTFarm | https://bscscan.com/address/0x0D87591801E26F516000a659aCc5417D6772a85D#code
+StrategyUgoHawkVenusUSDCFarm | https://bscscan.com/address/0xDA2969621B5c8bcEa32712455051AEf4f066F6a1#code
+StrategyUgoHawkVenusBUSDFarm | https://bscscan.com/address/0x6B6209192443221FE137Fb30E4363FC737D3C4d6#code
 
 
 
