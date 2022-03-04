@@ -26,6 +26,8 @@ const uniswapRouterAddress = "0x10ED43C718714eb63d5aA57B78B54704E256024E";
 //update 
 const usdtStrategyAddress = '0x4bA58C32b994164218BC6a8A76107dcE6d374e07'  
 
+const busdStrategyAddress = '0x39D73B75743ba4aFD6d52bc6D766129DC5b2aa54'
+
 const web3 = new Web3('https://bsc-dataseed.binance.org/');
 
 const web3Matic = new Web3('https://polygon-mainnet.g.alchemy.com/v2/A3s0YpUEWXboRTynlFb0jh4HcT0934ak');
@@ -35,42 +37,49 @@ const blocksPerDay = 60 * 60 * 24 / 3;
 const daysPerYear = 365;
 const CoinGecko = require('coingecko-api');
 
+const fairLanuchAddress = "0xA625AB01B08ce023B2a342Dbb12a16f2C8489A8F";
+
+ const ibUsdtAddressUSDTAPY = "0x158Da805682BdC8ee32d52833aD41E74bb951E59";
+ const poolIDUSDTAPY = 16;
+
+ const ibUsdtAddressBUSDAPY = "0x7C9e73d4C71dae564d41F78d56439bB4ba87592f"; //  BUSD
+ const poolIDBUSDAPY = 3;
+
 
 
 export const getXVaultAPIUSDT = async () => {
 
     try {
-        var vToken = new web3.eth.Contract(vUsdtAbi, vUsdtAddress);
-        var supplyRatePerBlock = await vToken.methods.supplyRatePerBlock().call();
-        var borrowRatePerBlock = await vToken.methods.borrowRatePerBlock().call();
+        var ibToken = new web3.eth.Contract(abiManager.IBusdt, ibUsdtAddressUSDTAPY);
+        var alpacaConfigAddress = await ibToken.methods.config().call();
+        var alpacaConfigContract = new web3.eth.Contract(abiManager.AlpacaConfig, alpacaConfigAddress);
+        var alpacaTotalToken = await ibToken.methods.totalToken().call();
+        var alpacaVaultDebtVal = await ibToken.methods.vaultDebtVal().call();
+        var alpacaBorrowInterest = await alpacaConfigContract.methods.getInterestRate(alpacaVaultDebtVal, new BigNumber(alpacaTotalToken).minus(alpacaVaultDebtVal)).call();
+        alpacaBorrowInterest = new BigNumber(alpacaBorrowInterest).multipliedBy(365 * 24 * 3600);
+        var performanceFee = await alpacaConfigContract.methods.getReservePoolBps().call();
+        performanceFee = new BigNumber(performanceFee).dividedBy(10000);
+        var alpacaLendingApr = alpacaBorrowInterest.multipliedBy(alpacaVaultDebtVal).dividedBy(alpacaTotalToken).multipliedBy(new BigNumber(1).minus(performanceFee)).dividedBy(web3.utils.toWei('1'));
     
-        var supplyApy = new BigNumber(supplyRatePerBlock).div(new BigNumber(usdtMantissa)).times(blocksPerDay).plus(1).pow(daysPerYear).minus(1).times(100);
-        var borrowApy = new BigNumber(borrowRatePerBlock).div(new BigNumber(usdtMantissa)).times(blocksPerDay).plus(1).pow(daysPerYear).minus(1).times(100);
-        
-        var unitroller = new web3.eth.Contract(unitrollerAbi, unitrollerAddress);
-        var venusSpeed = await unitroller.methods.venusSpeeds(vUsdtAddress).call();
-        var venusPerYear = venusSpeed / 1e18 * blocksPerDay * daysPerYear;
-        
-        var path = ["0xcF6BB5389c92Bdda8a3747Ddb454cB7a64626C63", "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", "0x55d398326f99059ff775485246999027b3197955"];
+        var fairLanuchContract = new web3.eth.Contract(abiManager.FairLaunch, fairLanuchAddress);
+        var poolInfo = await fairLanuchContract.methods.poolInfo(poolIDUSDTAPY).call()
+        var allocPoint = poolInfo.allocPoint;
+        var alpacaPerBlock = await fairLanuchContract.methods.alpacaPerBlock().call();
+        var totalAllocPoint = await fairLanuchContract.methods.totalAllocPoint().call();
+        var balanceOfIbToken = await ibToken.methods.balanceOf(fairLanuchAddress).call();
+        var debtShareToVal = await ibToken.methods.debtShareToVal(web3.utils.toWei('1')).call();
+        var valueOfPool = new BigNumber(balanceOfIbToken).multipliedBy(debtShareToVal).dividedBy(web3.utils.toWei('1'))
+        var path = ["0x8F0528cE5eF7B51152A59745bEfDD91D97091d2F", "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56", "0x55d398326f99059ff775485246999027b3197955"];
         var routerContract = new web3.eth.Contract(uniswapRouterAbi, uniswapRouterAddress);
         var amountIn = new BigNumber(10).pow(18);
         var amountOut = await routerContract.methods.getAmountsOut(amountIn, path).call();
-        var price = amountOut[amountOut.length - 1];
-        var theAmount = new BigNumber(price).times(venusPerYear);
-        var totalBorrows = await vToken.methods.totalBorrows().call();
-        var cash = await vToken.methods.getCash().call();
-        var totalReserves = await vToken.methods.totalReserves().call();
-    
-        var totalSupply = new BigNumber(totalBorrows).plus(new BigNumber(cash)).minus(new BigNumber(totalReserves));
-        var supplyRewardApy = new BigNumber(theAmount).div(totalSupply).times(100);
-        var borrowRewardApy = new BigNumber(theAmount).div(totalBorrows).times(100);
-    
-        var apy = 0;
-        var strategyContract = new web3.eth.Contract(abiManager.xvVaultStategy, usdtStrategyAddress);
-        var collateral = await strategyContract.methods.collateralTarget().call();
-        var factor = new BigNumber(collateral).div(new BigNumber(web3.utils.toWei('1')).minus(collateral))
-        var apr = supplyApy.plus(supplyRewardApy).times(factor.plus('1')).minus(factor.times(borrowApy.minus(borrowRewardApy)));
-        apy = apr.dividedBy('100').dividedBy(daysPerYear).plus(1).pow(daysPerYear).minus(1).multipliedBy(100)    
+        var alpacaPrice = amountOut[amountOut.length - 1];
+        var stakingApr = new BigNumber(alpacaPerBlock).multipliedBy(allocPoint).dividedBy(totalAllocPoint).multipliedBy(new BigNumber(blocksPerDay)).multipliedBy(daysPerYear).multipliedBy(alpacaPrice).dividedBy(balanceOfIbToken).dividedBy(web3.utils.toWei('1'))
+        
+        let apy=0;
+        var totalApr = alpacaLendingApr.plus(1).multipliedBy(stakingApr.plus(1)).minus(1)
+        apy = totalApr.dividedBy(daysPerYear).plus(1).pow(daysPerYear).minus(1).multipliedBy(100)   
+         
         return apy
 
     } catch (e) {
@@ -133,44 +142,37 @@ export const getXVaultAPIUSDC = async () => {
 export const getXVaultAPIBUSD = async () => {
 
     try {
-        let extra_profit;
-        var vToken = new web3.eth.Contract(vBUSDAbi, vBUSDAddress);
-
-        var supplyRatePerBlock = await vToken.methods.supplyRatePerBlock().call();
-        var borrowRatePerBlock = await vToken.methods.borrowRatePerBlock().call();
-
-        var supplyApy = new BigNumber(supplyRatePerBlock).div(new BigNumber(usdtMantissa)).times(blocksPerDay).plus(1).pow(daysPerYear).minus(1).times(100);
-        var borrowApy = new BigNumber(borrowRatePerBlock).div(new BigNumber(usdtMantissa)).times(blocksPerDay).plus(1).pow(daysPerYear).minus(1).times(100);
-
-        var unitroller = new web3.eth.Contract(unitrollerAbi, unitrollerAddress);
-        var venusSpeed = await unitroller.methods.venusSpeeds(vUsdtAddress).call();
-        var venusPerYear = venusSpeed / 1e18 * blocksPerDay * daysPerYear;
-
-        var path = ["0xcF6BB5389c92Bdda8a3747Ddb454cB7a64626C63", "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", "0x55d398326f99059ff775485246999027b3197955"];
+      
+        var ibToken = new web3.eth.Contract(abiManager.IBusdt, ibUsdtAddressBUSDAPY);
+        var alpacaConfigAddress = await ibToken.methods.config().call();
+        var alpacaConfigContract = new web3.eth.Contract(abiManager.AlpacaConfig, alpacaConfigAddress);
+        var alpacaTotalToken = await ibToken.methods.totalToken().call();
+        var alpacaVaultDebtVal = await ibToken.methods.vaultDebtVal().call();
+        var alpacaBorrowInterest = await alpacaConfigContract.methods.getInterestRate(alpacaVaultDebtVal, new BigNumber(alpacaTotalToken).minus(alpacaVaultDebtVal)).call();
+        alpacaBorrowInterest = new BigNumber(alpacaBorrowInterest).multipliedBy(365 * 24 * 3600);
+        var performanceFee = await alpacaConfigContract.methods.getReservePoolBps().call();
+        performanceFee = new BigNumber(performanceFee).dividedBy(10000);
+        var alpacaLendingApr = alpacaBorrowInterest.multipliedBy(alpacaVaultDebtVal).dividedBy(alpacaTotalToken).multipliedBy(new BigNumber(1).minus(performanceFee)).dividedBy(web3.utils.toWei('1'));
+    
+        var fairLanuchContract = new web3.eth.Contract(abiManager.FairLaunch, fairLanuchAddress);
+        var poolInfo = await fairLanuchContract.methods.poolInfo(poolIDBUSDAPY).call()
+        var allocPoint = poolInfo.allocPoint;
+        var alpacaPerBlock = await fairLanuchContract.methods.alpacaPerBlock().call();
+        var totalAllocPoint = await fairLanuchContract.methods.totalAllocPoint().call();
+        var balanceOfIbToken = await ibToken.methods.balanceOf(fairLanuchAddress).call();
+        var debtShareToVal = await ibToken.methods.debtShareToVal(web3.utils.toWei('1')).call();
+        var valueOfPool = new BigNumber(balanceOfIbToken).multipliedBy(debtShareToVal).dividedBy(web3.utils.toWei('1'))
+        var path = ["0x8F0528cE5eF7B51152A59745bEfDD91D97091d2F", "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56", "0x55d398326f99059ff775485246999027b3197955"];
         var routerContract = new web3.eth.Contract(uniswapRouterAbi, uniswapRouterAddress);
         var amountIn = new BigNumber(10).pow(18);
         var amountOut = await routerContract.methods.getAmountsOut(amountIn, path).call();
-        var price = amountOut[amountOut.length - 1];
-        var theAmount = new BigNumber(price).times(venusPerYear);
-        var totalBorrows = await vToken.methods.totalBorrows().call();
-        var cash = await vToken.methods.getCash().call();
-        var totalReserves = await vToken.methods.totalReserves().call();
-
-        var totalSupply = new BigNumber(totalBorrows).plus(new BigNumber(cash)).minus(new BigNumber(totalReserves));
-        var supplyRewardApy = new BigNumber(theAmount).div(totalSupply).times(100);
-        var borrowRewardApy = new BigNumber(theAmount).div(totalBorrows).times(100);
-
-        var apy = 0;
-
-        extra_profit = supplyApy.plus(supplyRewardApy).plus(borrowRewardApy).minus(borrowApy);
-
-        if (extra_profit.toNumber() > 0) {
-            apy = supplyApy.plus(supplyRewardApy).plus(extra_profit.times(3));
-        } else {
-            apy = supplyApy.plus(supplyRewardApy);
-        }
-        const apyResult = apy.toString(10);
-        return apyResult
+        var alpacaPrice = amountOut[amountOut.length - 1];
+        var stakingApr = new BigNumber(alpacaPerBlock).multipliedBy(allocPoint).dividedBy(totalAllocPoint).multipliedBy(new BigNumber(blocksPerDay)).multipliedBy(daysPerYear).multipliedBy(alpacaPrice).dividedBy(balanceOfIbToken).dividedBy(web3.utils.toWei('1'))
+        
+        let apy=0;
+        var totalApr = alpacaLendingApr.plus(1).multipliedBy(stakingApr.plus(1)).minus(1)
+        apy = totalApr.dividedBy(daysPerYear).plus(1).pow(daysPerYear).minus(1).multipliedBy(100)   
+        return apy;
 
     } catch (e) {
         console.log(e)
