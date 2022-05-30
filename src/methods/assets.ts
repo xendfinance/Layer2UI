@@ -80,7 +80,7 @@ const assets: Asset[] = [
 		balance: "0.00",
 		apy: "0.00",
 		tvl: "0.00",
-		auditStatus: "audited",
+		auditStatus: "under audit",
 		smartContract: "https://bscscan.com/address/0x3de1Fe0039EC99773DBEE5608823FECDeFB8D9D0#code",
 		availableFunds: "0.00",
 		decimals: 18,
