@@ -10,7 +10,7 @@ const web3Matic = new Web3('https://polygon-rpc.com/');
 
 export const xVaultUserBalance = async (abi: any, address: string, userAddress: string) => {
 	try {
-
+		       
 		const contract = new web3.eth.Contract(abi, address);
 		const balance = await contract.methods.balanceOf(userAddress).call()
 		const ppfs = await contract.methods.pricePerShare().call()

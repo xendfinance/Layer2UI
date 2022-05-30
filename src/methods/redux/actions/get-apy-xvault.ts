@@ -14,14 +14,12 @@ const vUsdtAbi = require('../../contracts/xvault/abis/vUsdtAbi.json');
 const vBUSDAbi = require('../../contracts/xvault/abis/vBusd.abi.json');
 const vUSDCAbi = require('../../contracts/xvault/abis/vUsdcABI.json');
 const unitrollerAbi = require('../../contracts/xvault/abis/Unitroller.abi.json');
-const uniswapRouterAbi = require('../../contracts/xvault/abis/UniswapRouterAbi.json');
 
 const vUsdtAddress = "0xfd5840cd36d94d7229439859c0112a4185bc0255";
 const vBUSDAddress = "0x95c78222B3D6e262426483D42CfA53685A67Ab9D";
 const vUSDCAddress = "0xecA88125a5ADbe82614ffC12D0DB554E2e2867C8";
 const unitrollerAddress = "0xfD36E2c2a6789Db23113685031d7F16329158384";
 const xvs = "0xcF6BB5389c92Bdda8a3747Ddb454cB7a64626C63";
-const uniswapRouterAddress = "0x10ED43C718714eb63d5aA57B78B54704E256024E";
 
 //update 
 const usdtStrategyAddress = '0x4bA58C32b994164218BC6a8A76107dcE6d374e07'  
@@ -37,13 +35,35 @@ const blocksPerDay = 60 * 60 * 24 / 3;
 const daysPerYear = 365;
 const CoinGecko = require('coingecko-api');
 
-const fairLanuchAddress = "0xA625AB01B08ce023B2a342Dbb12a16f2C8489A8F";
 
  const ibUsdtAddressUSDTAPY = "0x158Da805682BdC8ee32d52833aD41E74bb951E59";
  const poolIDUSDTAPY = 16;
 
  const ibUsdtAddressBUSDAPY = "0x7C9e73d4C71dae564d41F78d56439bB4ba87592f"; //  BUSD
  const poolIDBUSDAPY = 3;
+
+ 
+
+const ibUsdtAbi = require('../../../abiManager/V2XVault/IbUsdtABI.json');
+const alpacaConfigAbi = require('../../../abiManager/V2XVault/AlpacaConfigABI.json');
+
+
+const fairLaunch = require('../../../abiManager/V2XVault/FairLaunchABI.json')
+const uniswapRouterAbi = require('../../../abiManager/V2XVault/UniswapRouterAbi.json');
+
+
+const ibBusdAddress = "0x7C9e73d4C71dae564d41F78d56439bB4ba87592f";
+const lpTokenAddress = "0xae70e3f6050d6ab05e03a50c655309c2148615be";
+const epsPoolID = 25;
+const ibTokenPoolId = 3;
+
+const fairLanuchAddress = "0xA625AB01B08ce023B2a342Dbb12a16f2C8489A8F";
+const uniswapRouterAddress = "0x10ED43C718714eb63d5aA57B78B54704E256024E";
+
+
+ 
+const stabilityFee = 0.018;
+const collateralFactor = 0.875;
 
 
 
@@ -143,9 +163,9 @@ export const getXVaultAPIBUSD = async () => {
 
     try {
       
-        var ibToken = new web3.eth.Contract(abiManager.IBusdt, ibUsdtAddressBUSDAPY);
+        var ibToken = new web3.eth.Contract(ibUsdtAbi, ibBusdAddress);
         var alpacaConfigAddress = await ibToken.methods.config().call();
-        var alpacaConfigContract = new web3.eth.Contract(abiManager.AlpacaConfig, alpacaConfigAddress);
+        var alpacaConfigContract = new web3.eth.Contract(alpacaConfigAbi, alpacaConfigAddress);
         var alpacaTotalToken = await ibToken.methods.totalToken().call();
         var alpacaVaultDebtVal = await ibToken.methods.vaultDebtVal().call();
         var alpacaBorrowInterest = await alpacaConfigContract.methods.getInterestRate(alpacaVaultDebtVal, new BigNumber(alpacaTotalToken).minus(alpacaVaultDebtVal)).call();
@@ -154,25 +174,29 @@ export const getXVaultAPIBUSD = async () => {
         performanceFee = new BigNumber(performanceFee).dividedBy(10000);
         var alpacaLendingApr = alpacaBorrowInterest.multipliedBy(alpacaVaultDebtVal).dividedBy(alpacaTotalToken).multipliedBy(new BigNumber(1).minus(performanceFee)).dividedBy(web3.utils.toWei('1'));
     
-        var fairLanuchContract = new web3.eth.Contract(abiManager.FairLaunch, fairLanuchAddress);
-        var poolInfo = await fairLanuchContract.methods.poolInfo(poolIDBUSDAPY).call()
+        var fairLanuchContract = new web3.eth.Contract(fairLaunch, fairLanuchAddress);
+        var poolInfo = await fairLanuchContract.methods.poolInfo(epsPoolID).call()
         var allocPoint = poolInfo.allocPoint;
         var alpacaPerBlock = await fairLanuchContract.methods.alpacaPerBlock().call();
         var totalAllocPoint = await fairLanuchContract.methods.totalAllocPoint().call();
-        var balanceOfIbToken = await ibToken.methods.balanceOf(fairLanuchAddress).call();
-        var debtShareToVal = await ibToken.methods.debtShareToVal(web3.utils.toWei('1')).call();
-        var valueOfPool = new BigNumber(balanceOfIbToken).multipliedBy(debtShareToVal).dividedBy(web3.utils.toWei('1'))
-        var path = ["0x8F0528cE5eF7B51152A59745bEfDD91D97091d2F", "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56", "0x55d398326f99059ff775485246999027b3197955"];
+        var lpToken = new web3.eth.Contract(ibUsdtAbi, lpTokenAddress);
+        var balanceOfLpToken = await lpToken.methods.balanceOf(fairLanuchAddress).call();
+        var path = ["0x8F0528cE5eF7B51152A59745bEfDD91D97091d2F", "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56"];
         var routerContract = new web3.eth.Contract(uniswapRouterAbi, uniswapRouterAddress);
         var amountIn = new BigNumber(10).pow(18);
         var amountOut = await routerContract.methods.getAmountsOut(amountIn, path).call();
         var alpacaPrice = amountOut[amountOut.length - 1];
-        var stakingApr = new BigNumber(alpacaPerBlock).multipliedBy(allocPoint).dividedBy(totalAllocPoint).multipliedBy(new BigNumber(blocksPerDay)).multipliedBy(daysPerYear).multipliedBy(alpacaPrice).dividedBy(balanceOfIbToken).dividedBy(web3.utils.toWei('1'))
-        
-        let apy=0;
-        var totalApr = alpacaLendingApr.plus(1).multipliedBy(stakingApr.plus(1)).minus(1)
-        apy = totalApr.dividedBy(daysPerYear).plus(1).pow(daysPerYear).minus(1).multipliedBy(100)   
-        return apy;
+        var stakingAprOfEps = new BigNumber(alpacaPerBlock).multipliedBy(allocPoint).dividedBy(totalAllocPoint).multipliedBy(new BigNumber(blocksPerDay)).multipliedBy(daysPerYear).multipliedBy(alpacaPrice).dividedBy(balanceOfLpToken).dividedBy(web3.utils.toWei('1'))
+    
+        poolInfo = await fairLanuchContract.methods.poolInfo(ibTokenPoolId).call()
+        allocPoint = poolInfo.allocPoint;
+        var balanceOfIbToken = await ibToken.methods.balanceOf(fairLanuchAddress).call();
+        var stakingAprOfIbToken = new BigNumber(alpacaPerBlock).multipliedBy(allocPoint).dividedBy(totalAllocPoint).multipliedBy(new BigNumber(blocksPerDay)).multipliedBy(daysPerYear).multipliedBy(alpacaPrice).dividedBy(balanceOfIbToken).dividedBy(web3.utils.toWei('1'))
+        let apy = 0; 
+        var totalApr = alpacaLendingApr.plus(stakingAprOfIbToken).plus(stakingAprOfEps.minus(stabilityFee).multipliedBy(collateralFactor));
+        apy = totalApr.dividedBy(daysPerYear).plus(1).pow(daysPerYear).minus(1).multipliedBy(100)                  // apy = (1 + apr/n)^n - 1
+     
+        return apy.toFixed(2).toString();
 
     } catch (e) {
         console.log(e)
