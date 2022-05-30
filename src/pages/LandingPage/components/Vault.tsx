@@ -53,6 +53,9 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         netAPY: {
             color: '#00D395 !important'
+        },
+        netAPYUnderAudit: {
+            color: '#FF6600 !important'
         }
     }),
 );
@@ -204,11 +207,22 @@ const Vault: React.FC<Props> = ({
 
             <td>${commas(state.vaultAsset)}</td>
 
-            {
-                auditedState == 'audited' ?
-                    <td className={classes.netAPY}><a target="_blank" className={classes.netAPY} href="https://docs.xend.finance/contracts/audit">{auditedState} <LinkOutlined /></a></td> :
+         
+            {(() => {
+                if (auditedState == 'audited') {
+                return (
+                    <td className={classes.netAPY}><a target="_blank" className={classes.netAPY} href="https://docs.xend.finance/contracts/audit">{auditedState} <LinkOutlined /></a></td> 
+                )
+                } else if (auditedState == 'under audit') {
+                return (
+                    <td className={classes.netAPYUnderAudit}><a target="_blank" className={classes.netAPYUnderAudit} href="https://docs.xend.finance/contracts/audit">{auditedState} <InfoCircleOutlined /></a></td> 
+                )
+                } else {
+                return (
                     <td> {auditedState} </td>
-            }
+                )
+                }
+            })()}
 
             <td>{commas(state.availableFunds)} {assetName}</td>
 

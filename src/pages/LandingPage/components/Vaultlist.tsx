@@ -142,7 +142,7 @@ const Vaultlist = () => {
                                         </div>
                                     </Tooltip>
                                 </th>
-                                <th style={{ width: "12%" }}>
+                                <th style={{ width: "13%" }}>
                                     <Tooltip
                                         title='Total amount in USD held in each protocol based on selected asset'
                                         placement="top"
@@ -152,7 +152,7 @@ const Vaultlist = () => {
                                         </div>
                                     </Tooltip>
                                 </th>
-                                <th style={{ width: "8%" }}>
+                                <th style={{ width: "11%" }}>
                                     <Tooltip
                                         title='Audit status'
                                         placement="top"
@@ -162,7 +162,7 @@ const Vaultlist = () => {
                                         </div>
                                     </Tooltip>
                                 </th>
-                                <th style={{ width: "20%" }}>
+                                <th style={{ width: "16%" }}>
                                     <Tooltip
                                         title='Wallet Balance'
                                         placement="top"
