@@ -10,23 +10,40 @@ const vUsdtAbi = require('../../contracts/xvault/abis/vUsdtAbi.json');
 const vBUSDAbi = require('../../contracts/xvault/abis/vBusd.abi.json');
 const vUSDCAbi = require('../../contracts/xvault/abis/vUsdcABI.json');
 const unitrollerAbi = require('../../contracts/xvault/abis/Unitroller.abi.json');
-const uniswapRouterAbi = require('../../contracts/xvault/abis/UniswapRouterAbi.json');
 
 const vUsdtAddress = "0xfd5840cd36d94d7229439859c0112a4185bc0255";
 const vBUSDAddress = "0x95c78222B3D6e262426483D42CfA53685A67Ab9D";
 const vUSDCAddress = "0xecA88125a5ADbe82614ffC12D0DB554E2e2867C8";
 const unitrollerAddress = "0xfD36E2c2a6789Db23113685031d7F16329158384";
-const xvs = "0xcF6BB5389c92Bdda8a3747Ddb454cB7a64626C63";
+//const xvs = "0xcF6BB5389c92Bdda8a3747Ddb454cB7a64626C63";
+
+const ibUsdtAbi = require('../../../abiManager/V2XVault/IbUsdtABI.json');
+const alpacaConfigAbi = require('../../../abiManager/V2XVault/AlpacaConfigABI.json');
+
+
+const fairLaunch = require('../../../abiManager/V2XVault/FairLaunchABI.json')
+const uniswapRouterAbi = require('../../../abiManager/V2XVault/UniswapRouterAbi.json');
+
+const ibBusdAddress = "0x7C9e73d4C71dae564d41F78d56439bB4ba87592f";
+const lpTokenAddress = "0xae70e3f6050d6ab05e03a50c655309c2148615be";
+const epsPoolID = 25;
+const ibTokenPoolId = 3;
+
+const fairLanuchAddress = "0xA625AB01B08ce023B2a342Dbb12a16f2C8489A8F";
 const uniswapRouterAddress = "0x10ED43C718714eb63d5aA57B78B54704E256024E";
+
+
 
 const web3 = new Web3('https://bsc-dataseed.binance.org/');
 
-const web3Matic = new Web3('https://polygon-mainnet.g.alchemy.com/v2/A3s0YpUEWXboRTynlFb0jh4HcT0934ak');
+const web3Matic = new Web3('https://polygon-mainnet.g.alchemy.com/v2/B9R_SAiMb8VLni0SF4hOGWI40jQwK-V2');
 
 const usdtMantissa = 1e18;
 const blocksPerDay = 60 * 60 * 24 / 3;
 const daysPerYear = 365;
 
+const stabilityFee = 0.018;
+const collateralFactor = 0.875;
 
 
 const getXVaultAPIUSDT = async () => {
@@ -131,45 +148,40 @@ const getXVaultAPIUSDC = async () => {
 const getXVaultAPIBUSD = async () => {
 
     try {
-        let extra_profit;
-        var vToken = new web3.eth.Contract(vBUSDAbi, vBUSDAddress);
-
-        var supplyRatePerBlock = await vToken.methods.supplyRatePerBlock().call();
-        var borrowRatePerBlock = await vToken.methods.borrowRatePerBlock().call();
-
-        var supplyApy = new BigNumber(supplyRatePerBlock).div(new BigNumber(usdtMantissa)).times(blocksPerDay).plus(1).pow(daysPerYear).minus(1).times(100);
-        var borrowApy = new BigNumber(borrowRatePerBlock).div(new BigNumber(usdtMantissa)).times(blocksPerDay).plus(1).pow(daysPerYear).minus(1).times(100);
-
-        var unitroller = new web3.eth.Contract(unitrollerAbi, unitrollerAddress);
-        var venusSpeed = await unitroller.methods.venusSpeeds(vUsdtAddress).call();
-        var venusPerYear = venusSpeed / 1e18 * blocksPerDay * daysPerYear;
-
-        var path = ["0xcF6BB5389c92Bdda8a3747Ddb454cB7a64626C63", "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", "0x55d398326f99059ff775485246999027b3197955"];
+        var ibToken = new web3.eth.Contract(ibUsdtAbi, ibBusdAddress);
+        var alpacaConfigAddress = await ibToken.methods.config().call();
+        var alpacaConfigContract = new web3.eth.Contract(alpacaConfigAbi, alpacaConfigAddress);
+        var alpacaTotalToken = await ibToken.methods.totalToken().call();
+        var alpacaVaultDebtVal = await ibToken.methods.vaultDebtVal().call();
+        var alpacaBorrowInterest = await alpacaConfigContract.methods.getInterestRate(alpacaVaultDebtVal, new BigNumber(alpacaTotalToken).minus(alpacaVaultDebtVal)).call();
+        alpacaBorrowInterest = new BigNumber(alpacaBorrowInterest).multipliedBy(365 * 24 * 3600);
+        var performanceFee = await alpacaConfigContract.methods.getReservePoolBps().call();
+        performanceFee = new BigNumber(performanceFee).dividedBy(10000);
+        var alpacaLendingApr = alpacaBorrowInterest.multipliedBy(alpacaVaultDebtVal).dividedBy(alpacaTotalToken).multipliedBy(new BigNumber(1).minus(performanceFee)).dividedBy(web3.utils.toWei('1'));
+    
+        var fairLanuchContract = new web3.eth.Contract(fairLaunch, fairLanuchAddress);
+        var poolInfo = await fairLanuchContract.methods.poolInfo(epsPoolID).call()
+        var allocPoint = poolInfo.allocPoint;
+        var alpacaPerBlock = await fairLanuchContract.methods.alpacaPerBlock().call();
+        var totalAllocPoint = await fairLanuchContract.methods.totalAllocPoint().call();
+        var lpToken = new web3.eth.Contract(ibUsdtAbi, lpTokenAddress);
+        var balanceOfLpToken = await lpToken.methods.balanceOf(fairLanuchAddress).call();
+        var path = ["0x8F0528cE5eF7B51152A59745bEfDD91D97091d2F", "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56"];
         var routerContract = new web3.eth.Contract(uniswapRouterAbi, uniswapRouterAddress);
         var amountIn = new BigNumber(10).pow(18);
         var amountOut = await routerContract.methods.getAmountsOut(amountIn, path).call();
-        var price = amountOut[amountOut.length - 1];
-        var theAmount = new BigNumber(price).times(venusPerYear);
-        var totalBorrows = await vToken.methods.totalBorrows().call();
-        var cash = await vToken.methods.getCash().call();
-        var totalReserves = await vToken.methods.totalReserves().call();
-
-        var totalSupply = new BigNumber(totalBorrows).plus(new BigNumber(cash)).minus(new BigNumber(totalReserves));
-        var supplyRewardApy = new BigNumber(theAmount).div(totalSupply).times(100);
-        var borrowRewardApy = new BigNumber(theAmount).div(totalBorrows).times(100);
-
-        var apy = 0;
-
-        extra_profit = supplyApy.plus(supplyRewardApy).plus(borrowRewardApy).minus(borrowApy);
-
-        if (extra_profit.toNumber() > 0) {
-            apy = supplyApy.plus(supplyRewardApy).plus(extra_profit.times(3));
-        } else {
-            apy = supplyApy.plus(supplyRewardApy);
-        }
-        const apyResult = apy.toString(10);
-        return apyResult
-
+        var alpacaPrice = amountOut[amountOut.length - 1];
+        var stakingAprOfEps = new BigNumber(alpacaPerBlock).multipliedBy(allocPoint).dividedBy(totalAllocPoint).multipliedBy(new BigNumber(blocksPerDay)).multipliedBy(daysPerYear).multipliedBy(alpacaPrice).dividedBy(balanceOfLpToken).dividedBy(web3.utils.toWei('1'))
+    
+        poolInfo = await fairLanuchContract.methods.poolInfo(ibTokenPoolId).call()
+        allocPoint = poolInfo.allocPoint;
+        var balanceOfIbToken = await ibToken.methods.balanceOf(fairLanuchAddress).call();
+        var stakingAprOfIbToken = new BigNumber(alpacaPerBlock).multipliedBy(allocPoint).dividedBy(totalAllocPoint).multipliedBy(new BigNumber(blocksPerDay)).multipliedBy(daysPerYear).multipliedBy(alpacaPrice).dividedBy(balanceOfIbToken).dividedBy(web3.utils.toWei('1'))
+    
+        var totalApr = alpacaLendingApr.plus(stakingAprOfIbToken).plus(stakingAprOfEps.minus(stabilityFee).multipliedBy(collateralFactor));
+        var totalApy = totalApr.dividedBy(daysPerYear).plus(1).pow(daysPerYear).minus(1).multipliedBy(100)                  // apy = (1 + apr/n)^n - 1
+        
+        return totalApy.toFixed(2).toString();
     } catch (e) {
         console.log(e)
     }
@@ -215,6 +227,7 @@ const getHighestAPY = () => {
             const apyBusd = await getXVaultAPIBUSD();
             const apyUSDT = await getXVaultAPIUSDT();
             const apyUSDC = await getXVaultAPIUSDC();
+          
             const apyArray = [Number(apyBusd), Number(apyUSDT), Number(apyUSDC), Number(apyUSDC)];
 
             const highestAPYXVaultBSC = getHighestAPYModal(apyArray);
@@ -301,7 +314,7 @@ const getAPRUSDCMatic = async () => {
         if (web3Instance) {
 
             const USDCApy = await web3Instance.methods.recommend('0x2791bca1f2de4661ed88a30c99a7a9449aa84174').call();
-
+    
             //const fortubeAPRNumber = Number(USDCApy.fapr); 
 
             const aaveAPR = Number(USDCApy.aapr);
@@ -537,6 +550,7 @@ const getAPRBNBXAutoBSC = async () => {
             const fortubeAPR = Number(BNBApy._fortube);
             //const fulcrumAPR = Number(BNBApy._fulcrum); 
             const venusAPR = Number(BNBApy._venus);
+
 
             const apyArray = [alpcaAPRNumber, fortubeAPR, venusAPR];
 
