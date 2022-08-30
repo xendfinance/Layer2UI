@@ -227,11 +227,7 @@ const Vaultlist = () => {
             </MobileView>
 
 
-            {
-                chainId === 56 &&
-                <p style={{ color: "#FF6600" }}><InfoCircleOutlined /> You can withdraw your funds from xVault deprecated contract</p>
-            }
-
+            
 
         </Box>
     );
