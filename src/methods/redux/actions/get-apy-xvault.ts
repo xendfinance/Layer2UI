@@ -28,7 +28,7 @@ const busdStrategyAddress = '0x39D73B75743ba4aFD6d52bc6D766129DC5b2aa54'
 
 const web3 = new Web3('https://bsc-dataseed.binance.org/');
 
-const web3Matic = new Web3('https://polygon-mainnet.g.alchemy.com/v2/A3s0YpUEWXboRTynlFb0jh4HcT0934ak');
+const web3Matic = new Web3('https://polygon-mainnet.public.blastapi.io');
 
 const usdtMantissa = 1e18;
 const blocksPerDay = 60 * 60 * 24 / 3;

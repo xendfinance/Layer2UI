@@ -53,7 +53,9 @@ export const connectorsByName = (connectorName: ConnectorNames, chainId: number)
                 const wcProviderMATIC = new WalletConnectProvider({
                    //rpc: {137: "https://rpc-mumbai.matic.today"},
                    //rpc: {137: "https://matic-mainnet.chainstacklabs.com"},
-                   rpc: {137: "https://polygon-rpc.com/c9a2fe300dd9496f9ee19bc4cb2c4689"},
+                   //rpc: {137: "https://polygon-rpc.com/c9a2fe300dd9496f9ee19bc4cb2c4689"},
+                   rpc: {137: "https://polygon-mainnet.public.blastapi.io"},
+
                     
                     chainId,
                     qrcodeModalOptions: {

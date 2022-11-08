@@ -1,6 +1,6 @@
 import { Config, ConnectorNames } from './types';
 import Metamask from '../assets/Metamask.svg';
-import WalletConnect from '../assets/Walletconnect.svg'
+import WalletConnect from '../assets/walletconnect.svg'
 import TrustWallet from '../assets/TrustWallet.svg';
 
 const connectors: Config[] = [
