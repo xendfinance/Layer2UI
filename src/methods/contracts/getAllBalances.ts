@@ -6,7 +6,7 @@ import _const from '../_const';
 const Web3 = require('web3');
 const web3 = new Web3(getNodeUrl());
 
-const web3Matic = new Web3('https://polygon-mainnet.g.alchemy.com/v2/A3s0YpUEWXboRTynlFb0jh4HcT0934ak');
+const web3Matic = new Web3('https://polygon-mainnet.public.blastapi.io');
 
 
 const getAllBalances = (addressOwner: string, chainId: any) => {

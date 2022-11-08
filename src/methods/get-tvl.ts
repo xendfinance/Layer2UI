@@ -3,7 +3,7 @@ import CoinGecko from 'coingecko-api';
 
 
 const web3 = new Web3('https://bsc-dataseed.binance.org/');
-const web3Matic = new Web3('https://polygon-mainnet.g.alchemy.com/v2/A3s0YpUEWXboRTynlFb0jh4HcT0934ak');
+const web3Matic = new Web3('https://polygon-mainnet.public.blastapi.io');
 
 export const xVaultBSCTvl = async (abi: any, address: string) => {
 	try {
