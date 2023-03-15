@@ -145,7 +145,6 @@ const Vault: React.FC<Props> = ({
                     apy = apyRes.apyXVault
                 }
             }
-
             setState({
                 ...state,
                 balance: userBalance,
