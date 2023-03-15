@@ -132,7 +132,19 @@ const Vault: React.FC<Props> = ({
             })
 
             // hydrate apy
-            let apy = await hydrateApy({ network, protocol, tokenName: assetName })
+            let apyRes = await hydrateApy({ network, protocol, tokenName: assetName })
+            let apy;
+
+            if (apyRes) {
+
+                if (apyRes.apy) {
+                    apy = apyRes.apy
+                }
+
+                if (apyRes.apyXVault) {
+                    apy = apyRes.apyXVault
+                }
+            }
 
             setState({
                 ...state,
@@ -174,11 +186,11 @@ const Vault: React.FC<Props> = ({
 
             <td>{protocol}</td>
             <td style={{
-                color: asset.version=='V2' ? "#00D395" : ''
+                color: asset.version == 'V2' ? "#00D395" : ''
             }}>{
-                asset.version
-            
-            }</td>
+                    asset.version
+
+                }</td>
 
             {/* {asset.protocolName === 'xVault' && <td>
                 <a style={{ fontSize: 13, textDecoration: 'underline', color: 'white' }} target="_blank" href={asset.strategy?.code}>{asset.strategy?.name}</a>
@@ -207,20 +219,20 @@ const Vault: React.FC<Props> = ({
 
             <td>${commas(state.vaultAsset)}</td>
 
-         
+
             {(() => {
                 if (auditedState == 'audited') {
-                return (
-                    <td className={classes.netAPY}><a target="_blank" className={classes.netAPY} href="https://docs.xend.finance/contracts/audit">{auditedState} <LinkOutlined /></a></td> 
-                )
+                    return (
+                        <td className={classes.netAPY}><a target="_blank" className={classes.netAPY} href="https://docs.xend.finance/contracts/audit">{auditedState} <LinkOutlined /></a></td>
+                    )
                 } else if (auditedState == 'under audit') {
-                return (
-                    <td className={classes.netAPYUnderAudit}><a target="_blank" className={classes.netAPYUnderAudit} href="https://docs.xend.finance/contracts/audit">{auditedState} <InfoCircleOutlined /></a></td> 
-                )
+                    return (
+                        <td className={classes.netAPYUnderAudit}><a target="_blank" className={classes.netAPYUnderAudit} href="https://docs.xend.finance/contracts/audit">{auditedState} <InfoCircleOutlined /></a></td>
+                    )
                 } else {
-                return (
-                    <td> {auditedState} </td>
-                )
+                    return (
+                        <td> {auditedState} </td>
+                    )
                 }
             })()}
 

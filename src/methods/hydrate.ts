@@ -133,88 +133,95 @@ export const hydrateApy = async ({ network, protocol, tokenName }: IHydrateApy) 
 	try {
 
 		const id = `${network}-${protocol}-${tokenName}`.toUpperCase();
-		let apy = null
+		let apyRes = {
+			"apy": null,
+			"apyXVault": null
+		}
 
 		switch (id) {
 			case "56-XVAULT-USDT":
-				apy = await getXVaultAPIUSDT();
-				if (apy) {
-					return apy;
+				apyRes.apyXVault = await getXVaultAPIUSDT();
+				if (apyRes) {
+					return apyRes;
 				} else break;
 
 			case "56-XVAULT-USDC":
-				apy = await getXVaultAPIUSDC();
-				if (apy) {
-					return apy;
+				apyRes.apyXVault = await getXVaultAPIUSDC();
+				if (apyRes) {
+					return apyRes;
 				} else break;
 
 			case "56-XVAULT-BUSD":
-				apy = await getXVaultAPIBUSD();
-				if (apy) {
-					return apy;
+				apyRes.apyXVault = await getXVaultAPIBUSD();
+				if (apyRes) {
+					return apyRes;
 				} else break;
 
 
 			// BSC xAUTO
 			case "56-XAUTO-BUSD":
-				apy = await getAPRBUSDXAutoBSC();
-				if (apy) {
-					return apy;
+				apyRes.apy = await getAPRBUSDXAutoBSC();
+				if (apyRes.apy) {
+					return apyRes;
 				} else break;
 
 			case "56-XAUTO-BNB":
-				apy = await getAPRBNBXAutoBSC();
-				if (apy) {
-					return apy;
+				apyRes.apy = await getAPRBNBXAutoBSC();
+				if (apyRes.apy) {
+					return apyRes;
 				} else break;
 
 			case "56-XAUTO-USDC":
-				apy = await getAPRUSDCXAutoBSC();
-				if (apy) {
-					return apy;
+				apyRes.apy = await getAPRUSDCXAutoBSC();
+				if (apyRes.apy) {
+					return apyRes;
 				} else break;
 
 			case "56-XAUTO-USDT":
-				apy = await getAPRUSDTXAutoBSC();
-				if (apy) {
-					return apy;
+				apyRes.apy = await getAPRUSDTXAutoBSC();
+				if (apyRes.apy) {
+					return apyRes;
 				} else break;
 
 
 			// POLYGON
 			case "137-XAUTO-USDC":
-				apy = await getAPRUSDCMatic();
-				if (apy) {
-					return apy;
+				apyRes.apy = await getAPRUSDCMatic();
+				if (apyRes.apy) {
+					return apyRes;
 				} else break;
 
 			case "137-XAUTO-AAVE":
-				apy = await getAPRAAVEMatic();
-				if (apy) {
-					return apy;
+				apyRes.apy = await getAPRAAVEMatic();
+				if (apyRes.apy) {
+					return apyRes;
 				} else break;
 
 			case "137-XAUTO-USDT":
-				apy = await getAPRUSDTMatic();
-				if (apy) {
-					return apy;
+				apyRes.apy = await getAPRUSDTMatic();
+				if (apyRes.apy) {
+					return apyRes;
 				} else break;
 
 			case "137-XAUTO-WBTC":
-				apy = await getAPRWBTCMatic();
-				if (apy) {
-					return apy;
+				apyRes.apy = await getAPRWBTCMatic();
+				if (apyRes.apy) {
+					return apyRes;
 				} else break;
 
 
 
 			default:
-				return 0;
+				return apyRes;
 		}
 
 	} catch (e) {
 		console.error(e);
-		return 0;
+		let apyRes = {
+			"apy": null,
+			"apyXVault": null
+		}
+		return apyRes;
 	}
 }
 

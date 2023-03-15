@@ -143,7 +143,19 @@ const VaultMobile: React.FC<Props> = ({ asset,
             })
 
             // hydrate apy
-            let apy = await hydrateApy({ network, protocol, tokenName: assetName })
+            let apyRes = await hydrateApy({ network, protocol, tokenName: assetName })
+            let apy;
+
+            if (apyRes) {
+
+                if (apyRes.apy) {
+                    apy = apyRes.apy
+                }
+
+                if (apyRes.apyXVault) {
+                    apy = apyRes.apyXVault
+                }
+            }
 
             setState({
                 ...state,
@@ -179,15 +191,15 @@ const VaultMobile: React.FC<Props> = ({ asset,
                     src={assetIcon} alt='XEND Finance' />
                 <Box>{assetName}</Box>
                 <Box
-                        style={{
-                            marginLeft:'5px',
-                            color: asset.version=='V2' ? "#00D395" : ''
-                        }}
-                        className={classes.value}>
-                        {
-                         asset.version
-                        }
-                    </Box>
+                    style={{
+                        marginLeft: '5px',
+                        color: asset.version == 'V2' ? "#00D395" : ''
+                    }}
+                    className={classes.value}>
+                    {
+                        asset.version
+                    }
+                </Box>
             </Box>
             <Box className={classes.content}>
                 <Box>
@@ -198,9 +210,9 @@ const VaultMobile: React.FC<Props> = ({ asset,
                 </Box>
                 <Box>
                     <Box className={classes.field}>Balance</Box>
-                  
+
                     {/* <Box className={classes.value}>{commas(state.balance)} <PreviousVersion asset={asset} state={state} /></Box> */}
-           
+
                     <Box
                         style={{
                             color: asset.deprecated ? "#FF6600" : ''
