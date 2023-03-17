@@ -46,7 +46,7 @@ const stabilityFee = 0.018;
 const collateralFactor = 0.875;
 
 
-const getXVaultAPIUSDT = async () => {
+export const getXVaultAPIUSDTV2 = async () => {
 
     try {
         let extra_profit;
@@ -158,7 +158,7 @@ const getXVaultAPIBUSD = async () => {
         var performanceFee = await alpacaConfigContract.methods.getReservePoolBps().call();
         performanceFee = new BigNumber(performanceFee).dividedBy(10000);
         var alpacaLendingApr = alpacaBorrowInterest.multipliedBy(alpacaVaultDebtVal).dividedBy(alpacaTotalToken).multipliedBy(new BigNumber(1).minus(performanceFee)).dividedBy(web3.utils.toWei('1'));
-    
+
         var fairLanuchContract = new web3.eth.Contract(fairLaunch, fairLanuchAddress);
         var poolInfo = await fairLanuchContract.methods.poolInfo(epsPoolID).call()
         var allocPoint = poolInfo.allocPoint;
@@ -172,15 +172,15 @@ const getXVaultAPIBUSD = async () => {
         var amountOut = await routerContract.methods.getAmountsOut(amountIn, path).call();
         var alpacaPrice = amountOut[amountOut.length - 1];
         var stakingAprOfEps = new BigNumber(alpacaPerBlock).multipliedBy(allocPoint).dividedBy(totalAllocPoint).multipliedBy(new BigNumber(blocksPerDay)).multipliedBy(daysPerYear).multipliedBy(alpacaPrice).dividedBy(balanceOfLpToken).dividedBy(web3.utils.toWei('1'))
-    
+
         poolInfo = await fairLanuchContract.methods.poolInfo(ibTokenPoolId).call()
         allocPoint = poolInfo.allocPoint;
         var balanceOfIbToken = await ibToken.methods.balanceOf(fairLanuchAddress).call();
         var stakingAprOfIbToken = new BigNumber(alpacaPerBlock).multipliedBy(allocPoint).dividedBy(totalAllocPoint).multipliedBy(new BigNumber(blocksPerDay)).multipliedBy(daysPerYear).multipliedBy(alpacaPrice).dividedBy(balanceOfIbToken).dividedBy(web3.utils.toWei('1'))
-    
+
         var totalApr = alpacaLendingApr.plus(stakingAprOfIbToken).plus(stakingAprOfEps.minus(stabilityFee).multipliedBy(collateralFactor));
         var totalApy = totalApr.dividedBy(daysPerYear).plus(1).pow(daysPerYear).minus(1).multipliedBy(100)                  // apy = (1 + apr/n)^n - 1
-        
+
         return totalApy.toFixed(2).toString();
     } catch (e) {
         console.log(e)
@@ -225,10 +225,12 @@ const getHighestAPY = () => {
 
 
             const apyBusd = await getXVaultAPIBUSD();
-            const apyUSDT = await getXVaultAPIUSDT();
+            const apyUSDT = await getXVaultAPIUSDTV2();
             const apyUSDC = await getXVaultAPIUSDC();
-          
-            const apyArray = [Number(apyBusd), Number(apyUSDT), Number(apyUSDC), Number(apyUSDC)];
+
+            const apyArray = [Number(apyBusd), Number(apyUSDT), Number(apyUSDC)];
+
+            console.log("HIGHEST APY ", apyArray);
 
             const highestAPYXVaultBSC = getHighestAPYModal(apyArray);
 
@@ -314,7 +316,7 @@ const getAPRUSDCMatic = async () => {
         if (web3Instance) {
 
             const USDCApy = await web3Instance.methods.recommend('0x2791bca1f2de4661ed88a30c99a7a9449aa84174').call();
-    
+
             //const fortubeAPRNumber = Number(USDCApy.fapr); 
 
             const aaveAPR = Number(USDCApy.aapr);
@@ -499,7 +501,7 @@ const getAPRUSDTXAutoBSC = async () => {
     try {
 
 
-       const web3Instance = new web3.eth.Contract(abiManager.APYPoolBSCV2, '0x262AFa4F360f1432FB98a0579dc266e3FaDab1D1');
+        const web3Instance = new web3.eth.Contract(abiManager.APYPoolBSCV2, '0x262AFa4F360f1432FB98a0579dc266e3FaDab1D1');
 
         if (web3Instance) {
 

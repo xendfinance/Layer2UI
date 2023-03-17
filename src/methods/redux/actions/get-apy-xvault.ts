@@ -2,6 +2,7 @@
 import reduxStore from "..";
 import abiManager from "../../../abiManager";
 import _const from "../../_const";
+import { getXVaultAPIUSDTV2 } from "./get-highest-apy";
 
 
 //import exposedWeb3 from "../../../methods/contracts/exposedWeb3";
@@ -22,7 +23,7 @@ const unitrollerAddress = "0xfD36E2c2a6789Db23113685031d7F16329158384";
 const xvs = "0xcF6BB5389c92Bdda8a3747Ddb454cB7a64626C63";
 
 //update 
-const usdtStrategyAddress = '0x4bA58C32b994164218BC6a8A76107dcE6d374e07'  
+const usdtStrategyAddress = '0x4bA58C32b994164218BC6a8A76107dcE6d374e07'
 
 const busdStrategyAddress = '0x39D73B75743ba4aFD6d52bc6D766129DC5b2aa54'
 
@@ -36,13 +37,13 @@ const daysPerYear = 365;
 const CoinGecko = require('coingecko-api');
 
 
- const ibUsdtAddressUSDTAPY = "0x158Da805682BdC8ee32d52833aD41E74bb951E59";
- const poolIDUSDTAPY = 16;
+const ibUsdtAddressUSDTAPY = "0x158Da805682BdC8ee32d52833aD41E74bb951E59";
+const poolIDUSDTAPY = 16;
 
- const ibUsdtAddressBUSDAPY = "0x7C9e73d4C71dae564d41F78d56439bB4ba87592f"; //  BUSD
- const poolIDBUSDAPY = 3;
+const ibUsdtAddressBUSDAPY = "0x7C9e73d4C71dae564d41F78d56439bB4ba87592f"; //  BUSD
+const poolIDBUSDAPY = 3;
 
- 
+
 
 const ibUsdtAbi = require('../../../abiManager/V2XVault/IbUsdtABI.json');
 const alpacaConfigAbi = require('../../../abiManager/V2XVault/AlpacaConfigABI.json');
@@ -61,7 +62,7 @@ const fairLanuchAddress = "0xA625AB01B08ce023B2a342Dbb12a16f2C8489A8F";
 const uniswapRouterAddress = "0x10ED43C718714eb63d5aA57B78B54704E256024E";
 
 
- 
+
 const stabilityFee = 0.018;
 const collateralFactor = 0.875;
 
@@ -80,7 +81,7 @@ export const getXVaultAPIUSDT = async () => {
         var performanceFee = await alpacaConfigContract.methods.getReservePoolBps().call();
         performanceFee = new BigNumber(performanceFee).dividedBy(10000);
         var alpacaLendingApr = alpacaBorrowInterest.multipliedBy(alpacaVaultDebtVal).dividedBy(alpacaTotalToken).multipliedBy(new BigNumber(1).minus(performanceFee)).dividedBy(web3.utils.toWei('1'));
-    
+
         var fairLanuchContract = new web3.eth.Contract(abiManager.FairLaunch, fairLanuchAddress);
         var poolInfo = await fairLanuchContract.methods.poolInfo(poolIDUSDTAPY).call()
         var allocPoint = poolInfo.allocPoint;
@@ -95,12 +96,13 @@ export const getXVaultAPIUSDT = async () => {
         var amountOut = await routerContract.methods.getAmountsOut(amountIn, path).call();
         var alpacaPrice = amountOut[amountOut.length - 1];
         var stakingApr = new BigNumber(alpacaPerBlock).multipliedBy(allocPoint).dividedBy(totalAllocPoint).multipliedBy(new BigNumber(blocksPerDay)).multipliedBy(daysPerYear).multipliedBy(alpacaPrice).dividedBy(balanceOfIbToken).dividedBy(web3.utils.toWei('1'))
-        
-        let apy=0;
+
+        let apy = 0;
         var totalApr = alpacaLendingApr.plus(1).multipliedBy(stakingApr.plus(1)).minus(1)
-        apy = totalApr.dividedBy(daysPerYear).plus(1).pow(daysPerYear).minus(1).multipliedBy(100)   
-         
+        apy = totalApr.dividedBy(daysPerYear).plus(1).pow(daysPerYear).minus(1).multipliedBy(100)
+
         return apy
+
 
     } catch (e) {
         console.log(e)
@@ -162,7 +164,7 @@ export const getXVaultAPIUSDC = async () => {
 export const getXVaultAPIBUSD = async () => {
 
     try {
-      
+
         var ibToken = new web3.eth.Contract(ibUsdtAbi, ibBusdAddress);
         var alpacaConfigAddress = await ibToken.methods.config().call();
         var alpacaConfigContract = new web3.eth.Contract(alpacaConfigAbi, alpacaConfigAddress);
@@ -173,7 +175,7 @@ export const getXVaultAPIBUSD = async () => {
         var performanceFee = await alpacaConfigContract.methods.getReservePoolBps().call();
         performanceFee = new BigNumber(performanceFee).dividedBy(10000);
         var alpacaLendingApr = alpacaBorrowInterest.multipliedBy(alpacaVaultDebtVal).dividedBy(alpacaTotalToken).multipliedBy(new BigNumber(1).minus(performanceFee)).dividedBy(web3.utils.toWei('1'));
-    
+
         var fairLanuchContract = new web3.eth.Contract(fairLaunch, fairLanuchAddress);
         var poolInfo = await fairLanuchContract.methods.poolInfo(epsPoolID).call()
         var allocPoint = poolInfo.allocPoint;
@@ -187,15 +189,15 @@ export const getXVaultAPIBUSD = async () => {
         var amountOut = await routerContract.methods.getAmountsOut(amountIn, path).call();
         var alpacaPrice = amountOut[amountOut.length - 1];
         var stakingAprOfEps = new BigNumber(alpacaPerBlock).multipliedBy(allocPoint).dividedBy(totalAllocPoint).multipliedBy(new BigNumber(blocksPerDay)).multipliedBy(daysPerYear).multipliedBy(alpacaPrice).dividedBy(balanceOfLpToken).dividedBy(web3.utils.toWei('1'))
-    
+
         poolInfo = await fairLanuchContract.methods.poolInfo(ibTokenPoolId).call()
         allocPoint = poolInfo.allocPoint;
         var balanceOfIbToken = await ibToken.methods.balanceOf(fairLanuchAddress).call();
         var stakingAprOfIbToken = new BigNumber(alpacaPerBlock).multipliedBy(allocPoint).dividedBy(totalAllocPoint).multipliedBy(new BigNumber(blocksPerDay)).multipliedBy(daysPerYear).multipliedBy(alpacaPrice).dividedBy(balanceOfIbToken).dividedBy(web3.utils.toWei('1'))
-        let apy = 0; 
+        let apy = 0;
         var totalApr = alpacaLendingApr.plus(stakingAprOfIbToken).plus(stakingAprOfEps.minus(stabilityFee).multipliedBy(collateralFactor));
         apy = totalApr.dividedBy(daysPerYear).plus(1).pow(daysPerYear).minus(1).multipliedBy(100)                  // apy = (1 + apr/n)^n - 1
-     
+
         return apy.toFixed(2).toString();
 
     } catch (e) {
@@ -231,7 +233,7 @@ export const getAPRBNBXAutoBSC = async () => {
         const web3Instance = new web3.eth.Contract(abiManager.APYPoolBSCV2, '0x262AFa4F360f1432FB98a0579dc266e3FaDab1D1');
 
         if (web3Instance) {
-           
+
             const BNBApy = await web3Instance.methods.recommend('0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c').call();
 
             const alpcaAPRNumber = Number(BNBApy._alpaca);
@@ -870,10 +872,9 @@ const getXVaultAPI = async (chainId: any, lender: string, setLoading: Function) 
 
         if (chainId == 56) {
             const apyBusd = await getXVaultAPIBUSD();
-            const apyUSDT = await getXVaultAPIUSDT();
+            const apyUSDT = await getXVaultAPIUSDTV2();
             const apyUSDC = await getXVaultAPIUSDC();
-            const apyArray = [Number(apyBusd), Number(apyUSDT), Number(apyUSDC), Number(apyUSDC)];
-
+            const apyArray = [Number(apyBusd), Number(apyUSDT), Number(apyUSDC)];
 
             const highestAPYXVaultBSC = getHighestAPYModal(apyArray);
 

@@ -47,11 +47,9 @@ export const web3Connection = async function () {
 export const connectWallet = () => async (dispatch: Function) => {
     if (typeof window.ethereum !== 'undefined') {
 
-   console.log("HIT THIS Section 1 Logic")
     } else {
 
-       
-   console.log("HIT THIS Section 2 Logic")
+
     }
 };
 

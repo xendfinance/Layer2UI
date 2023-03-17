@@ -84,5 +84,8 @@
     "@types/ethereumjs-util": "^6.1.0",
     "@types/event-emitter": "^0.3.3",
     "@types/lodash": "^4.14.175"
+  },
+  "resolutions": {
+    "@types/react": "^17.0.38"
   }
 }
