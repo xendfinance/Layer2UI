@@ -1,9 +1,9 @@
 module.exports = {
     apps : [{
-        name        : 'Layer2',
+        name        : 'Autoyield',
         script      : 'npm start',
         watch       : false,
         merge_logs  : true,
-        cwd         : '/var/www/layer2',
+        cwd         : '/var/www/autoyield.xend.finance',
     }]
 };
