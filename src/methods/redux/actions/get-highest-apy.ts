@@ -59,22 +59,25 @@ export const getXVaultAPIUSDTV2 = async () => {
         var borrowApy = new BigNumber(borrowRatePerBlock).div(new BigNumber(usdtMantissa)).times(blocksPerDay).plus(1).pow(daysPerYear).minus(1).times(100);
 
         var unitroller = new web3.eth.Contract(unitrollerAbi, unitrollerAddress);
-        var venusSpeed = await unitroller.methods.venusSpeeds(vUsdtAddress).call();
-        var venusPerYear = venusSpeed / 1e18 * blocksPerDay * daysPerYear;
+        var venusSupplySpeed = await unitroller.methods.venusSupplySpeeds(vUsdtAddress).call();
+        var venusBorrowSpeed = await unitroller.methods.venusBorrowSpeeds(vUsdtAddress).call();
+        var venusSupplyPerYear = venusSupplySpeed / 1e18 * blocksPerDay * daysPerYear;
+        var venusBorrowPerYear = venusBorrowSpeed / 1e18 * blocksPerDay * daysPerYear;
 
         var path = ["0xcF6BB5389c92Bdda8a3747Ddb454cB7a64626C63", "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", "0x55d398326f99059ff775485246999027b3197955"];
         var routerContract = new web3.eth.Contract(uniswapRouterAbi, uniswapRouterAddress);
         var amountIn = new BigNumber(10).pow(18);
         var amountOut = await routerContract.methods.getAmountsOut(amountIn, path).call();
         var price = amountOut[amountOut.length - 1];
-        var theAmount = new BigNumber(price).times(venusPerYear);
+        var theSupplyRewardAmount = new BigNumber(price).times(venusSupplyPerYear);
+        var theBorrowRewardAmount = new BigNumber(price).times(venusBorrowPerYear);
         var totalBorrows = await vToken.methods.totalBorrows().call();
         var cash = await vToken.methods.getCash().call();
         var totalReserves = await vToken.methods.totalReserves().call();
 
         var totalSupply = new BigNumber(totalBorrows).plus(new BigNumber(cash)).minus(new BigNumber(totalReserves));
-        var supplyRewardApy = new BigNumber(theAmount).div(totalSupply).times(100);
-        var borrowRewardApy = new BigNumber(theAmount).div(totalBorrows).times(100);
+        var supplyRewardApy = new BigNumber(theSupplyRewardAmount).div(totalSupply).times(100);
+        var borrowRewardApy = new BigNumber(theBorrowRewardAmount).div(totalBorrows).times(100);
 
         var apy = 0;
 
@@ -108,22 +111,25 @@ const getXVaultAPIUSDC = async () => {
         var borrowApy = new BigNumber(borrowRatePerBlock).div(new BigNumber(usdtMantissa)).times(blocksPerDay).plus(1).pow(daysPerYear).minus(1).times(100);
 
         var unitroller = new web3.eth.Contract(unitrollerAbi, unitrollerAddress);
-        var venusSpeed = await unitroller.methods.venusSpeeds(vUsdtAddress).call();
-        var venusPerYear = venusSpeed / 1e18 * blocksPerDay * daysPerYear;
+        var venusSupplySpeed = await unitroller.methods.venusSupplySpeeds(vUsdtAddress).call();
+        var venusBorrowSpeed = await unitroller.methods.venusBorrowSpeeds(vUsdtAddress).call();
+        var venusSupplyPerYear = venusSupplySpeed / 1e18 * blocksPerDay * daysPerYear;
+        var venusBorrowPerYear = venusBorrowSpeed / 1e18 * blocksPerDay * daysPerYear;
 
         var path = ["0xcF6BB5389c92Bdda8a3747Ddb454cB7a64626C63", "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", "0x55d398326f99059ff775485246999027b3197955"];
         var routerContract = new web3.eth.Contract(uniswapRouterAbi, uniswapRouterAddress);
         var amountIn = new BigNumber(10).pow(18);
         var amountOut = await routerContract.methods.getAmountsOut(amountIn, path).call();
         var price = amountOut[amountOut.length - 1];
-        var theAmount = new BigNumber(price).times(venusPerYear);
+        var theSupplyRewardAmount = new BigNumber(price).times(venusSupplyPerYear);
+        var theBorrowRewardAmount = new BigNumber(price).times(venusBorrowPerYear);
         var totalBorrows = await vToken.methods.totalBorrows().call();
         var cash = await vToken.methods.getCash().call();
         var totalReserves = await vToken.methods.totalReserves().call();
 
         var totalSupply = new BigNumber(totalBorrows).plus(new BigNumber(cash)).minus(new BigNumber(totalReserves));
-        var supplyRewardApy = new BigNumber(theAmount).div(totalSupply).times(100);
-        var borrowRewardApy = new BigNumber(theAmount).div(totalBorrows).times(100);
+        var supplyRewardApy = new BigNumber(theSupplyRewardAmount).div(totalSupply).times(100);
+        var borrowRewardApy = new BigNumber(theBorrowRewardAmount).div(totalBorrows).times(100);
 
         var apy = 0;
 
